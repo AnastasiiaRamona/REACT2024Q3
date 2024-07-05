@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
+import { StartPage } from './StartPage/StartPage';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <header>
+      <h1>Star Wars Heroes</h1>
+    </header>
+    <StartPage />
   </React.StrictMode>
 );
