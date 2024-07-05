@@ -21,5 +21,3 @@ export interface SearchResult {
   gender: string;
   homeworld: string;
 }
-
-dg
