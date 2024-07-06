@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { HeroCardProps } from './types';
 import { HeroAttribute } from '../HeroAttribute/HeroAttribute';
+import styles from './HeroCard.module.css';
 
 export class HeroCard extends Component<HeroCardProps> {
   render() {
@@ -17,7 +18,7 @@ export class HeroCard extends Component<HeroCardProps> {
     ];
 
     return (
-      <div className="hero-card">
+      <div className={styles['hero-card']}>
         <h2>{name}</h2>
         {heroAttributes.map(({ label, prop }) => (
           <HeroAttribute key={label} label={label} value={prop} />

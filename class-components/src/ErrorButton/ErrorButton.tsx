@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { ErrorButtonState } from './types';
+import styles from './ErrorButton.module.css';
 
 export class ErrorButton extends Component<object, ErrorButtonState> {
   constructor(props: object) {
@@ -17,6 +18,10 @@ export class ErrorButton extends Component<object, ErrorButtonState> {
     const handleClick = () => {
       this.setState({ clicked: !this.state.clicked });
     };
-    return <button onClick={handleClick}>{this.createTitle()}</button>;
+    return (
+      <button className={styles['error-button']} onClick={handleClick}>
+        {this.createTitle()}
+      </button>
+    );
   }
 }

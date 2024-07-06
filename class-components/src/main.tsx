@@ -6,7 +6,9 @@ import './index.css';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <header>
-      <h1>Star Wars Heroes</h1>
+      <h1>
+        <span>Star Wars</span> Heroes
+      </h1>
     </header>
     <StartPage />
   </React.StrictMode>

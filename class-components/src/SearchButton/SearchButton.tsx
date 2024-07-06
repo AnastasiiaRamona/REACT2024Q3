@@ -3,6 +3,8 @@ import { SearchResults } from '../SearchResults/SearchResults';
 import { SearchButtonProps, SearchButtonState } from './types';
 import axios from 'axios';
 import apiAddress from '../data/data';
+import bb8Src from '../assets/bb-8.webp';
+import styles from './SearchButton.module.css';
 
 export class SearchButton extends Component<SearchButtonProps, SearchButtonState> {
   constructor(props: SearchButtonProps) {
@@ -10,6 +12,7 @@ export class SearchButton extends Component<SearchButtonProps, SearchButtonState
     super(props);
     this.state = {
       searchTerm: searchTerm,
+      isLoading: false,
       areResultsShows: true,
       results: [],
       error: null,
@@ -23,6 +26,7 @@ export class SearchButton extends Component<SearchButtonProps, SearchButtonState
   handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value;
     this.setState({ searchTerm: input });
+    localStorage.setItem('searchTermOfStarWarsHeroes', input);
   };
 
   handleSearch = async (event: FormEvent<HTMLFormElement>) => {
@@ -33,10 +37,11 @@ export class SearchButton extends Component<SearchButtonProps, SearchButtonState
   findSearchTerm() {
     const { searchTerm } = this.state;
     this.getApiData(searchTerm.trim());
-    localStorage.setItem('searchTermOfStarWarsHeroes', searchTerm);
   }
 
   getApiData = (query?: string) => {
+    this.setState({ isLoading: true });
+
     axios
       .get(`${apiAddress}?search=${query}&page=1`)
       .then((response) => {
@@ -44,18 +49,31 @@ export class SearchButton extends Component<SearchButtonProps, SearchButtonState
       })
       .catch((error) => {
         this.setState({ error: error.message, areResultsShows: false });
+      })
+      .finally(() => {
+        this.setState({ isLoading: false, areResultsShows: true });
       });
   };
 
   render() {
-    const { searchTerm, areResultsShows, results, error } = this.state;
+    const { searchTerm, isLoading, areResultsShows, results, error } = this.state;
 
     return (
       <div>
-        <form onSubmit={this.handleSearch}>
-          <input type="text" value={searchTerm} onChange={this.handleInputChange} placeholder="Enter search term" />
-          <button type="submit">Search</button>
+        <form onSubmit={this.handleSearch} className={styles['search-form']}>
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={this.handleInputChange}
+            placeholder="Enter search term"
+            className={styles['search-input']}
+          />
+          <button type="submit" className={styles['search-button']}>
+            Search
+            <img src={bb8Src} alt="search" />
+          </button>
         </form>
+        {isLoading && <div className={styles['loader']}></div>}
         {areResultsShows && <SearchResults results={results} error={error} />}
       </div>
     );
