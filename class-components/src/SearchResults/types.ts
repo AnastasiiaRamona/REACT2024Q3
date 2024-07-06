@@ -1,16 +1,13 @@
 export interface SearchResultsProps {
-  searchTerm: string;
-  results: SearchResult[] | [];
+  results: FoundResult[];
   error: string | null;
 }
-
 export interface SearchResultsState {
-  filteredResults: SearchResult[];
   loading: boolean;
-  error: string | null;
+  filteredResults: FoundResult[];
 }
 
-export interface SearchResult {
+export interface FoundResult {
   name: string;
   height: string;
   mass: string;
@@ -19,5 +16,4 @@ export interface SearchResult {
   eye_color: string;
   birth_year: string;
   gender: string;
-  homeworld: string;
 }

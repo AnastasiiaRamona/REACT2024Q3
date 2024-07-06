@@ -7,5 +7,4 @@ export interface HeroCardProps {
   eyeColor: string;
   birthYear: string;
   gender: string;
-  homeWorld: string;
 }

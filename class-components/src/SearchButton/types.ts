@@ -1,9 +1,9 @@
-import { SearchResult } from '../SearchResults/types';
+import { FoundResult } from '../SearchResults/types';
 
 export interface SearchButtonState {
   searchTerm: string;
-  showResults: boolean;
-  results: SearchResult[] | [];
+  areResultsShows: boolean;
+  results: FoundResult[] | [];
   error: string | null;
 }
 
