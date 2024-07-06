@@ -9,6 +9,7 @@
 
 .error-section img {
   width: 30vw;
+  min-width: 212px;
   height: auto;
   margin-bottom: 20px;
 }

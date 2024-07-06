@@ -39,7 +39,7 @@ export class SearchButton extends Component<SearchButtonProps, SearchButtonState
     this.getApiData(searchTerm.trim());
   }
 
-  getApiData = (query?: string) => {
+  getApiData = (query: string) => {
     this.setState({ isLoading: true });
 
     axios

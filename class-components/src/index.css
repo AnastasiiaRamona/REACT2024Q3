@@ -69,3 +69,25 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
+@media screen and (max-width: 674px) {
+  h1, h2 {
+    font-size: xx-large;
+    margin: 40px 0;
+  }
+}
+
+@media screen and (max-width: 444px) {
+  body {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: x-large;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: large;
+  }
+}
