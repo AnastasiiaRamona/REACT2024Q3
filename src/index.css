@@ -28,7 +28,6 @@ body {
   min-height: 100vh;
   background: url('./assets/background.webp') top no-repeat fixed;
   background-size: cover;
-  background-attachment: scroll;
   padding: 20px 0;
 }
 
