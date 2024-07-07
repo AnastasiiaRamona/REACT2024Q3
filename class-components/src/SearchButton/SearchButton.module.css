@@ -37,8 +37,8 @@
   right: 50%;
 }
 .loader::before,
-.loader::after {    
-  content: "";
+.loader::after {
+  content: '';
   grid-area: 1/1;
   margin: 2px;
   border: inherit;
@@ -46,13 +46,15 @@
 }
 .loader::before {
   border-color: #33b4f0 #0000;
-  animation: inherit; 
-  animation-duration: .5s;
+  animation: inherit;
+  animation-duration: 0.5s;
   animation-direction: reverse;
 }
 .loader::after {
   margin: 8px;
 }
-@keyframes l16 { 
-  100%{transform: rotate(1turn)}
+@keyframes l16 {
+  100% {
+    transform: rotate(1turn);
+  }
 }

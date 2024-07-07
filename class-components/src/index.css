@@ -1,5 +1,5 @@
 :root {
-  font-family: "Orbitron", sans-serif;
+  font-family: 'Orbitron', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -71,7 +71,8 @@ button:focus-visible {
 }
 
 @media screen and (max-width: 674px) {
-  h1, h2 {
+  h1,
+  h2 {
     font-size: xx-large;
     margin: 40px 0;
   }
