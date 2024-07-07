@@ -82,6 +82,7 @@ button:focus-visible {
 @media screen and (max-width: 444px) {
   body {
     padding: 20px;
+    width: auto;
   }
 
   h1 {
