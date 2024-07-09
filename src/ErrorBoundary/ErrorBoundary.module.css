@@ -1,0 +1,19 @@
+.error-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.error-section img {
+  width: 30vw;
+  min-width: 212px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.error-section h2 {
+  font-size: xxx-large;
+}
