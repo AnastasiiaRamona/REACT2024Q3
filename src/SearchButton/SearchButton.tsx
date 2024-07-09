@@ -59,7 +59,7 @@ export class SearchButton extends Component<SearchButtonProps, SearchButtonState
     const { searchTerm, isLoading, areResultsShows, results, error } = this.state;
 
     return (
-      <div>
+      <section>
         <form onSubmit={this.handleSearch} className={styles['search-form']}>
           <input
             type="text"
@@ -75,7 +75,7 @@ export class SearchButton extends Component<SearchButtonProps, SearchButtonState
         </form>
         {isLoading && <div className={styles['loader']}></div>}
         {areResultsShows && <SearchResults results={results} error={error} />}
-      </div>
+      </section>
     );
   }
 }
