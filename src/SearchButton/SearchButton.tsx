@@ -7,29 +7,23 @@ import bb8Src from '../assets/bb-8.webp';
 import styles from './SearchButton.module.css';
 
 const SearchButton = () => {
-  const initialSearchTerm = localStorage.getItem('searchTermOfStarWarsHeroes') || '';
-  const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
+  const [searchTerm, setSearchTerm] = useLocalStorage('searchTermOfStarWarsHeroes', '');
   const [isLoading, setIsLoading] = useState(false);
   const [areResultsShows, setAreResultsShows] = useState(true);
   const [results, setResults] = useState([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    findSearchTerm();
+    getApiData(searchTerm.trim());
   }, []);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value;
     setSearchTerm(input);
-    localStorage.setItem('searchTermOfStarWarsHeroes', input);
   };
 
   const handleSearch = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    findSearchTerm();
-  };
-
-  const findSearchTerm = () => {
     getApiData(searchTerm.trim());
   };
 
@@ -49,7 +43,6 @@ const SearchButton = () => {
       })
       .finally(() => {
         setIsLoading(false);
-        setAreResultsShows(true);
       });
   };
 
@@ -75,3 +68,21 @@ const SearchButton = () => {
 };
 
 export default SearchButton;
+
+const useLocalStorage = (key: string, initialValue: string) => {
+  const [value, setValue] = useState(() => {
+    const storedValue = localStorage.getItem(key);
+    try {
+      return storedValue !== null ? JSON.parse(storedValue) : initialValue;
+    } catch (error) {
+      console.error(`Error parsing stored value for key ${key}:`, error);
+      return initialValue;
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [key, value]);
+
+  return [value, setValue];
+};

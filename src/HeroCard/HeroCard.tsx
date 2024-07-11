@@ -14,8 +14,6 @@ const HeroCard = ({ id, name, height, mass, hairColor, skinColor, eyeColor, birt
     { label: 'Gender', prop: gender },
   ];
 
-  console.log(id);
-
   return (
     <div className={styles['hero-card']}>
       <h2>{name}</h2>
