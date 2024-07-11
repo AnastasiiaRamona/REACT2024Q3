@@ -1,47 +1,34 @@
-import { Component } from 'react';
-import { SearchResultsProps, SearchResultsState } from './types';
-import { HeroCard } from '../HeroCard/HeroCard';
+import React, { useEffect, useState } from 'react';
+import { SearchResultsProps } from './types';
+import HeroCard from '../HeroCard/HeroCard';
 import styles from './SearchResults.module.css';
+import lodash from 'lodash';
 
-export class SearchResults extends Component<SearchResultsProps, SearchResultsState> {
-  constructor(props: SearchResultsProps) {
-    super(props);
-    this.state = {
-      loading: false,
-      filteredResults: [],
-    };
-  }
+const SearchResults: React.FC<SearchResultsProps> = ({ results }) => {
+  const [filteredResults, setFilteredResults] = useState(results);
 
-  componentDidUpdate(prevProps: SearchResultsProps) {
-    if (prevProps.results !== this.props.results) {
-      this.filterResults();
-    }
-  }
+  useEffect(() => {
+    setFilteredResults(results);
+  }, [results]);
 
-  filterResults() {
-    const { results } = this.props;
-    this.setState({ filteredResults: results });
-  }
+  return (
+    <section className={styles['search-results']}>
+      {filteredResults.map((result) => (
+        <HeroCard
+          key={result.name}
+          id={lodash.camelCase(result.name)}
+          name={result.name}
+          height={result.height}
+          mass={result.mass}
+          hairColor={result.hair_color}
+          skinColor={result.skin_color}
+          eyeColor={result.eye_color}
+          birthYear={result.birth_year}
+          gender={result.gender}
+        />
+      ))}
+    </section>
+  );
+};
 
-  render() {
-    const { filteredResults } = this.state;
-
-    return (
-      <section className={styles['search-results']}>
-        {filteredResults.map((result, index) => (
-          <HeroCard
-            key={index}
-            name={result.name}
-            height={result.height}
-            mass={result.mass}
-            hairColor={result.hair_color}
-            skinColor={result.skin_color}
-            eyeColor={result.eye_color}
-            birthYear={result.birth_year}
-            gender={result.gender}
-          />
-        ))}
-      </section>
-    );
-  }
-}
+export default SearchResults;

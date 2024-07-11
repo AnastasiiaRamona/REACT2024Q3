@@ -1,81 +1,77 @@
-import { ChangeEvent, Component, FormEvent } from 'react';
-import { SearchResults } from '../SearchResults/SearchResults';
-import { SearchButtonProps, SearchButtonState } from './types';
+import { useState, useEffect } from 'react';
+import { ChangeEvent, FormEvent } from 'react';
+import SearchResults from '../SearchResults/SearchResults';
 import axios from 'axios';
 import apiAddress from '../data/data';
 import bb8Src from '../assets/bb-8.webp';
 import styles from './SearchButton.module.css';
 
-export class SearchButton extends Component<SearchButtonProps, SearchButtonState> {
-  constructor(props: SearchButtonProps) {
-    const searchTerm = localStorage.getItem('searchTermOfStarWarsHeroes') || '';
-    super(props);
-    this.state = {
-      searchTerm: searchTerm,
-      isLoading: false,
-      areResultsShows: true,
-      results: [],
-      error: null,
-    };
-  }
+const SearchButton = () => {
+  const initialSearchTerm = localStorage.getItem('searchTermOfStarWarsHeroes') || '';
+  const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
+  const [isLoading, setIsLoading] = useState(false);
+  const [areResultsShows, setAreResultsShows] = useState(true);
+  const [results, setResults] = useState([]);
+  const [error, setError] = useState<string | null>(null);
 
-  componentDidMount() {
-    this.findSearchTerm();
-  }
+  useEffect(() => {
+    findSearchTerm();
+  }, []);
 
-  handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value;
-    this.setState({ searchTerm: input });
+    setSearchTerm(input);
     localStorage.setItem('searchTermOfStarWarsHeroes', input);
   };
 
-  handleSearch = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSearch = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    this.findSearchTerm();
+    findSearchTerm();
   };
 
-  findSearchTerm() {
-    const { searchTerm } = this.state;
-    this.getApiData(searchTerm.trim());
-  }
+  const findSearchTerm = () => {
+    getApiData(searchTerm.trim());
+  };
 
-  getApiData = (query: string) => {
-    this.setState({ isLoading: true });
+  const getApiData = (query: string) => {
+    setIsLoading(true);
 
     axios
       .get(`${apiAddress}?search=${query}&page=1`)
       .then((response) => {
-        this.setState({ results: response.data.results, areResultsShows: true, error: null });
+        setResults(response.data.results);
+        setAreResultsShows(true);
+        setError(null);
       })
       .catch((error) => {
-        this.setState({ error: error.message, areResultsShows: false });
+        setError(error.message);
+        setAreResultsShows(false);
       })
       .finally(() => {
-        this.setState({ isLoading: false, areResultsShows: true });
+        setIsLoading(false);
+        setAreResultsShows(true);
       });
   };
 
-  render() {
-    const { searchTerm, isLoading, areResultsShows, results, error } = this.state;
+  return (
+    <section>
+      <form onSubmit={handleSearch} className={styles['search-form']}>
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={handleInputChange}
+          placeholder="Enter search term"
+          className={styles['search-input']}
+        />
+        <button type="submit" className={styles['search-button']}>
+          Search
+          <img src={bb8Src} alt="search" />
+        </button>
+      </form>
+      {isLoading && <div className={styles['loader']}></div>}
+      {areResultsShows && <SearchResults results={results} error={error} />}
+    </section>
+  );
+};
 
-    return (
-      <section>
-        <form onSubmit={this.handleSearch} className={styles['search-form']}>
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={this.handleInputChange}
-            placeholder="Enter search term"
-            className={styles['search-input']}
-          />
-          <button type="submit" className={styles['search-button']}>
-            Search
-            <img src={bb8Src} alt="search" />
-          </button>
-        </form>
-        {isLoading && <div className={styles['loader']}></div>}
-        {areResultsShows && <SearchResults results={results} error={error} />}
-      </section>
-    );
-  }
-}
+export default SearchButton;

@@ -1,4 +1,6 @@
 export interface HeroCardProps {
+  key: string;
+  id: string;
   name: string;
   height: string;
   mass: string;

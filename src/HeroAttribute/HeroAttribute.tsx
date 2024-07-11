@@ -1,14 +1,11 @@
-import { Component } from 'react';
 import { HeroAttributeProps } from './types';
 
-export class HeroAttribute extends Component<HeroAttributeProps> {
-  render() {
-    const { label, value } = this.props;
+const HeroAttribute = ({ label, value }: HeroAttributeProps) => {
+  return (
+    <p>
+      <strong>{label}:</strong> {value}
+    </p>
+  );
+};
 
-    return (
-      <p>
-        <strong>{label}:</strong> {value}
-      </p>
-    );
-  }
-}
+export default HeroAttribute;

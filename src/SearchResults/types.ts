@@ -8,6 +8,8 @@ export interface SearchResultsState {
 }
 
 export interface FoundResult {
+  key: string;
+  id: string;
   name: string;
   height: string;
   mass: string;
