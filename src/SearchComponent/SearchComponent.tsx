@@ -4,18 +4,22 @@ import SearchResults from '../SearchResults/SearchResults';
 import axios from 'axios';
 import apiAddress from '../data/data';
 import bb8Src from '../assets/bb-8.webp';
-import styles from './SearchButton.module.css';
+import styles from './SearchComponent.module.css';
+import Pagination from '../Pagination/Pagination';
 
-const SearchButton = () => {
+const SearchComponent = () => {
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTermOfStarWarsHeroes', '');
   const [isLoading, setIsLoading] = useState(false);
   const [areResultsShows, setAreResultsShows] = useState(true);
   const [results, setResults] = useState([]);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    getApiData(searchTerm.trim());
-  }, []);
+    console.log(`Current Page: ${currentPage}`);
+    getApiData(searchTerm.trim(), currentPage);
+  }, [currentPage]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value;
@@ -24,16 +28,25 @@ const SearchButton = () => {
 
   const handleSearch = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    getApiData(searchTerm.trim());
+    setCurrentPage(1);
+    getApiData(searchTerm.trim(), 1);
   };
 
-  const getApiData = (query: string) => {
+  const handlePageChange = (pageNumber: number) => {
+    console.log(`Page Change Requested: ${pageNumber}`);
+    setCurrentPage(pageNumber);
+  };
+
+  const getApiData = (query: string, page: number) => {
     setIsLoading(true);
 
     axios
-      .get(`${apiAddress}?search=${query}&page=1`)
+      .get(`${apiAddress}?search=${query}&page=${page}`)
       .then((response) => {
         setResults(response.data.results);
+        const totalResults = response.data.count;
+        const calculatedTotalPages = Math.ceil(totalResults / 10);
+        setTotalPages(calculatedTotalPages);
         setAreResultsShows(true);
         setError(null);
       })
@@ -63,11 +76,12 @@ const SearchButton = () => {
       </form>
       {isLoading && <div className={styles['loader']}></div>}
       {areResultsShows && <SearchResults results={results} error={error} />}
+      {areResultsShows && (
+        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+      )}
     </section>
   );
 };
-
-export default SearchButton;
 
 const useLocalStorage = (key: string, initialValue: string) => {
   const [value, setValue] = useState(() => {
@@ -86,3 +100,5 @@ const useLocalStorage = (key: string, initialValue: string) => {
 
   return [value, setValue];
 };
+
+export default SearchComponent;

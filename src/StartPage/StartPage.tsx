@@ -1,10 +1,10 @@
-import SearchButton from '../SearchButton/SearchButton';
+import SearchComponent from '../SearchComponent/SearchComponent';
 import ErrorButton from '../ErrorButton/ErrorButton';
 
 const StartPage = () => {
   return (
     <section>
-      <SearchButton />
+      <SearchComponent />
       <ErrorButton />
     </section>
   );
