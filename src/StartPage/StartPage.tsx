@@ -1,10 +1,18 @@
-import SearchComponent from '../SearchComponent/SearchComponent';
 import ErrorButton from '../ErrorButton/ErrorButton';
+import MissingPage from '../MissingPage/MissingPage';
+import SearchComponent from '../SearchComponent/SearchComponent';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 const StartPage = () => {
   return (
     <section>
-      <SearchComponent />
+      <Router>
+        <Routes>
+          <Route path="/" element={<SearchComponent />} />
+          <Route path="/search/:page" element={<SearchComponent />} />
+          <Route path="*" element={<MissingPage />} />
+        </Routes>
+      </Router>
       <ErrorButton />
     </section>
   );

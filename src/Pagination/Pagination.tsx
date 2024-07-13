@@ -1,16 +1,19 @@
 import PaginationProps from './types';
+import { useNavigate } from 'react-router-dom';
 import styles from './Pagination.module.css';
 
-const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
+const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
+  const navigate = useNavigate();
+
   const handlePrevious = () => {
     if (currentPage > 1) {
-      onPageChange(currentPage - 1);
+      navigate(`/search/${currentPage - 1}`);
     }
   };
 
   const handleNext = () => {
     if (currentPage < totalPages) {
-      onPageChange(currentPage + 1);
+      navigate(`/search/${currentPage + 1}`);
     }
   };
 

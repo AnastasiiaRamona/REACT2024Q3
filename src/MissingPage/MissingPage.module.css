@@ -1,0 +1,24 @@
+.missing-page-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.missing-page-section h2 {
+  font-size: xx-large;
+}
+
+.missing-page-section img {
+  width: 30vw;
+  min-width: 212px;
+  height: auto;
+}
+
+.text-and-button {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}

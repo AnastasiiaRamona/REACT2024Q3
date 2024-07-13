@@ -12,6 +12,8 @@
   min-width: 212px;
   height: auto;
   margin-bottom: 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(106, 106, 106, 0.584);
 }
 
 .error-section h2 {

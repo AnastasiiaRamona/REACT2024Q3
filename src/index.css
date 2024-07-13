@@ -77,9 +77,14 @@ button:focus-visible {
     font-size: xx-large;
     margin: 40px 0;
   }
+
+  button {
+    width: 120px;
+    font-size: small;
+  }
 }
 
-@media screen and (max-width: 444px) {
+@media screen and (max-width: 531px) {
   body {
     padding: 20px;
     width: auto;

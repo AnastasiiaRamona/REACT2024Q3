@@ -6,6 +6,8 @@ import apiAddress from '../data/data';
 import bb8Src from '../assets/bb-8.webp';
 import styles from './SearchComponent.module.css';
 import Pagination from '../Pagination/Pagination';
+import { useNavigate, useParams } from 'react-router-dom';
+import MissingPage from '../MissingPage/MissingPage';
 
 const SearchComponent = () => {
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTermOfStarWarsHeroes', '');
@@ -13,13 +15,28 @@ const SearchComponent = () => {
   const [areResultsShows, setAreResultsShows] = useState(true);
   const [results, setResults] = useState([]);
   const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const { page } = useParams();
+  const [currentPage, setCurrentPage] = useState<number>(parseInt(page || '1', 10));
+  const [isValidPage, setIsValidPage] = useState(true);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(`Current Page: ${currentPage}`);
+    const pageNumber = parseInt(page || '1', 10);
+    if (isNaN(pageNumber) || pageNumber < 1) {
+      setIsValidPage(false);
+      return;
+    }
+    setCurrentPage(pageNumber);
+  }, [page]);
+
+  useEffect(() => {
+    if (!isValidPage || (currentPage > totalPages && totalPages > 0)) {
+      return;
+    }
     getApiData(searchTerm.trim(), currentPage);
-  }, [currentPage]);
+  }, [currentPage, totalPages, isValidPage]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value;
@@ -30,14 +47,10 @@ const SearchComponent = () => {
     event.preventDefault();
     setCurrentPage(1);
     getApiData(searchTerm.trim(), 1);
+    navigate(`/search/1`);
   };
 
-  const handlePageChange = (pageNumber: number) => {
-    console.log(`Page Change Requested: ${pageNumber}`);
-    setCurrentPage(pageNumber);
-  };
-
-  const getApiData = (query: string, page: number) => {
+  const getApiData = (query: string, page?: number) => {
     setIsLoading(true);
 
     axios
@@ -49,15 +62,21 @@ const SearchComponent = () => {
         setTotalPages(calculatedTotalPages);
         setAreResultsShows(true);
         setError(null);
+        setIsValidPage(true);
       })
       .catch((error) => {
         setError(error.message);
         setAreResultsShows(false);
+        setIsValidPage(false);
       })
       .finally(() => {
         setIsLoading(false);
       });
   };
+
+  if (!isValidPage) {
+    return <MissingPage />;
+  }
 
   return (
     <section>
@@ -76,8 +95,8 @@ const SearchComponent = () => {
       </form>
       {isLoading && <div className={styles['loader']}></div>}
       {areResultsShows && <SearchResults results={results} error={error} />}
-      {areResultsShows && (
-        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+      {currentPage && areResultsShows && results.length > 0 && totalPages > 1 && (
+        <Pagination currentPage={currentPage} totalPages={totalPages} />
       )}
     </section>
   );

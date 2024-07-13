@@ -1,6 +1,6 @@
 import { Component, ErrorInfo } from 'react';
 import { ErrorBoundaryProps, ErrorBoundaryState } from './types';
-import c3poSrc from '../assets/c3po.gif';
+import stormtrooperSrc from '../assets/501st-star-wars.gif';
 import styles from './ErrorBoundary.module.css';
 
 export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
@@ -20,7 +20,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     if (this.state.hasError) {
       return (
         <section className={styles['error-section']}>
-          <img src={c3poSrc} alt="s3po" />
+          <img src={stormtrooperSrc} alt="stormtrooper" />
           <h2>Something went wrong!</h2>
         </section>
       );
