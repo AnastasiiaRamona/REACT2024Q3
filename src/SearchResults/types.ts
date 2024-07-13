@@ -11,5 +11,5 @@ export interface FoundResult {
   key: string;
   id: string;
   name: string;
-  onClick: () => void;
+  onClick: (event: MouseEvent) => void;
 }

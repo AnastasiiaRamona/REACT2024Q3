@@ -1,8 +1,16 @@
+.search-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .search-form {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   gap: 10px;
+  width: 50vw;
+  min-width: 417px;
 }
 
 .search-input {

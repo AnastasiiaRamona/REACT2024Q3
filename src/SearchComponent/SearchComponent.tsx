@@ -80,7 +80,7 @@ const SearchComponent = () => {
   }
 
   return (
-    <section>
+    <section className={styles['search-section']}>
       <form onSubmit={handleSearch} className={styles['search-form']}>
         <input
           type="text"

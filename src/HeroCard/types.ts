@@ -2,5 +2,5 @@ export interface HeroCardProps {
   key: string;
   id: string;
   name: string;
-  onClick: () => void;
+  onClick: (event: React.MouseEvent<HTMLDivElement>) => void;
 }

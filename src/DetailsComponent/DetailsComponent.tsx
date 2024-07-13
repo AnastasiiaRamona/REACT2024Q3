@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './DetailsComponent.module.css';
@@ -11,6 +11,7 @@ const DetailsComponent = () => {
   const { name } = useParams();
   const [details, setDetails] = useState<Character>({} as Character);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (name) {
@@ -34,6 +35,12 @@ const DetailsComponent = () => {
     return <div className={styles['details-loader']}></div>;
   }
 
+  const handleCloseClick = () => {
+    const match = location.pathname.match(/\/search\/(\d+)/);
+    const pageNumber = match ? match[1] : '1';
+    navigate(`/search/${pageNumber}`);
+  };
+
   const attributes = [
     { label: 'Height', value: details.height },
     { label: 'Mass', value: details.mass },
@@ -51,7 +58,7 @@ const DetailsComponent = () => {
       {attributes.map((attr, index) => (
         <HeroAttribute key={index} label={attr.label} value={attr.value} />
       ))}
-      <button>Close</button>
+      <button onClick={handleCloseClick}>Close</button>
     </div>
   );
 };
