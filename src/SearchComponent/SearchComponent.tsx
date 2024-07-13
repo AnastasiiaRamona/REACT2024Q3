@@ -8,6 +8,7 @@ import styles from './SearchComponent.module.css';
 import Pagination from '../Pagination/Pagination';
 import { useNavigate, useParams } from 'react-router-dom';
 import MissingPage from '../MissingPage/MissingPage';
+import NotFoundResults from '../NotFoundResults/NotFoundResults';
 
 const SearchComponent = () => {
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTermOfStarWarsHeroes', '');
@@ -95,6 +96,7 @@ const SearchComponent = () => {
       </form>
       {isLoading && <div className={styles['loader']}></div>}
       {areResultsShows && <SearchResults results={results} error={error} />}
+      {!isLoading && results && results.length === 0 && <NotFoundResults />}
       {currentPage && areResultsShows && results.length > 0 && totalPages > 1 && (
         <Pagination currentPage={currentPage} totalPages={totalPages} />
       )}

@@ -1,3 +1,4 @@
+import DetailsComponent from '../DetailsComponent/DetailsComponent';
 import ErrorButton from '../ErrorButton/ErrorButton';
 import MissingPage from '../MissingPage/MissingPage';
 import SearchComponent from '../SearchComponent/SearchComponent';
@@ -8,8 +9,12 @@ const StartPage = () => {
     <section>
       <Router>
         <Routes>
-          <Route path="/" element={<SearchComponent />} />
-          <Route path="/search/:page" element={<SearchComponent />} />
+          <Route path="/" element={<SearchComponent />}>
+            <Route path="details/:name" element={<DetailsComponent />} />
+          </Route>
+          <Route path="/search/:page" element={<SearchComponent />}>
+            <Route path="details/:name" element={<DetailsComponent />} />
+          </Route>
           <Route path="*" element={<MissingPage />} />
         </Routes>
       </Router>

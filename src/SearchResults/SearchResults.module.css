@@ -4,3 +4,11 @@
   gap: 40px;
   margin: 20px 0;
 }
+
+.details-container {
+  position: fixed;
+  z-index: 300;
+  top: 15%;
+  right: 5%;
+  width: 20vw;
+}

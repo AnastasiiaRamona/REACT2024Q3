@@ -1,0 +1,30 @@
+.details-component img {
+  height: 70px;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(106, 106, 106, 0.584);
+}
+
+.details-loader {
+  width: 120px;
+  height: 22px;
+  border-radius: 20px;
+  color: #2a5aa1;
+  border: 2px solid;
+  position: relative;
+}
+.details-loader::before {
+  content: '';
+  position: absolute;
+  margin: 2px;
+  inset: 0 100% 0 0;
+  border-radius: inherit;
+  background: currentColor;
+  animation: l6 2s infinite;
+}
+@keyframes l6 {
+  100% {
+    inset: 0;
+  }
+}
