@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 const StartPage = () => {
   return (
-    <section>
+    <section data-testid="start-page">
       <Router>
         <Routes>
           <Route path="/" element={<SearchComponent />}>
