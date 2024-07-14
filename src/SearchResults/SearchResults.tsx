@@ -1,47 +1,49 @@
-import { Component } from 'react';
-import { SearchResultsProps, SearchResultsState } from './types';
-import { HeroCard } from '../HeroCard/HeroCard';
+import { useEffect, useState } from 'react';
+import { SearchResultsProps } from './types';
+import HeroCard from '../HeroCard/HeroCard';
 import styles from './SearchResults.module.css';
+import lodash from 'lodash';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 
-export class SearchResults extends Component<SearchResultsProps, SearchResultsState> {
-  constructor(props: SearchResultsProps) {
-    super(props);
-    this.state = {
-      loading: false,
-      filteredResults: [],
-    };
-  }
+const SearchResults = ({ results }: SearchResultsProps) => {
+  const [filteredResults, setFilteredResults] = useState(results);
+  const { page } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const currentPage = parseInt(page || '1', 10);
 
-  componentDidUpdate(prevProps: SearchResultsProps) {
-    if (prevProps.results !== this.props.results) {
-      this.filterResults();
+  useEffect(() => {
+    setFilteredResults(results);
+  }, [results]);
+
+  const handleCardClick = (event: React.MouseEvent, name: string) => {
+    event.stopPropagation();
+    navigate(`/search/${currentPage}/details/${name}`);
+  };
+
+  const handleSearchResultsClick = () => {
+    if (location.pathname.includes(`/details/`)) {
+      navigate(`/search/${currentPage}`);
     }
-  }
+  };
 
-  filterResults() {
-    const { results } = this.props;
-    this.setState({ filteredResults: results });
-  }
-
-  render() {
-    const { filteredResults } = this.state;
-
-    return (
+  return (
+    <div className={styles['container']} onClick={handleSearchResultsClick}>
       <section className={styles['search-results']}>
-        {filteredResults.map((result, index) => (
+        {filteredResults.map((result) => (
           <HeroCard
-            key={index}
+            key={result.name}
+            id={lodash.camelCase(result.name)}
             name={result.name}
-            height={result.height}
-            mass={result.mass}
-            hairColor={result.hair_color}
-            skinColor={result.skin_color}
-            eyeColor={result.eye_color}
-            birthYear={result.birth_year}
-            gender={result.gender}
+            onClick={(event) => handleCardClick(event, result.name)}
           />
         ))}
       </section>
-    );
-  }
-}
+      <div className={styles['details-container']}>
+        <Outlet />
+      </div>
+    </div>
+  );
+};
+
+export default SearchResults;

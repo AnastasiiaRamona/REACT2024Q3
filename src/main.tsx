@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { StartPage } from './StartPage/StartPage';
+import StartPage from './StartPage/StartPage';
 import './index.css';
 import { ErrorBoundary } from './ErrorBoundary/ErrorBoundary';
 
