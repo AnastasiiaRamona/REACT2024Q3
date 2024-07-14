@@ -20,3 +20,10 @@
   right: 3%;
   width: 20vw;
 }
+
+@media screen and (max-width: 600px) {
+  .details-container {
+    width: 40vw;
+    top: 29%;
+  }
+}

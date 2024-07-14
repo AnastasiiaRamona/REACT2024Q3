@@ -68,3 +68,10 @@
     transform: rotate(1turn);
   }
 }
+
+@media screen and (max-width: 437px) {
+  .search-form {
+    width: 80vw;
+    min-width: 0px;
+  }
+}

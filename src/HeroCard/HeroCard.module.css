@@ -1,4 +1,5 @@
 .hero-card {
+  width: 50vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,7 +13,7 @@
 
 .image-container {
   height: 40vh;
-  width: 70%;
+  width: 80%;
   max-width: 600px;
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(106, 106, 106, 0.584);
@@ -36,4 +37,16 @@
 .hero-card:hover {
   scale: 1.01;
   box-shadow: 0 4px 8px rgba(146, 146, 146, 0.1);
+}
+
+@media screen and (min-height: 830px) {
+  .hero-card {
+    width: 70vw;
+  }
+}
+
+@media screen and (max-width: 612px) {
+  .image-container {
+    height: 30vh;
+  }
 }

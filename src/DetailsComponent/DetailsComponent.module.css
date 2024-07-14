@@ -28,3 +28,40 @@
     inset: 0;
   }
 }
+
+@media screen and (max-width: 970px) {
+  .details-component {
+    background-color: var(--primary-color);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(106, 106, 106, 0.584);
+  }
+
+  .details-component button {
+    width: 100px;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  .details-component h3,
+  p {
+    font-size: smaller;
+  }
+}
+
+@media screen and (max-width: 729px) {
+  .details-component img {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 672px) {
+  .details-component h3,
+  p {
+    font-size: small;
+  }
+
+  .details-component button {
+    width: 80px;
+  }
+}
