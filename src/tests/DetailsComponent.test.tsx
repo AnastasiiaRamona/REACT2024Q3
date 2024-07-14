@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, vi, Mock } from 'vitest';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import DetailsComponent from '../DetailsComponent/DetailsComponent';
@@ -11,9 +11,9 @@ vi.mock('react-router-dom', () => ({
 
 vi.mock('axios');
 
-const mockUseParams = useParams as vi.MockedFunction<typeof useParams>;
-const mockUseNavigate = useNavigate as vi.MockedFunction<typeof useNavigate>;
-const mockAxios = axios as unknown as { get: vi.Mock };
+const mockUseParams = useParams as Mock;
+const mockUseNavigate = useNavigate as Mock;
+const mockAxios = axios as unknown as { get: Mock };
 
 describe('DetailsComponent', () => {
   beforeEach(() => {
