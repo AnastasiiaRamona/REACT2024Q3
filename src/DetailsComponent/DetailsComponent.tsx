@@ -11,6 +11,7 @@ const DetailsComponent = () => {
   const { name } = useParams();
   const [details, setDetails] = useState<Character>({} as Character);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMissing, setIsMissing] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,11 +22,14 @@ const DetailsComponent = () => {
         .then((response) => {
           if (response.data.results.length > 0) {
             setDetails(response.data.results[0]);
+          } else {
+            setIsMissing(true);
           }
           setIsLoading(false);
         })
         .catch((error) => {
           console.error('Error fetching details:', error);
+          setIsMissing(true);
           setIsLoading(false);
         });
     }
@@ -50,6 +54,15 @@ const DetailsComponent = () => {
     { label: 'Birth Year', value: details.birth_year },
     { label: 'Gender', value: details.gender },
   ];
+
+  if (isMissing) {
+    return (
+      <div>
+        <p>No such hero was found</p>
+        <button onClick={handleCloseClick}>Close</button>
+      </div>
+    );
+  }
 
   return (
     <div className={styles['details-component']}>
