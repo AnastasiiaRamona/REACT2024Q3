@@ -36,7 +36,7 @@ const DetailsComponent = () => {
   }, [name]);
 
   if (isLoading) {
-    return <div className={styles['details-loader']}></div>;
+    return <div className={styles['details-loader']} data-testid="details-loader"></div>;
   }
 
   const handleCloseClick = () => {
