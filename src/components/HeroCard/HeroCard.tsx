@@ -4,7 +4,7 @@ import peopleImagesSrc from '../../data/images';
 
 const HeroCard = ({ id, name, onClick }: HeroCardProps) => {
   return (
-    <div className={styles['hero-card']} onClick={onClick}>
+    <div className={styles['hero-card']} onClick={onClick} data-testid="hero-card">
       <h2>{name}</h2>
       <div className={styles['image-container']}>
         <img src={findImageById(id)} alt={name} />

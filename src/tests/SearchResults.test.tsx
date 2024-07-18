@@ -2,18 +2,6 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import SearchResults from '../components/SearchResults/SearchResults';
 import { expect, it, describe, vi } from 'vitest';
-import { HeroCardProps } from '../components/HeroCard/types';
-
-vi.mock('../HeroCard/HeroCard', () => {
-  return {
-    __esModule: true,
-    default: ({ id, name, onClick }: HeroCardProps) => (
-      <div data-testid="hero-card" id={id} onClick={onClick}>
-        {name}
-      </div>
-    ),
-  };
-});
 
 vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual('react-router-dom');
