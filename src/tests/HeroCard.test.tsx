@@ -19,14 +19,13 @@ describe('HeroCard', () => {
   const mockOnClick = vi.fn();
 
   it('should display the correct name and image', () => {
-    const props: HeroCardProps = {
+    const props: Omit<HeroCardProps, 'key'> = {
       id: 'lukeSkywalker',
       name: 'Card 1',
       onClick: mockOnClick,
-      key: '',
     };
 
-    render(<HeroCard {...props} />);
+    render(<HeroCard key="uniqueKey1" {...props} />);
 
     expect(screen.getByText('Card 1')).toBeInTheDocument();
 
@@ -39,14 +38,13 @@ describe('HeroCard', () => {
   });
 
   it('should call onClick when clicked', () => {
-    const props: HeroCardProps = {
+    const props: Omit<HeroCardProps, 'key'> = {
       id: '1',
       name: 'Card 1',
       onClick: mockOnClick,
-      key: '',
     };
 
-    render(<HeroCard {...props} />);
+    render(<HeroCard key="uniqueKey2" {...props} />);
 
     fireEvent.click(screen.getByText('Card 1'));
 
