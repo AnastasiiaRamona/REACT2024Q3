@@ -1,6 +1,6 @@
 import { Component, ErrorInfo } from 'react';
 import { ErrorBoundaryProps, ErrorBoundaryState } from './types';
-import stormtrooperSrc from '../assets/501st-star-wars.gif';
+import stormtrooperSrc from '../../assets/501st-star-wars.gif';
 import styles from './ErrorBoundary.module.css';
 
 export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {

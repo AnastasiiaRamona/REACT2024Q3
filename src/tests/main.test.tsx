@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { expect, it, describe } from 'vitest';
-import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary';
-import StartPage from '../StartPage/StartPage';
+import { ErrorBoundary } from '../components/ErrorBoundary/ErrorBoundary';
+import StartPage from '../pages/StartPage/StartPage';
 
 describe('App Component', () => {
   it('renders header with correct text', () => {

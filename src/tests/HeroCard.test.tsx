@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { expect, it, describe, vi } from 'vitest';
-import HeroCard from '../HeroCard/HeroCard';
-import { HeroCardProps } from '../HeroCard/types';
+import HeroCard from '../components/HeroCard/HeroCard';
+import { HeroCardProps } from '../components/HeroCard/types';
 import peopleImagesSrc from '../data/images';
 
 vi.mock('../HeroCard', () => {

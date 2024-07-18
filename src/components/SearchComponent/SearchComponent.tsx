@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import { ChangeEvent, FormEvent } from 'react';
 import SearchResults from '../SearchResults/SearchResults';
 import axios from 'axios';
-import apiAddress from '../data/data';
-import bb8Src from '../assets/bb-8.webp';
+import apiAddress from '../../data/data';
+import bb8Src from '../../assets/bb-8.webp';
 import styles from './SearchComponent.module.css';
 import Pagination from '../Pagination/Pagination';
 import { useNavigate, useParams } from 'react-router-dom';
-import MissingPage from '../MissingPage/MissingPage';
+import MissingPage from '../../pages/MissingPage/MissingPage';
 import NotFoundResults from '../NotFoundResults/NotFoundResults';
 
 const SearchComponent = () => {

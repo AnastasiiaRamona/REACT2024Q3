@@ -1,6 +1,6 @@
 import { HeroCardProps } from './types';
 import styles from './HeroCard.module.css';
-import peopleImagesSrc from '../data/images';
+import peopleImagesSrc from '../../data/images';
 
 const HeroCard = ({ id, name, onClick }: HeroCardProps) => {
   return (

@@ -5,7 +5,7 @@ import styles from './DetailsComponent.module.css';
 import HeroAttribute from '../HeroAttribute/HeroAttribute';
 import lodash from 'lodash';
 import { Character } from './types';
-import peopleImagesSrc from '../data/images';
+import peopleImagesSrc from '../../data/images';
 
 const DetailsComponent = () => {
   const { name } = useParams();

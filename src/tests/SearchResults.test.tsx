@@ -1,8 +1,8 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import SearchResults from '../SearchResults/SearchResults';
+import SearchResults from '../components/SearchResults/SearchResults';
 import { expect, it, describe, vi } from 'vitest';
-import { HeroCardProps } from '../HeroCard/types';
+import { HeroCardProps } from '../components/HeroCard/types';
 
 vi.mock('../HeroCard/HeroCard', () => {
   return {

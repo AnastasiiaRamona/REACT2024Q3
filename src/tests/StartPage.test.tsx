@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { expect, it, describe } from 'vitest';
-import StartPage from '../StartPage/StartPage';
-import DetailsComponent from '../DetailsComponent/DetailsComponent';
-import MissingPage from '../MissingPage/MissingPage';
+import StartPage from '../pages/StartPage/StartPage';
+import DetailsComponent from '../components/DetailsComponent/DetailsComponent';
+import MissingPage from '../pages/MissingPage/MissingPage';
 
 describe('StartPage', () => {
   it('should render MissingPage for unknown routes', () => {

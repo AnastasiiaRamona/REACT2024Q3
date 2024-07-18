@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, beforeEach, vi, Mock } from 'vitest';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import DetailsComponent from '../DetailsComponent/DetailsComponent';
+import DetailsComponent from '../components/DetailsComponent/DetailsComponent';
 
 vi.mock('react-router-dom', () => ({
   useNavigate: vi.fn(),

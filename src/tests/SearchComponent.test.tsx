@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor, act } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { expect, it, describe, vi, Mock } from 'vitest';
 import axios from 'axios';
-import SearchComponent from '../SearchComponent/SearchComponent';
+import SearchComponent from '../components/SearchComponent/SearchComponent';
 
 vi.mock('axios');
 const mockedAxios = axios as unknown as { get: Mock };

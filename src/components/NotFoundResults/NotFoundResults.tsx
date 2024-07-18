@@ -1,4 +1,4 @@
-import chewbaccaSrc from '../assets/chewbacca.webp';
+import chewbaccaSrc from '../../assets/chewbacca.webp';
 import styles from './NotFoundResults.module.css';
 
 const NotFoundResults = () => {

@@ -1,4 +1,4 @@
-import c3poSrc from '../assets/c3po.gif';
+import c3poSrc from '../../assets/c3po.gif';
 import styles from './MissingPage.module.css';
 import { useNavigate } from 'react-router-dom';
 

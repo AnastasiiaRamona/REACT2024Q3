@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import ErrorButton from '../ErrorButton/ErrorButton';
+import ErrorButton from '../components/ErrorButton/ErrorButton';
 
 vi.mock('./ErrorButton.module.css', () => ({
   'error-button': 'error-button-mocked-class',
