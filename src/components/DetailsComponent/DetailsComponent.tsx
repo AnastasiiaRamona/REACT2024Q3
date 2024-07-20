@@ -10,13 +10,13 @@ import peopleImagesSrc from '../../data/images';
 const DetailsComponent = () => {
   const { name } = useParams();
   const [details, setDetails] = useState<Character>({} as Character);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isFetching, setisFetching] = useState(true);
   const [isMissing, setIsMissing] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (name) {
-      setIsLoading(true);
+      setisFetching(true);
       axios
         .get(`https://swapi.dev/api/people/?search=${name}`)
         .then((response) => {
@@ -25,17 +25,17 @@ const DetailsComponent = () => {
           } else {
             setIsMissing(true);
           }
-          setIsLoading(false);
+          setisFetching(false);
         })
         .catch((error) => {
           console.error('Error fetching details:', error);
           setIsMissing(true);
-          setIsLoading(false);
+          setisFetching(false);
         });
     }
   }, [name]);
 
-  if (isLoading) {
+  if (isFetching) {
     return <div className={styles['details-loader']} data-testid="details-loader"></div>;
   }
 

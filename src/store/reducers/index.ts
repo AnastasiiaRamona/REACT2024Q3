@@ -1,8 +1,8 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import paginationReducer from './paginationSlice';
+import { starWarsApi } from './apiReducer';
 
 const rootReducer = combineReducers({
-  pagination: paginationReducer,
+  [starWarsApi.reducerPath]: starWarsApi.reducer,
 });
 
 export default rootReducer;
