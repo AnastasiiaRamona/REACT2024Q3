@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import apiAddress from '../../data/data';
-import { ApiResponse } from './types';
+import { ApiResponse, CharacterResults } from './types';
 
 export const starWarsApi = createApi({
   reducerPath: 'starWarsApi',
@@ -12,7 +12,10 @@ export const starWarsApi = createApi({
         return `?search=${query}${pageParam}`;
       },
     }),
+    getCharacterDetails: builder.query<CharacterResults, string>({
+      query: (name) => `?search=${name}`,
+    }),
   }),
 });
 
-export const { useGetHeroesQuery } = starWarsApi;
+export const { useGetHeroesQuery, useGetCharacterDetailsQuery } = starWarsApi;

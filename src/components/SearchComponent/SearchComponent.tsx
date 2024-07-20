@@ -11,7 +11,7 @@ import { useGetHeroesQuery } from '../../store/reducers/apiReducer';
 
 const SearchComponent = () => {
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTermOfStarWarsHeroes', '');
-  const [totalPages, setTotalPages] = useState(0);
+  const [totalPages, setTotalPages] = useState<number | undefined>();
   const { page } = useParams();
   const [currentPage, setCurrentPage] = useState<number>(parseInt(page || '1', 10));
   const [isValidPage, setIsValidPage] = useState(true);
@@ -19,17 +19,7 @@ const SearchComponent = () => {
 
   const navigate = useNavigate();
 
-  const { data, isFetching } = useGetHeroesQuery({ query: searchQuery, page: currentPage });
-  console.log(isFetching);
-
-  useEffect(() => {
-    const pageNumber = parseInt(page || '1', 10);
-    if (isNaN(pageNumber) || pageNumber < 1) {
-      setIsValidPage(false);
-      return;
-    }
-    setCurrentPage(pageNumber);
-  }, [page]);
+  const { data, isFetching, error } = useGetHeroesQuery({ query: searchQuery, page: currentPage });
 
   useEffect(() => {
     if (data) {
@@ -40,10 +30,21 @@ const SearchComponent = () => {
   }, [data]);
 
   useEffect(() => {
-    if (!isValidPage || (currentPage > totalPages && totalPages > 0)) {
-      return;
+    const pageNumber = parseInt(page || '1', 10);
+    console.log(totalPages);
+    if (isNaN(pageNumber) || pageNumber < 1) {
+      setIsValidPage(false);
+    } else {
+      setIsValidPage(true);
+      setCurrentPage(pageNumber);
     }
-  }, [searchQuery, currentPage, totalPages, isValidPage]);
+  }, [page, totalPages]);
+
+  useEffect(() => {
+    if (!isFetching && error) {
+      setIsValidPage(false);
+    }
+  }, [isFetching, error]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value;
@@ -79,7 +80,7 @@ const SearchComponent = () => {
       {isFetching && <div className={styles['loader']}></div>}
       {data?.results && data.results.length > 0 && <SearchResults results={data.results} error={null} />}
       {!isFetching && data?.results && data.results.length === 0 && <NotFoundResults />}
-      {data?.results && currentPage && totalPages > 1 && (
+      {data?.results && currentPage && totalPages && totalPages > 1 && (
         <Pagination currentPage={currentPage} totalPages={totalPages} />
       )}
     </section>

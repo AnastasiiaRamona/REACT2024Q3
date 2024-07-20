@@ -1,43 +1,14 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
 import styles from './DetailsComponent.module.css';
 import HeroAttribute from '../HeroAttribute/HeroAttribute';
 import lodash from 'lodash';
-import { Character } from './types';
 import peopleImagesSrc from '../../data/images';
+import { useGetCharacterDetailsQuery } from '../../store/reducers/apiReducer';
 
 const DetailsComponent = () => {
   const { name } = useParams();
-  const [details, setDetails] = useState<Character>({} as Character);
-  const [isFetching, setisFetching] = useState(true);
-  const [isMissing, setIsMissing] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (name) {
-      setisFetching(true);
-      axios
-        .get(`https://swapi.dev/api/people/?search=${name}`)
-        .then((response) => {
-          if (response.data.results.length > 0) {
-            setDetails(response.data.results[0]);
-          } else {
-            setIsMissing(true);
-          }
-          setisFetching(false);
-        })
-        .catch((error) => {
-          console.error('Error fetching details:', error);
-          setIsMissing(true);
-          setisFetching(false);
-        });
-    }
-  }, [name]);
-
-  if (isFetching) {
-    return <div className={styles['details-loader']} data-testid="details-loader"></div>;
-  }
+  const { data, isFetching, isError } = useGetCharacterDetailsQuery(name || '');
 
   const handleCloseClick = () => {
     const match = location.pathname.match(/\/search\/(\d+)/);
@@ -45,17 +16,11 @@ const DetailsComponent = () => {
     navigate(`/search/${pageNumber}`);
   };
 
-  const attributes = [
-    { label: 'Height', value: details.height },
-    { label: 'Mass', value: details.mass },
-    { label: 'Hair Color', value: details.hair_color },
-    { label: 'Skin Color', value: details.skin_color },
-    { label: 'Eye Color', value: details.eye_color },
-    { label: 'Birth Year', value: details.birth_year },
-    { label: 'Gender', value: details.gender },
-  ];
+  if (isFetching) {
+    return <div className={styles['details-loader']} data-testid="details-loader"></div>;
+  }
 
-  if (isMissing) {
+  if (isError || !data) {
     return (
       <div>
         <p>No such hero was found</p>
@@ -64,10 +29,21 @@ const DetailsComponent = () => {
     );
   }
 
+  const character = data.results[0];
+  const attributes = [
+    { label: 'Height', value: character.height },
+    { label: 'Mass', value: character.mass },
+    { label: 'Hair Color', value: character.hair_color },
+    { label: 'Skin Color', value: character.skin_color },
+    { label: 'Eye Color', value: character.eye_color },
+    { label: 'Birth Year', value: character.birth_year },
+    { label: 'Gender', value: character.gender },
+  ];
+
   return (
     <div className={styles['details-component']}>
-      <h3>{details.name}</h3>
-      <img src={findImageById(lodash.camelCase(details.name))} alt={name} />
+      <h3>{character.name}</h3>
+      <img src={findImageById(lodash.camelCase(character.name))} alt={name} />
       {attributes.map((attr, index) => (
         <HeroAttribute key={index} label={attr.label} value={attr.value} />
       ))}
