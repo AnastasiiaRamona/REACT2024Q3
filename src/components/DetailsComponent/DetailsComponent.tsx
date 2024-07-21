@@ -4,11 +4,25 @@ import HeroAttribute from '../HeroAttribute/HeroAttribute';
 import lodash from 'lodash';
 import peopleImagesSrc from '../../data/images';
 import { useGetCharacterDetailsQuery } from '../../store/reducers/apiReducer';
+import { useAppDispatch, useAppSelector } from '../SearchComponent/hooks';
+import { useEffect } from 'react';
+import { showLoader, hideLoader } from '../../store/reducers/loaderSlice';
 
 const DetailsComponent = () => {
   const { name } = useParams();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { isLoading } = useAppSelector((state) => state.loader);
+
   const { data, isFetching, isError } = useGetCharacterDetailsQuery(name || '');
+
+  useEffect(() => {
+    if (isFetching) {
+      dispatch(showLoader());
+    } else {
+      dispatch(hideLoader());
+    }
+  }, [isFetching, dispatch]);
 
   const handleCloseClick = () => {
     const match = location.pathname.match(/\/search\/(\d+)/);
@@ -16,7 +30,7 @@ const DetailsComponent = () => {
     navigate(`/search/${pageNumber}`);
   };
 
-  if (isFetching) {
+  if (isLoading) {
     return <div className={styles['details-loader']} data-testid="details-loader"></div>;
   }
 

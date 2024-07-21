@@ -16,3 +16,7 @@ export interface SearchState {
 export interface CharacterResults {
   results: Character[];
 }
+
+export interface LoaderState {
+  isLoading: boolean;
+}
