@@ -20,3 +20,8 @@ export interface CharacterResults {
 export interface LoaderState {
   isLoading: boolean;
 }
+
+export interface SearchResults {
+  results: FoundResult[];
+  currentPage: number;
+}

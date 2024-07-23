@@ -4,8 +4,11 @@ import HeroCard from '../HeroCard/HeroCard';
 import styles from './SearchResults.module.css';
 import lodash from 'lodash';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setResults } from '../../store/reducers/searchSlice';
 
 const SearchResults = ({ results }: SearchResultsProps) => {
+  const dispatch = useDispatch();
   const [filteredResults, setFilteredResults] = useState(results);
   const { page } = useParams();
   const navigate = useNavigate();
@@ -14,7 +17,8 @@ const SearchResults = ({ results }: SearchResultsProps) => {
 
   useEffect(() => {
     setFilteredResults(results);
-  }, [results]);
+    dispatch(setResults({ results, page: currentPage }));
+  }, [results, currentPage, dispatch]);
 
   const handleCardClick = (event: React.MouseEvent, name: string) => {
     event.stopPropagation();
