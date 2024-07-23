@@ -4,7 +4,6 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
 
   font-synthesis: none;
@@ -13,9 +12,13 @@
   -moz-osx-font-smoothing: grayscale;
 
   --secondary-font-family: 'Star Wars', sans-serif;
-  --primary-color: #213547;
-  --secondary-color: #646cff;
-  --background-color: #204667b1;
+  --primary-color-dark: #213547;
+  --secondary-color-dark: #646cff;
+  --background-color-dark: #204667b1;
+
+  --primary-color-light: #000000;
+  --secondary-color-light: #ff6600;
+  --background-color-light: #f0ddcfc4;
 }
 
 body {
@@ -24,11 +27,6 @@ body {
   flex-direction: column;
   align-items: center;
   margin: 0;
-  width: 100vw;
-  min-height: 100vh;
-  background: url('./assets/background.webp') top no-repeat fixed;
-  background-size: cover;
-  padding: 20px 0;
 }
 
 #root {
@@ -37,44 +35,32 @@ body {
   align-items: center;
 }
 
+.container {
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  min-height: 100vh;
+}
+
+.container.dark {
+  background: url('./assets/background.webp') top no-repeat fixed;
+  background-size: cover;
+  color: rgb(235, 248, 255);
+}
+
+.container.light {
+  background: url('./assets/background-1.webp') top no-repeat fixed;
+  background-size: cover;
+  color: rgb(61, 41, 3);
+}
+
 h1 {
   font-family: var(--secondary-font-family);
   font-size: xxx-large;
   color: white;
-  -webkit-text-stroke: 1px var(--primary-color);
-}
-
-h1 span {
-  color: rgba(255, 255, 255, 0);
-  -webkit-text-stroke: 3px rgb(255, 230, 0);
-}
-
-button {
-  border-radius: 10px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: white;
-  cursor: pointer;
-  transition: border-color 0.25s;
-  width: 200px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: scale 0.25s;
-}
-button:hover {
-  border-color: var(--secondary-color);
-  scale: 1.05;
-  transition: scale 0.25s;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  -webkit-text-stroke: 1px var(--primary-color-light);
 }
 
 @media screen and (max-width: 674px) {
@@ -83,19 +69,9 @@ button:focus-visible {
     font-size: xx-large;
     margin: 40px 0;
   }
-
-  button {
-    width: 120px;
-    font-size: small;
-  }
 }
 
 @media screen and (max-width: 531px) {
-  body {
-    padding: 20px;
-    width: auto;
-  }
-
   h1 {
     font-size: x-large;
     text-align: center;

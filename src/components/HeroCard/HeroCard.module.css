@@ -1,12 +1,19 @@
 .hero-card-container {
   padding-top: 15px;
-  padding-left: 20px;
-  background-color: var(--background-color);
+  padding-left: 15px;
   padding-bottom: 40px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: scale 0.3s ease;
   cursor: pointer;
+}
+
+.hero-card-container.light {
+  background: var(--background-color-light);
+}
+
+.hero-card-container.dark {
+  background-color: var(--background-color-dark);
 }
 
 .hero-card {

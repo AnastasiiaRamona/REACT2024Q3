@@ -10,9 +10,14 @@
   width: 120px;
   height: 22px;
   border-radius: 20px;
-  color: #2a5aa1;
   border: 2px solid;
   position: relative;
+}
+.details-loader.light {
+  color: var(--secondary-color-light);
+}
+.details-loader.dark {
+  color: var(--secondary-color-dark);
 }
 .details-loader::before {
   content: '';
@@ -31,10 +36,17 @@
 
 @media screen and (max-width: 970px) {
   .details-component {
-    background-color: var(--primary-color);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(106, 106, 106, 0.584);
+  }
+
+  .details-component.light {
+    background-color: rgb(232, 203, 181);
+  }
+
+  .details-component.dark {
+    background-color: var(--primary-color-dark);
   }
 
   .details-component button {

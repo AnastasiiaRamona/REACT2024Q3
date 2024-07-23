@@ -5,23 +5,16 @@
   margin-top: 20px;
 }
 
-.pagination button {
-  background-color: var(--primary-color);
+.pagination span {
+  margin: 0 10px;
+  font-size: small;
+}
+
+.pagination-button {
   border: none;
-  color: white;
   padding: 10px 20px;
   margin: 0 5px;
   cursor: pointer;
   border-radius: 5px;
   font-size: 16px;
-}
-
-.pagination button:disabled {
-  background-color: gray;
-  cursor: not-allowed;
-}
-
-.pagination span {
-  margin: 0 10px;
-  font-size: small;
 }

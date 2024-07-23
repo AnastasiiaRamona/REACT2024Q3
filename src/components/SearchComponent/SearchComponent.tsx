@@ -10,6 +10,8 @@ import NotFoundResults from '../NotFoundResults/NotFoundResults';
 import { useGetHeroesQuery } from '../../store/reducers/apiReducer';
 import { hideLoader, showLoader } from '../../store/reducers/loaderSlice';
 import { useAppDispatch, useAppSelector } from './hooks';
+import Button from '../Button/Button';
+import { useTheme } from '../../context/ThemeContext';
 
 const SearchComponent = () => {
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTermOfStarWarsHeroes', '');
@@ -24,6 +26,8 @@ const SearchComponent = () => {
   const { isLoading } = useAppSelector((state) => state.loader);
 
   const { data, isFetching, error } = useGetHeroesQuery({ query: searchQuery, page: currentPage });
+
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (isFetching) {
@@ -43,7 +47,6 @@ const SearchComponent = () => {
 
   useEffect(() => {
     const pageNumber = parseInt(page || '1', 10);
-    console.log(totalPages);
     if (isNaN(pageNumber) || pageNumber < 1) {
       setIsValidPage(false);
     } else {
@@ -82,14 +85,17 @@ const SearchComponent = () => {
           value={searchTerm}
           onChange={handleInputChange}
           placeholder="Enter search term"
-          className={styles['search-input']}
+          className={`${styles['search-input']} ${styles[theme]}`}
         />
-        <button type="submit" className={styles['search-button']}>
-          Search
-          <img src={bb8Src} alt="search" />
-        </button>
+        <Button
+          text={'Search'}
+          className={styles['search-button']}
+          type={'submit'}
+          img={bb8Src}
+          alt={'search'}
+        ></Button>
       </form>
-      {isLoading && <div className={styles['loader']}></div>}
+      {isLoading && <div className={`${styles.loader} ${styles[theme]}`}></div>}
       {data?.results && data.results.length > 0 && <SearchResults results={data.results} error={null} />}
       {!isLoading && data?.results && data.results.length === 0 && <NotFoundResults />}
       {data?.results && currentPage && totalPages && totalPages > 1 && (

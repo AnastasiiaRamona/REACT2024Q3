@@ -1,5 +1,4 @@
 import DetailsComponent from '../../components/DetailsComponent/DetailsComponent';
-import ErrorButton from '../../components/ErrorButton/ErrorButton';
 import MissingPage from '../../pages/MissingPage/MissingPage';
 import SearchComponent from '../../components/SearchComponent/SearchComponent';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -10,9 +9,9 @@ import ThemeChanging from '../../components/ThemeChanging/ThemeChanging';
 const StartPage = () => {
   return (
     <Provider store={store}>
-      <section data-testid="start-page">
-        <ThemeChanging />
-        <Router>
+      <Router>
+        <section data-testid="start-page">
+          <ThemeChanging />
           <Routes>
             <Route path="/" element={<SearchComponent />}>
               <Route path="details/:name" element={<DetailsComponent />} />
@@ -22,9 +21,8 @@ const StartPage = () => {
             </Route>
             <Route path="*" element={<MissingPage />} />
           </Routes>
-        </Router>
-        <ErrorButton />
-      </section>
+        </section>
+      </Router>
     </Provider>
   );
 };

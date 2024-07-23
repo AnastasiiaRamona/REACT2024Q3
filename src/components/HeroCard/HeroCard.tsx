@@ -2,10 +2,13 @@ import { HeroCardProps } from './types';
 import styles from './HeroCard.module.css';
 import peopleImagesSrc from '../../data/images';
 import Checkbox from '../Checkbox/Checkbox';
+import { useTheme } from '../../context/ThemeContext';
 
 const HeroCard = ({ id, name, onClick }: HeroCardProps) => {
+  const { theme } = useTheme();
+
   return (
-    <section className={styles['hero-card-container']} onClick={onClick} data-testid="hero-card">
+    <section className={`${styles['hero-card-container']} ${styles[theme]}`} onClick={onClick} data-testid="hero-card">
       <Checkbox />
       <div className={styles['hero-card']}>
         <h2>{name}</h2>

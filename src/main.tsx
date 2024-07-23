@@ -1,18 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import StartPage from './pages/StartPage/StartPage';
 import './index.css';
-import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
+import { ThemeProvider } from './context/ThemeContext';
+import App from './App';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ErrorBoundary>
-      <header>
-        <h1>
-          <span>Star Wars</span> Heroes
-        </h1>
-      </header>
-      <StartPage />
-    </ErrorBoundary>
+    <ThemeProvider>
+      <App></App>
+    </ThemeProvider>
   </React.StrictMode>
 );

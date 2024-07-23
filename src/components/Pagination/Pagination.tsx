@@ -1,6 +1,7 @@
 import PaginationProps from './types';
 import { useNavigate } from 'react-router-dom';
 import styles from './Pagination.module.css';
+import Button from '../Button/Button';
 
 const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
   const navigate = useNavigate();
@@ -19,15 +20,21 @@ const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
 
   return (
     <div className={styles.pagination}>
-      <button onClick={handlePrevious} disabled={currentPage === 1}>
-        Previous
-      </button>
+      <Button
+        onClick={handlePrevious}
+        text={'Previous'}
+        className={styles['pagination-button']}
+        disabled={currentPage === 1}
+      ></Button>
       <span>
         Page {currentPage} of {totalPages}
       </span>
-      <button onClick={handleNext} disabled={currentPage === totalPages}>
-        Next
-      </button>
+      <Button
+        onClick={handleNext}
+        text={'Next'}
+        className={styles['pagination-button']}
+        disabled={currentPage === totalPages}
+      ></Button>
     </div>
   );
 };

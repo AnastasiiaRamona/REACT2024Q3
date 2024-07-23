@@ -29,7 +29,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #e9c43e;
+  background-image: url('../../assets/light-background.webp');
+  background-size: cover;
   transition: 0.4s;
   border-radius: 30px;
 }
@@ -43,17 +44,17 @@
   left: var(--slider-offset);
   top: 50%;
   transform: translateY(-50%);
-  background: linear-gradient(40deg, #ff0080, #ff8c00 70%);
+  background: linear-gradient(40deg, #ff0080, #ffdd00 70%);
   transition: 0.4s;
 }
 
 .checkbox:checked + .slider {
-  background-color: #303136;
+  background-image: url('../../assets/dark-background.webp');
 }
 
 .checkbox:checked + .slider::before {
   left: calc(100% - (var(--size-of-icon) + var(--slider-offset)));
-  background: #303136;
+  background: none;
   box-shadow:
     inset -3px -2px 5px -2px #8983f7,
     inset -10px -4px 0 0 #a3dafb;
