@@ -1,4 +1,5 @@
 import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
+import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
 import { useTheme } from './context/ThemeContext';
 import StartPage from './pages/StartPage/StartPage';
@@ -11,6 +12,7 @@ const App = () => {
       <ErrorBoundary>
         <Header />
         <StartPage />
+        <Footer />
       </ErrorBoundary>
     </section>
   );

@@ -3,21 +3,58 @@ import styles from './HeroCard.module.css';
 import peopleImagesSrc from '../../data/images';
 import Checkbox from '../Checkbox/Checkbox';
 import { useTheme } from '../../context/ThemeContext';
-import { useModal } from '../../context/ModalContext';
 import ModalWindow from '../ModalWindow/ModalWindow';
+import { useEffect, useState } from 'react';
 
 const HeroCard = ({ id, name, onClick }: HeroCardProps) => {
   const { theme } = useTheme();
-  const { showModal } = useModal();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckboxClick = (event: React.MouseEvent) => {
     event.stopPropagation();
-    showModal();
+    if (isChecked) {
+      setIsChecked(false);
+    } else {
+      setIsChecked(true);
+    }
+
+    if (isModalOpen) {
+      setIsExiting(true);
+    } else {
+      if (isChecked) {
+        setIsModalOpen(false);
+      } else {
+        setIsModalOpen(true);
+      }
+    }
   };
 
-  function hideModal(): void {
-    throw new Error('Function not implemented.');
-  }
+  const handleUnselectAll = () => {
+    console.log('Unselecting items...');
+    setIsExiting(true);
+    setIsChecked(false);
+  };
+
+  const handleDownload = () => {
+    console.log('Downloading items...');
+  };
+
+  const handleClose = () => {
+    setIsExiting(true);
+  };
+
+  useEffect(() => {
+    if (isExiting) {
+      const timeout = setTimeout(() => {
+        setIsModalOpen(false);
+        setIsExiting(false);
+      }, 500);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [isExiting]);
 
   return (
     <>
@@ -26,7 +63,7 @@ const HeroCard = ({ id, name, onClick }: HeroCardProps) => {
         onClick={onClick}
         data-testid="hero-card"
       >
-        <Checkbox onClick={handleCheckboxClick} />
+        <Checkbox isChecked={isChecked} onClick={handleCheckboxClick} />
         <div className={styles['hero-card']}>
           <h2>{name}</h2>
           <div className={styles['image-container']}>
@@ -34,11 +71,15 @@ const HeroCard = ({ id, name, onClick }: HeroCardProps) => {
           </div>
         </div>
       </section>
-      <ModalWindow
-        selectedItemsCount={1}
-        onUnselectAll={hideModal}
-        onDownload={() => console.log('Downloading items...')}
-      />
+      {isModalOpen && (
+        <ModalWindow
+          selectedItemsCount={1}
+          onUnselectAll={handleUnselectAll}
+          onDownload={handleDownload}
+          onClose={handleClose}
+          className={isExiting ? 'exit' : ''}
+        />
+      )}
     </>
   );
 };
