@@ -5,7 +5,7 @@ import yodaSrc from '../../assets/mandalorian-baby-yoda.webp';
 import sithSrc from '../../assets/cute-chibi-sith.webp';
 import Button from '../Button/Button';
 
-const ModalWindow = ({ selectedItemsCount, onUnselectAll, onDownload, onClose, className }: ModalWindowProps) => {
+const ModalWindow = ({ selectedItemsCount, onUnselectAll, onDownload, className }: ModalWindowProps) => {
   const { theme } = useTheme();
 
   return (
@@ -13,7 +13,6 @@ const ModalWindow = ({ selectedItemsCount, onUnselectAll, onDownload, onClose, c
       <p>
         {selectedItemsCount} {selectedItemsCount === 1 ? 'Hero is' : 'Heroes are'} selected
       </p>
-      <button onClick={onClose} className={styles['close-button']}></button>
       <img src={theme === 'light' ? yodaSrc : sithSrc} alt="star wars picture" />
       <div className={styles['buttons']}>
         <Button text="Unselect all" onClick={onUnselectAll} />

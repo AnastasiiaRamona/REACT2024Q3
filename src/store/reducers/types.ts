@@ -28,4 +28,5 @@ export interface SearchResults {
 
 export interface CheckedItemsState {
   items: Character[];
+  checkedStatus: { [name: string]: boolean };
 }

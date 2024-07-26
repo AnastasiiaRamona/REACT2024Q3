@@ -1,5 +1,6 @@
 interface CheckboxProps {
-  onClick: (event: React.MouseEvent) => void;
+  id: string;
+  onClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   isChecked: boolean;
 }
 

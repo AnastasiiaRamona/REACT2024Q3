@@ -79,8 +79,9 @@ const SearchComponent = () => {
 
   return (
     <section className={styles['search-section']}>
-      <form onSubmit={handleSearch} className={styles['search-form']}>
+      <form onSubmit={handleSearch} className={styles['search-form']} id="search-form">
         <input
+          id="search-input"
           type="text"
           value={searchTerm}
           onChange={handleInputChange}
