@@ -2,27 +2,20 @@ import { HeroCardProps } from './types';
 import styles from './HeroCard.module.css';
 import Checkbox from '../Checkbox/Checkbox';
 import { useTheme } from '../../context/ThemeContext';
-import ModalWindow from '../ModalWindow/ModalWindow';
 import { useEffect, useState } from 'react';
-import {
-  addCharacter,
-  clearCharacters,
-  removeCharacter,
-  setCheckedStatus,
-} from '../../store/reducers/checkedItemsSlice';
+import { addCharacter, removeCharacter, setCheckedStatus } from '../../store/reducers/checkedItemsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGetCharacterDetailsQuery } from '../../store/reducers/apiReducer';
 import { RootState } from '../../store/store';
-import { saveAs } from 'file-saver';
-import { convertToCSV, findImageById } from '../../helpers/utils';
+import { findImageById } from '../../helpers/utils';
 import { showLoader, hideLoader } from '../../store/reducers/loaderSlice';
+import { useModal } from '../../context/ModalContext';
 
 const HeroCard = ({ id, name, onClick }: HeroCardProps) => {
   const { theme } = useTheme();
   const dispatch = useDispatch();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isExiting, setIsExiting] = useState(false);
   const [loadData, setLoadData] = useState(false);
+  const { isModalOpen, openModal, closeModal } = useModal();
 
   const { data, refetch, isFetching, isSuccess } = useGetCharacterDetailsQuery(name || '', {
     skip: !loadData,
@@ -54,11 +47,11 @@ const HeroCard = ({ id, name, onClick }: HeroCardProps) => {
 
   useEffect(() => {
     if (quantityOfSelectedItems > 0) {
-      setIsModalOpen(true);
-    } else if (!isExiting) {
-      setIsModalOpen(false);
+      openModal(quantityOfSelectedItems);
+    } else if (quantityOfSelectedItems === 0 && isModalOpen) {
+      closeModal();
     }
-  }, [quantityOfSelectedItems, isExiting]);
+  }, [quantityOfSelectedItems, isModalOpen, openModal, closeModal]);
 
   const handleCheckboxClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.stopPropagation();
@@ -79,53 +72,16 @@ const HeroCard = ({ id, name, onClick }: HeroCardProps) => {
     }
   }, [loadData, refetch, isFetching, isSuccess]);
 
-  const handleUnselectAll = () => {
-    setIsExiting(true);
-    dispatch(clearCharacters());
-  };
-
-  const handleDownload = () => {
-    const csvData = convertToCSV(selectedItems);
-    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
-    const fileName = `${quantityOfSelectedItems}_heroes.csv`;
-    saveAs(blob, fileName);
-  };
-
-  useEffect(() => {
-    if (isExiting) {
-      const timeout = setTimeout(() => {
-        setIsExiting(false);
-        setIsModalOpen(false);
-      }, 500);
-
-      return () => clearTimeout(timeout);
-    }
-  }, [isExiting]);
-
   return (
-    <>
-      <section
-        className={`${styles['hero-card-container']} ${styles[theme]}`}
-        onClick={onClick}
-        data-testid="hero-card"
-      >
-        <Checkbox id={name} isChecked={isChecked} onClick={handleCheckboxClick} />
-        <div className={styles['hero-card']}>
-          <h2>{name}</h2>
-          <div className={styles['image-container']}>
-            <img src={findImageById(id)} alt={name} />
-          </div>
+    <section className={`${styles['hero-card-container']} ${styles[theme]}`} onClick={onClick} data-testid="hero-card">
+      <Checkbox id={name} isChecked={isChecked} onClick={handleCheckboxClick} />
+      <div className={styles['hero-card']}>
+        <h2>{name}</h2>
+        <div className={styles['image-container']}>
+          <img src={findImageById(id)} alt={name} />
         </div>
-      </section>
-      {isModalOpen && (
-        <ModalWindow
-          selectedItemsCount={quantityOfSelectedItems}
-          onUnselectAll={handleUnselectAll}
-          onDownload={handleDownload}
-          className={isExiting ? 'exit' : ''}
-        />
-      )}
-    </>
+      </div>
+    </section>
   );
 };
 

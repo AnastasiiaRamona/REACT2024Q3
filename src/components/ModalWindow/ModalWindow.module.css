@@ -75,8 +75,17 @@
   animation: slideOut 0.5s forwards;
 }
 
-@media screen and (max-width: 1268px) {
+@media screen and (max-width: 600px) {
   .modal-window {
-    bottom: 10%;
+    width: 60vw;
+  }
+
+  .modal-window p,
+  .modal-window button {
+    font-size: 10px;
+  }
+
+  .modal-window img {
+    display: none;
   }
 }

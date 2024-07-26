@@ -1,6 +1,7 @@
 import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
+import ModalWindow from './components/ModalWindow/ModalWindow';
 import { useTheme } from './context/ThemeContext';
 import StartPage from './pages/StartPage/StartPage';
 
@@ -14,6 +15,7 @@ const App = () => {
         <StartPage />
         <Footer />
       </ErrorBoundary>
+      <ModalWindow />
     </section>
   );
 };
