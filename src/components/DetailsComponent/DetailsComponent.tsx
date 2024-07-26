@@ -6,14 +6,28 @@ import { useGetCharacterDetailsQuery } from '../../store/reducers/apiReducer';
 import Button from '../Button/Button';
 import { useTheme } from '../../context/ThemeContext';
 import { findImageById } from '../../helpers/utils';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { clearCharacterDetails, setCharacterDetails } from '../../store/reducers/detailsSlice';
+import { RootState } from '../../store/store';
 
 const DetailsComponent = () => {
   const { name } = useParams();
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const { theme } = useTheme();
 
   const { data, isFetching, isError } = useGetCharacterDetailsQuery(name || '');
+  const characterDetails = useSelector((state: RootState) => state.details.character);
+
+  useEffect(() => {
+    if (data && !isFetching && !isError) {
+      dispatch(setCharacterDetails(data));
+    }
+    return () => {
+      dispatch(clearCharacterDetails());
+    };
+  }, [data, isFetching, isError, dispatch]);
 
   const handleCloseClick = () => {
     const match = location.pathname.match(/\/search\/(\d+)/);
@@ -25,7 +39,7 @@ const DetailsComponent = () => {
     return <div className={`${styles['details-loader']} ${styles[theme]}`} data-testid="details-loader"></div>;
   }
 
-  if (isError || !data) {
+  if (isError || !characterDetails) {
     return (
       <div>
         <p>No such hero was found</p>
@@ -34,7 +48,7 @@ const DetailsComponent = () => {
     );
   }
 
-  const character = data.results[0];
+  const character = characterDetails.results[0];
   const attributes = [
     { label: 'Height', value: character.height },
     { label: 'Mass', value: character.mass },

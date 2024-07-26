@@ -30,3 +30,7 @@ export interface CheckedItemsState {
   items: Character[];
   checkedStatus: { [name: string]: boolean };
 }
+
+export interface DetailsState {
+  character: CharacterResults | null;
+}
