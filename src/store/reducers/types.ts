@@ -25,3 +25,7 @@ export interface SearchResults {
   results: FoundResult[];
   currentPage: number;
 }
+
+export interface CheckedItemsState {
+  items: Character[];
+}

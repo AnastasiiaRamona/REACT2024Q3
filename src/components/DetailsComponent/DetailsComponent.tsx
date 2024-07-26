@@ -2,10 +2,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styles from './DetailsComponent.module.css';
 import HeroAttribute from '../HeroAttribute/HeroAttribute';
 import lodash from 'lodash';
-import peopleImagesSrc from '../../data/images';
 import { useGetCharacterDetailsQuery } from '../../store/reducers/apiReducer';
 import Button from '../Button/Button';
 import { useTheme } from '../../context/ThemeContext';
+import { findImageById } from '../../helpers/utils';
 
 const DetailsComponent = () => {
   const { name } = useParams();
@@ -58,10 +58,3 @@ const DetailsComponent = () => {
 };
 
 export default DetailsComponent;
-
-const findImageById = (id: string) => {
-  const image = peopleImagesSrc.find((image) => image.id === id);
-  if (image) {
-    return image.src;
-  }
-};

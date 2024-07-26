@@ -1,44 +1,69 @@
 import { HeroCardProps } from './types';
 import styles from './HeroCard.module.css';
-import peopleImagesSrc from '../../data/images';
 import Checkbox from '../Checkbox/Checkbox';
 import { useTheme } from '../../context/ThemeContext';
 import ModalWindow from '../ModalWindow/ModalWindow';
 import { useEffect, useState } from 'react';
+import { addCharacter, removeCharacter } from '../../store/reducers/checkedItemsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useGetCharacterDetailsQuery } from '../../store/reducers/apiReducer';
+import { RootState } from '../../store/store';
+import { saveAs } from 'file-saver';
+import { convertToCSV, findImageById } from '../../helpers/utils';
 
 const HeroCard = ({ id, name, onClick }: HeroCardProps) => {
   const { theme } = useTheme();
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [loadData, setLoadData] = useState(false);
+
+  const { data } = useGetCharacterDetailsQuery(name || '', {
+    skip: !loadData,
+  });
+
+  const selectedItems = useSelector((state: RootState) => state.checkedItems.items);
 
   const handleCheckboxClick = (event: React.MouseEvent) => {
     event.stopPropagation();
-    if (isChecked) {
-      setIsChecked(false);
+    const newCheckedState = !isChecked;
+    setIsChecked(newCheckedState);
+
+    if (newCheckedState) {
+      setLoadData(true);
     } else {
-      setIsChecked(true);
+      dispatch(removeCharacter(name));
+      setLoadData(false);
     }
 
     if (isModalOpen) {
       setIsExiting(true);
     } else {
-      if (isChecked) {
-        setIsModalOpen(false);
-      } else {
+      if (newCheckedState) {
         setIsModalOpen(true);
+      } else {
+        setIsModalOpen(false);
       }
     }
   };
 
+  useEffect(() => {
+    if (loadData && data) {
+      dispatch(addCharacter(data.results[0]));
+    }
+  }, [loadData, data, dispatch]);
+
   const handleUnselectAll = () => {
-    console.log('Unselecting items...');
     setIsExiting(true);
     setIsChecked(false);
   };
 
   const handleDownload = () => {
-    console.log('Downloading items...');
+    const csvData = convertToCSV(selectedItems);
+    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+    const fileName = `${selectedItems.length}_heroes.csv`;
+    saveAs(blob, fileName);
   };
 
   const handleClose = () => {
@@ -82,13 +107,6 @@ const HeroCard = ({ id, name, onClick }: HeroCardProps) => {
       )}
     </>
   );
-};
-
-const findImageById = (id: string) => {
-  const image = peopleImagesSrc.find((image) => image.id === id);
-  if (image) {
-    return image.src;
-  }
 };
 
 export default HeroCard;
