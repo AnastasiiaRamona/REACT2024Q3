@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { expect, it, describe } from 'vitest';
-import NotFoundResults from '../NotFoundResults/NotFoundResults';
+import NotFoundResults from '../components/NotFoundResults/NotFoundResults';
 import chewbaccaSrc from '../assets/chewbacca.webp';
 
 describe('NotFoundResults', () => {
