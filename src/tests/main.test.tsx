@@ -8,7 +8,7 @@ import { ModalProvider } from '../context/ModalContext';
 import { ThemeProvider } from '../context/ThemeContext';
 import store from '../store/store';
 
-describe('App Component', () => {
+describe('Main Component', () => {
   it('renders StartPage component', () => {
     render(
       <React.StrictMode>

@@ -6,7 +6,10 @@ import { starWarsApi } from './reducers/apiReducer';
 const store: Store = configureStore({
   reducer: rootReducer,
 
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(starWarsApi.middleware),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(starWarsApi.middleware),
 });
 
 setupListeners(store.dispatch);

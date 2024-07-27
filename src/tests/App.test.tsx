@@ -71,7 +71,6 @@ describe('App Component', () => {
       </React.StrictMode>
     );
 
-    // Check if the theme class is applied
     expect(screen.getByTestId('app-container')).toHaveClass(mockTheme);
   });
 });

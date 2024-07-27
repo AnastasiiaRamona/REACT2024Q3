@@ -27,4 +27,4 @@ const convertToCSV = (items: Character[]) => {
   return header + rows;
 };
 
-export { findImageById, convertToCSV };
+export { findImageById, convertToCSV, escapeCSVValue };

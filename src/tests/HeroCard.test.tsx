@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { expect, it, describe, vi } from 'vitest';
+import { expect, it, describe } from 'vitest';
 import HeroCard from '../components/HeroCard/HeroCard';
 import { HeroCardProps } from '../components/HeroCard/types';
 import peopleImagesSrc from '../data/images';
