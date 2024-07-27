@@ -19,6 +19,8 @@
   --primary-color-light: #000000;
   --secondary-color-light: #ff6600;
   --background-color-light: #f0ddcfeb;
+
+  overflow-x: hidden;
 }
 
 body {

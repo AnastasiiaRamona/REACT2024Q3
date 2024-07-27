@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { MemoryRouter, useNavigate } from 'react-router-dom';
 import { expect, it, describe, vi } from 'vitest';
 import MissingPage from '../pages/MissingPage/MissingPage';
+import TestWrapper from './TestWrapper';
 
 vi.mock('react-router-dom', async (importOriginal) => {
   const actual = (await importOriginal()) as object;
@@ -15,9 +16,11 @@ vi.mock('react-router-dom', async (importOriginal) => {
 describe('MissingPage', () => {
   it('should render 404 message and image', () => {
     render(
-      <MemoryRouter>
-        <MissingPage />
-      </MemoryRouter>
+      <TestWrapper>
+        <MemoryRouter>
+          <MissingPage />
+        </MemoryRouter>
+      </TestWrapper>
     );
 
     expect(screen.getByText('404 - Page Not Found')).toBeInTheDocument();
@@ -30,9 +33,11 @@ describe('MissingPage', () => {
     vi.mocked(useNavigate).mockReturnValue(mockNavigate);
 
     render(
-      <MemoryRouter>
-        <MissingPage />
-      </MemoryRouter>
+      <TestWrapper>
+        <MemoryRouter>
+          <MissingPage />
+        </MemoryRouter>
+      </TestWrapper>
     );
 
     fireEvent.click(screen.getByText('Back'));

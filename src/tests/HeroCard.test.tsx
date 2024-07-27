@@ -3,9 +3,10 @@ import { expect, it, describe, vi } from 'vitest';
 import HeroCard from '../components/HeroCard/HeroCard';
 import { HeroCardProps } from '../components/HeroCard/types';
 import peopleImagesSrc from '../data/images';
+import TestWrapper from './TestWrapper';
 
-vi.mock('../HeroCard', () => {
-  const actual = vi.importActual('../HeroCard');
+vi.mock('../helpers/utils', () => {
+  const actual = vi.importActual('../helpers/utils');
   return {
     ...actual,
     findImageById: (id: string) => {
@@ -25,7 +26,11 @@ describe('HeroCard', () => {
       onClick: mockOnClick,
     };
 
-    render(<HeroCard key="uniqueKey1" {...props} />);
+    render(
+      <TestWrapper>
+        <HeroCard key="uniqueKey1" {...props} />
+      </TestWrapper>
+    );
 
     expect(screen.getByText('Card 1')).toBeInTheDocument();
 
@@ -44,7 +49,11 @@ describe('HeroCard', () => {
       onClick: mockOnClick,
     };
 
-    render(<HeroCard key="uniqueKey2" {...props} />);
+    render(
+      <TestWrapper>
+        <HeroCard key="uniqueKey2" {...props} />
+      </TestWrapper>
+    );
 
     fireEvent.click(screen.getByText('Card 1'));
 

@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import Pagination from '../components/Pagination/Pagination';
 
 import * as ReactRouterDom from 'react-router-dom';
+import TestWrapper from './TestWrapper';
 
 vi.mock('react-router-dom', async (importOriginal) => {
   const actual = (await importOriginal()) as object;
@@ -24,9 +25,11 @@ describe('Pagination', () => {
 
   it('renders correctly with currentPage and totalPages', () => {
     render(
-      <MemoryRouter>
-        <Pagination currentPage={2} totalPages={5} />
-      </MemoryRouter>
+      <TestWrapper>
+        <MemoryRouter>
+          <Pagination currentPage={2} totalPages={5} />
+        </MemoryRouter>
+      </TestWrapper>
     );
 
     expect(screen.getByText('Page 2 of 5')).toBeInTheDocument();
@@ -34,9 +37,11 @@ describe('Pagination', () => {
 
   it('calls navigate with correct URL when clicking "Previous" button', () => {
     render(
-      <MemoryRouter>
-        <Pagination currentPage={2} totalPages={5} />
-      </MemoryRouter>
+      <TestWrapper>
+        <MemoryRouter>
+          <Pagination currentPage={2} totalPages={5} />
+        </MemoryRouter>
+      </TestWrapper>
     );
 
     const previousButton = screen.getByText('Previous');
@@ -47,9 +52,11 @@ describe('Pagination', () => {
 
   it('calls navigate with correct URL when clicking "Next" button', () => {
     render(
-      <MemoryRouter>
-        <Pagination currentPage={2} totalPages={5} />
-      </MemoryRouter>
+      <TestWrapper>
+        <MemoryRouter>
+          <Pagination currentPage={2} totalPages={5} />
+        </MemoryRouter>
+      </TestWrapper>
     );
 
     const nextButton = screen.getByText('Next');
@@ -60,9 +67,11 @@ describe('Pagination', () => {
 
   it('disables "Previous" button when on the first page', () => {
     render(
-      <MemoryRouter>
-        <Pagination currentPage={1} totalPages={5} />
-      </MemoryRouter>
+      <TestWrapper>
+        <MemoryRouter>
+          <Pagination currentPage={1} totalPages={5} />
+        </MemoryRouter>
+      </TestWrapper>
     );
 
     const previousButton = screen.getByText('Previous');
@@ -71,9 +80,11 @@ describe('Pagination', () => {
 
   it('disables "Next" button when on the last page', () => {
     render(
-      <MemoryRouter>
-        <Pagination currentPage={5} totalPages={5} />
-      </MemoryRouter>
+      <TestWrapper>
+        <MemoryRouter>
+          <Pagination currentPage={5} totalPages={5} />
+        </MemoryRouter>
+      </TestWrapper>
     );
 
     const nextButton = screen.getByText('Next');

@@ -1,19 +1,26 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, beforeEach, vi, Mock } from 'vitest';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
 import DetailsComponent from '../components/DetailsComponent/DetailsComponent';
+import { useGetCharacterDetailsQuery } from '../store/reducers/apiReducer';
+import TestWrapper from './TestWrapper';
 
 vi.mock('react-router-dom', () => ({
   useNavigate: vi.fn(),
   useParams: vi.fn(),
 }));
 
-vi.mock('axios');
+vi.mock('../store/reducers/apiReducer', async (importOriginal) => {
+  const actual = (await importOriginal()) as { useGetCharacterDetailsQuery: Mock };
+  return {
+    ...actual,
+    useGetCharacterDetailsQuery: vi.fn(),
+  };
+});
 
 const mockUseParams = useParams as Mock;
 const mockUseNavigate = useNavigate as Mock;
-const mockAxios = axios as unknown as { get: Mock };
+const mockUseGetCharacterDetailsQuery = useGetCharacterDetailsQuery as Mock;
 
 describe('DetailsComponent', () => {
   beforeEach(() => {
@@ -24,7 +31,7 @@ describe('DetailsComponent', () => {
     const mockName = 'Luke Skywalker';
 
     mockUseParams.mockReturnValue({ name: mockName });
-    mockAxios.get = vi.fn().mockResolvedValue({
+    mockUseGetCharacterDetailsQuery.mockReturnValue({
       data: {
         results: [
           {
@@ -41,31 +48,47 @@ describe('DetailsComponent', () => {
       },
     });
 
-    render(<DetailsComponent />);
+    render(
+      <TestWrapper>
+        <DetailsComponent />
+      </TestWrapper>
+    );
 
     await waitFor(() => {
-      expect(mockAxios.get).toHaveBeenCalledWith(`https://swapi.dev/api/people/?search=${mockName}`);
+      expect(mockUseGetCharacterDetailsQuery).toHaveBeenCalledWith(`${mockName}`);
     });
   });
 
   it('should display error message when API call fails', async () => {
     mockUseParams.mockReturnValue({ name: 'Luke Skywalker' });
-    mockAxios.get = vi.fn().mockRejectedValue(new Error('API call failed'));
+    mockUseGetCharacterDetailsQuery.mockRejectedValue(new Error('API call failed'));
 
-    render(<DetailsComponent />);
+    render(
+      <TestWrapper>
+        <DetailsComponent />
+      </TestWrapper>
+    );
 
     await waitFor(() => {
       expect(screen.getByText('No such hero was found')).toBeInTheDocument();
     });
   });
 
-  it('should display loading indicator while fetching data', () => {
+  it('should display loading indicator while fetching data', async () => {
     const mockName = 'Luke Skywalker';
 
     mockUseParams.mockReturnValue({ name: mockName });
-    mockAxios.get = vi.fn().mockImplementation(() => new Promise(() => {}));
+    mockUseGetCharacterDetailsQuery.mockImplementation(() => ({
+      isFetching: true,
+      data: undefined,
+      isError: false,
+    }));
 
-    render(<DetailsComponent />);
+    render(
+      <TestWrapper>
+        <DetailsComponent />
+      </TestWrapper>
+    );
 
     expect(screen.getByTestId('details-loader')).toBeInTheDocument();
   });
@@ -84,16 +107,20 @@ describe('DetailsComponent', () => {
     };
 
     mockUseParams.mockReturnValue({ name: mockName });
-    mockAxios.get = vi.fn().mockResolvedValue({
+    mockUseGetCharacterDetailsQuery.mockReturnValue({
       data: {
         results: [mockDetails],
       },
     });
 
-    render(<DetailsComponent />);
+    render(
+      <TestWrapper>
+        <DetailsComponent />
+      </TestWrapper>
+    );
 
     await waitFor(() => {
-      expect(mockAxios.get).toHaveBeenCalledWith(`https://swapi.dev/api/people/?search=${mockName}`);
+      expect(mockUseGetCharacterDetailsQuery).toHaveBeenCalledWith(`${mockName}`);
     });
 
     expect(screen.getByText('1.72')).toBeInTheDocument();
@@ -120,17 +147,21 @@ describe('DetailsComponent', () => {
     const mockNavigate = vi.fn();
 
     mockUseParams.mockReturnValue({ name: mockName });
-    mockAxios.get = vi.fn().mockResolvedValue({
+    mockUseGetCharacterDetailsQuery.mockReturnValue({
       data: {
         results: [mockDetails],
       },
     });
     mockUseNavigate.mockReturnValue(mockNavigate);
 
-    render(<DetailsComponent />);
+    render(
+      <TestWrapper>
+        <DetailsComponent />
+      </TestWrapper>
+    );
 
     await waitFor(() => {
-      expect(mockAxios.get).toHaveBeenCalledWith(`https://swapi.dev/api/people/?search=${mockName}`);
+      expect(mockUseGetCharacterDetailsQuery).toHaveBeenCalledWith(`${mockName}`);
     });
 
     fireEvent.click(screen.getByRole('button', { name: /close/i }));

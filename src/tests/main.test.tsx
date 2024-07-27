@@ -3,32 +3,24 @@ import React from 'react';
 import { expect, it, describe } from 'vitest';
 import { ErrorBoundary } from '../components/ErrorBoundary/ErrorBoundary';
 import StartPage from '../pages/StartPage/StartPage';
+import { Provider } from 'react-redux';
+import { ModalProvider } from '../context/ModalContext';
+import { ThemeProvider } from '../context/ThemeContext';
+import store from '../store/store';
 
 describe('App Component', () => {
-  it('renders header with correct text', () => {
-    render(
-      <React.StrictMode>
-        <ErrorBoundary>
-          <header>
-            <h1>
-              <span>Star Wars</span> Heroes
-            </h1>
-          </header>
-          <StartPage />
-        </ErrorBoundary>
-      </React.StrictMode>
-    );
-
-    expect(screen.getByText(/Star Wars/i)).toBeInTheDocument();
-    expect(screen.getByText(/Heroes/i)).toBeInTheDocument();
-  });
-
   it('renders StartPage component', () => {
     render(
       <React.StrictMode>
-        <ErrorBoundary>
-          <StartPage />
-        </ErrorBoundary>
+        <Provider store={store}>
+          <ThemeProvider>
+            <ModalProvider>
+              <ErrorBoundary>
+                <StartPage />
+              </ErrorBoundary>
+            </ModalProvider>
+          </ThemeProvider>
+        </Provider>
       </React.StrictMode>
     );
 

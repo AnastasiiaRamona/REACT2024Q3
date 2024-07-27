@@ -9,7 +9,7 @@ const App = () => {
   const { theme } = useTheme();
 
   return (
-    <section className={`container ${theme}`}>
+    <section data-testid="app-container" className={`container ${theme}`}>
       <ErrorBoundary>
         <Header />
         <StartPage />
