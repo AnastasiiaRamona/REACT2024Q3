@@ -1,5 +1,6 @@
+@import url('https://fonts.cdnfonts.com/css/star-wars');
+
 :root {
-  font-family: 'Orbitron', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -47,13 +48,13 @@ body {
 }
 
 .container.dark {
-  background: url('./assets/background.webp') top no-repeat fixed;
+  background: url('/static/media/background.webp') top no-repeat fixed;
   background-size: cover;
   color: rgb(235, 248, 255);
 }
 
 .container.light {
-  background: url('./assets/background-1.webp') top no-repeat fixed;
+  background: url('/static/media/background-1.webp') top no-repeat fixed;
   background-size: cover;
   color: rgb(61, 41, 3);
 }

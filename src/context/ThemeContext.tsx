@@ -6,7 +6,14 @@ import { ThemeContextType } from './types';
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<'light' | 'dark'>((localStorage.getItem('theme') as 'light' | 'dark') || 'dark');
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+
+  useEffect(() => {
+    const storedTheme = localStorage.getItem('theme') as 'light' | 'dark';
+    if (storedTheme) {
+      setTheme(storedTheme);
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem('theme', theme);
