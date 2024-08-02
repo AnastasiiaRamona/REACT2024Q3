@@ -1,3 +1,5 @@
+'use client';
+
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from './DetailsComponent.module.css';
 import HeroAttribute from '../HeroAttribute/HeroAttribute';
@@ -10,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { clearCharacterDetails, setCharacterDetails } from '../../store/reducers/detailsSlice';
 import { RootState } from '../../store/store';
+import Image from 'next/image';
 
 const DetailsComponent = () => {
   const { name } = useParams();
@@ -59,10 +62,12 @@ const DetailsComponent = () => {
     { label: 'Gender', value: character.gender },
   ];
 
+  const image = findImageById(lodash.camelCase(name));
+
   return (
     <div className={`${styles['details-component']} ${styles[theme]}`}>
       <h3>{character.name}</h3>
-      <img src={findImageById(lodash.camelCase(character.name))} alt={name} />
+      {name && image && <Image className={styles['details-image']} src={image} alt={name} />}
       {attributes.map((attr, index) => (
         <HeroAttribute key={index} label={attr.label} value={attr.value} />
       ))}

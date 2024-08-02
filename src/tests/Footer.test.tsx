@@ -1,3 +1,5 @@
+'use client';
+
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, Mock } from 'vitest';
 import Footer from '../components/Footer/Footer';

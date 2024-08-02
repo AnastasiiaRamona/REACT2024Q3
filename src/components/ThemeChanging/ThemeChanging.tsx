@@ -1,3 +1,5 @@
+'use client';
+
 import styles from './ThemeChanging.module.css';
 import { useTheme } from '../../context/ThemeContext';
 const ThemeChanging = () => {

@@ -1,7 +1,10 @@
+'use client';
+
 import { Component, ErrorInfo } from 'react';
 import { ErrorBoundaryProps, ErrorBoundaryState } from './types';
 import stormtrooperSrc from '../../assets/501st-star-wars.gif';
 import styles from './ErrorBoundary.module.css';
+import Image from 'next/image';
 
 export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
@@ -20,7 +23,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     if (this.state.hasError) {
       return (
         <section className={styles['error-section']}>
-          <img src={stormtrooperSrc} alt="stormtrooper" />
+          <Image src={stormtrooperSrc} alt="stormtrooper" />
           <h2>Something went wrong!</h2>
         </section>
       );

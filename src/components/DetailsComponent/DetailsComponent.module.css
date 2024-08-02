@@ -1,5 +1,6 @@
-.details-component img {
+.details-image {
   height: 70px;
+  width: auto;
   object-fit: contain;
   object-position: center;
   border-radius: 10px;
@@ -56,20 +57,20 @@
 
 @media screen and (max-width: 880px) {
   .details-component h3,
-  p {
+  .details-component p {
     font-size: smaller;
   }
 }
 
 @media screen and (max-width: 729px) {
-  .details-component img {
+  .details-image {
     display: none;
   }
 }
 
 @media screen and (max-width: 672px) {
   .details-component h3,
-  p {
+  .details-component p {
     font-size: small;
   }
 

@@ -1,3 +1,5 @@
+'use client';
+
 import { useTheme } from '../../context/ThemeContext';
 import styles from './Checkbox.module.css';
 import CheckboxProps from './types';

@@ -1,3 +1,5 @@
+'use client';
+
 import styles from './ModalWindow.module.css';
 import { useTheme } from '../../context/ThemeContext';
 import yodaSrc from '../../assets/mandalorian-baby-yoda.webp';
@@ -9,6 +11,7 @@ import { convertToCSV } from '../../helpers/utils';
 import { clearCharacters } from '../../store/reducers/checkedItemsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
+import Image from 'next/image';
 
 const ModalWindow = () => {
   const { isModalOpen, selectedItemsCount, closeModal } = useModal();
@@ -36,7 +39,11 @@ const ModalWindow = () => {
       <p>
         {selectedItemsCount} {selectedItemsCount === 1 ? 'Hero is' : 'Heroes are'} selected
       </p>
-      <img src={theme === 'light' ? yodaSrc : sithSrc} alt="star wars picture" />
+      <Image
+        src={theme === 'light' ? yodaSrc : sithSrc}
+        alt="star wars picture"
+        className={styles['modal-window-image']}
+      />
       <div className={styles['buttons']}>
         <Button text="Unselect all" onClick={handleUnselectAll} />
         <Button text="Download" onClick={handleDownload} />

@@ -1,3 +1,5 @@
+'use client';
+
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Mock, vi } from 'vitest';
 import ModalWindow from '../components/ModalWindow/ModalWindow';

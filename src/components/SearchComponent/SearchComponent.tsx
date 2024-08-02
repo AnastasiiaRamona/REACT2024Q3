@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 import { ChangeEvent, FormEvent } from 'react';
 import SearchResults from '../SearchResults/SearchResults';
