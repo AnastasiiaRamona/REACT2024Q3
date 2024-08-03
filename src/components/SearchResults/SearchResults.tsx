@@ -31,7 +31,7 @@ const SearchResults = ({ results, outlet }: SearchResultsProps) => {
 
   const handleSearchResultsClick = () => {
     if (router.asPath.includes(`/details/`)) {
-      router.push(`/search/${currentPage}`);
+      router.push(`/search/${currentPage}`, undefined, { shallow: true });
     }
   };
 

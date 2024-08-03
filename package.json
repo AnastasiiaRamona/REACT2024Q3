@@ -12,7 +12,8 @@
     "prepare": "husky install",
     "test": "vitest",
     "test:husky": "vitest run",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "clean": "rimraf ./.next/cache"
   },
   "dependencies": {
     "@babel/plugin-transform-private-methods": "^7.24.7",
