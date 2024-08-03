@@ -3,7 +3,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { expect, it, describe } from 'vitest';
 import StartPage from '../pages/StartPage/StartPage';
 import DetailsComponent from '../components/DetailsComponent/DetailsComponent';
-import MissingPage from '../pages/MissingPage/MissingPage';
+import MissingPage from '../pages/404';
 import TestWrapper from './TestWrapper';
 
 describe('StartPage', () => {

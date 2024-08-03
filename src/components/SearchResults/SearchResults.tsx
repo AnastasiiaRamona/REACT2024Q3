@@ -1,19 +1,23 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import { SearchResultsProps } from './types';
 import HeroCard from '../HeroCard/HeroCard';
 import styles from './SearchResults.module.css';
 import lodash from 'lodash';
-import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { setResults } from '../../store/reducers/searchSlice';
 
-const SearchResults = ({ results }: SearchResultsProps) => {
+const SearchResults = ({ results, outlet }: SearchResultsProps) => {
   const dispatch = useDispatch();
   const [filteredResults, setFilteredResults] = useState(results);
-  const { page } = useParams();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const currentPage = parseInt(page || '1', 10);
+
+  const router = useRouter();
+  const pageNumber = Array.isArray(router.query.page) ? router.query.page[0] : router.query.page;
+
+  const page = pageNumber ? pageNumber : null;
+  const currentPage = parseInt((page as string) || '1', 10);
 
   useEffect(() => {
     setFilteredResults(results);
@@ -22,12 +26,12 @@ const SearchResults = ({ results }: SearchResultsProps) => {
 
   const handleCardClick = (event: React.MouseEvent, name: string) => {
     event.stopPropagation();
-    navigate(`/search/${currentPage}/details/${name}`);
+    router.push(`/search/${currentPage}/details/${name}`, undefined, { shallow: true });
   };
 
   const handleSearchResultsClick = () => {
-    if (location.pathname.includes(`/details/`)) {
-      navigate(`/search/${currentPage}`);
+    if (router.asPath.includes(`/details/`)) {
+      router.push(`/search/${currentPage}`);
     }
   };
 
@@ -43,9 +47,7 @@ const SearchResults = ({ results }: SearchResultsProps) => {
           />
         ))}
       </section>
-      <div className={styles['details-container']}>
-        <Outlet />
-      </div>
+      <div className={styles['details-container']}>{outlet}</div>
     </div>
   );
 };

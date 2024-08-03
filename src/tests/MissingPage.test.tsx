@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { MemoryRouter, useNavigate } from 'react-router-dom';
 import { expect, it, describe, vi } from 'vitest';
-import MissingPage from '../pages/MissingPage/MissingPage';
+import MissingPage from '../pages/404';
 import TestWrapper from './TestWrapper';
 
 vi.mock('react-router-dom', async (importOriginal) => {

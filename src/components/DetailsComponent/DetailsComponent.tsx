@@ -1,6 +1,6 @@
 'use client';
 
-import { useNavigate, useParams } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import styles from './DetailsComponent.module.css';
 import HeroAttribute from '../HeroAttribute/HeroAttribute';
 import lodash from 'lodash';
@@ -15,12 +15,15 @@ import { RootState } from '../../store/store';
 import Image from 'next/image';
 
 const DetailsComponent = () => {
-  const { name } = useParams();
-  const navigate = useNavigate();
+  const router = useRouter();
   const dispatch = useDispatch();
   const { theme } = useTheme();
 
-  const { data, isFetching, isError } = useGetCharacterDetailsQuery(name || '');
+  const { name } = router.query;
+
+  const characterName = Array.isArray(name) ? name[0] : name || '';
+
+  const { data, isFetching, isError } = useGetCharacterDetailsQuery(characterName);
   const characterDetails = useSelector((state: RootState) => state.details.character);
 
   useEffect(() => {
@@ -33,9 +36,9 @@ const DetailsComponent = () => {
   }, [data, isFetching, isError, dispatch]);
 
   const handleCloseClick = () => {
-    const match = location.pathname.match(/\/search\/(\d+)/);
+    const match = router.asPath.match(/\/search\/(\d+)/);
     const pageNumber = match ? match[1] : '1';
-    navigate(`/search/${pageNumber}`);
+    router.push(`/search/${pageNumber}`);
   };
 
   if (isFetching) {
@@ -62,12 +65,12 @@ const DetailsComponent = () => {
     { label: 'Gender', value: character.gender },
   ];
 
-  const image = findImageById(lodash.camelCase(name));
+  const image = findImageById(lodash.camelCase(characterName));
 
   return (
     <div className={`${styles['details-component']} ${styles[theme]}`}>
       <h3>{character.name}</h3>
-      {name && image && <Image className={styles['details-image']} src={image} alt={name} />}
+      {characterName && image && <Image className={styles['details-image']} src={image} alt={characterName} />}
       {attributes.map((attr, index) => (
         <HeroAttribute key={index} label={attr.label} value={attr.value} />
       ))}

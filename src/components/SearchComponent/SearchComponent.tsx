@@ -6,25 +6,28 @@ import SearchResults from '../SearchResults/SearchResults';
 import bb8Src from '../../assets/bb-8.webp';
 import styles from './SearchComponent.module.css';
 import Pagination from '../Pagination/Pagination';
-import { useNavigate, useParams } from 'react-router-dom';
-import MissingPage from '../../pages/MissingPage/MissingPage';
+import MissingPage from '../../pages/404';
 import NotFoundResults from '../NotFoundResults/NotFoundResults';
 import { useGetHeroesQuery } from '../../store/reducers/apiReducer';
 import { hideLoader, showLoader } from '../../store/reducers/loaderSlice';
 import { useAppDispatch, useAppSelector } from './hooks';
 import Button from '../Button/Button';
 import { useTheme } from '../../context/ThemeContext';
+import { useRouter } from 'next/router';
+import { SearchComponentProps } from './types';
 
-const SearchComponent = () => {
+const SearchComponent = ({ outlet }: SearchComponentProps) => {
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTermOfStarWarsHeroes', '');
   const [totalPages, setTotalPages] = useState<number | undefined>();
-  const { page } = useParams();
+  const router = useRouter();
+  const pageNumber = Array.isArray(router.query.page) ? router.query.page[0] : router.query.page;
+
+  const page = pageNumber ? pageNumber : null;
   const [currentPage, setCurrentPage] = useState<number>(parseInt(page || '1', 10));
   const [isValidPage, setIsValidPage] = useState(true);
   const [searchQuery, setSearchQuery] = useState(searchTerm || '');
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const { isLoading } = useAppSelector((state) => state.loader);
 
   const { data, isFetching, error } = useGetHeroesQuery({ query: searchQuery, page: currentPage });
@@ -72,7 +75,7 @@ const SearchComponent = () => {
     event.preventDefault();
     setCurrentPage(1);
     setSearchQuery(searchTerm.trim());
-    navigate(`/search/1`);
+    router.push(`/search/1`);
   };
 
   if (!isValidPage) {
@@ -99,7 +102,9 @@ const SearchComponent = () => {
         ></Button>
       </form>
       {isLoading && <div className={`${styles.loader} ${styles[theme]}`}></div>}
-      {data?.results && data.results.length > 0 && <SearchResults results={data.results} error={null} />}
+      {data?.results && data.results.length > 0 && (
+        <SearchResults results={data.results} error={null} outlet={outlet} />
+      )}
       {!isLoading && data?.results && data.results.length === 0 && <NotFoundResults />}
       {data?.results && currentPage && totalPages && totalPages > 1 && (
         <Pagination currentPage={currentPage} totalPages={totalPages} />
@@ -110,6 +115,9 @@ const SearchComponent = () => {
 
 const useLocalStorage = (key: string, initialValue: string) => {
   const [value, setValue] = useState(() => {
+    if (typeof window === 'undefined') {
+      return initialValue;
+    }
     const storedValue = localStorage.getItem(key);
     try {
       return storedValue !== null ? JSON.parse(storedValue) : initialValue;
@@ -120,7 +128,9 @@ const useLocalStorage = (key: string, initialValue: string) => {
   });
 
   useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(value));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
   }, [key, value]);
 
   return [value, setValue];
