@@ -12,6 +12,7 @@
 
 .missing-page-section img {
   width: 30vw;
+  height: auto;
   min-width: 212px;
   height: auto;
 }

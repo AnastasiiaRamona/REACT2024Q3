@@ -1,7 +1,19 @@
-import SearchComponent from '@/components/SearchComponent/SearchComponent';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
-const SearchPage = () => {
-  return <SearchComponent />;
+const HomePage = () => {
+  const router = useRouter();
+  useEffect(() => {
+    const searchTerm = localStorage.getItem('searchTermOfStarWarsHeroes');
+    if (searchTerm) {
+      router.push(`/search/1?searchTerm=${encodeURIComponent(searchTerm)}`);
+      return;
+    } else {
+      router.push('/search/1');
+    }
+  }, []);
+
+  return null;
 };
 
-export default SearchPage;
+export default HomePage;

@@ -7,7 +7,6 @@ import styles from './SearchResults.module.css';
 import lodash from 'lodash';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
-import { setResults } from '../../store/reducers/searchSlice';
 
 const SearchResults = ({ results, outlet }: SearchResultsProps) => {
   const dispatch = useDispatch();
@@ -21,18 +20,40 @@ const SearchResults = ({ results, outlet }: SearchResultsProps) => {
 
   useEffect(() => {
     setFilteredResults(results);
-    dispatch(setResults({ results, page: currentPage }));
   }, [results, currentPage, dispatch]);
 
   const handleCardClick = (event: React.MouseEvent, name: string) => {
     event.stopPropagation();
-    router.push(`/search/${currentPage}/details/${name}`, undefined, { shallow: true });
+
+    const currentUrl = router.asPath;
+
+    const detailsNameRegExp = /\/details\/[^?]*/;
+
+    const hasSearchTerm = currentUrl.includes('searchTerm=');
+
+    const newDetailsPath = `/details/${encodeURIComponent(name)}`;
+
+    let newUrl;
+
+    if (detailsNameRegExp.test(currentUrl)) {
+      newUrl = currentUrl.replace(detailsNameRegExp, newDetailsPath);
+    } else {
+      if (hasSearchTerm) {
+        newUrl = currentUrl.replace(/(\?.*)/, `${newDetailsPath}$1`);
+      } else {
+        newUrl = `${currentUrl}${newDetailsPath}`;
+      }
+    }
+
+    router.push(newUrl);
   };
 
   const handleSearchResultsClick = () => {
-    if (router.asPath.includes(`/details/`)) {
-      router.push(`/search/${currentPage}`, undefined, { shallow: true });
-    }
+    const currentUrl = router.asPath;
+
+    const newUrl = currentUrl.replace(/\/details\/[^/?]*/, '').replace(/(\?.*)/, '$1');
+
+    router.push(newUrl);
   };
 
   return (

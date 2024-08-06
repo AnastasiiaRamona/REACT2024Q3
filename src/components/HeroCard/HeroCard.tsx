@@ -83,7 +83,7 @@ const HeroCard = ({ id, name, onClick }: HeroCardProps) => {
       <div className={styles['hero-card']}>
         <h2>{name}</h2>
         <div className={styles['image-container']}>
-          {image && <Image className={styles['image-container-image']} src={image} alt={name} />}
+          {image && <Image className={styles['image-container-image']} src={image} alt={name} priority={true} />}
         </div>
       </div>
     </section>

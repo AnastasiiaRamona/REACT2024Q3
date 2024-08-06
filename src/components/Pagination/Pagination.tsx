@@ -3,18 +3,26 @@ import styles from './Pagination.module.css';
 import Button from '../Button/Button';
 import PaginationProps from './types';
 
-const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
+const Pagination = ({ currentPage, totalPages, searchTerm }: PaginationProps) => {
   const router = useRouter();
 
   const handlePrevious = () => {
     if (currentPage > 1) {
-      router.push(`/search/${currentPage - 1}`);
+      if (searchTerm === '') {
+        router.push(`/search/${currentPage - 1}`);
+      } else {
+        router.push(`/search/${currentPage - 1}?searchTerm=${searchTerm}`);
+      }
     }
   };
 
   const handleNext = () => {
     if (currentPage < totalPages) {
-      router.push(`/search/${currentPage + 1}`);
+      if (searchTerm === '') {
+        router.push(`/search/${currentPage + 1}`);
+      } else {
+        router.push(`/search/${currentPage + 1}?searchTerm=${searchTerm}`);
+      }
     }
   };
 
