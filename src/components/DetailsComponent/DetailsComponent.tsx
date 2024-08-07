@@ -1,19 +1,21 @@
-import { useRouter } from 'next/router';
-import styles from './DetailsComponent.module.css';
-import HeroAttribute from '../HeroAttribute/HeroAttribute';
-import lodash from 'lodash';
+'use client';
+
+import { useTheme } from '@/context/ThemeContext';
+import { findImageById } from '@/helpers/utils';
+import { useRouter, usePathname } from 'next/navigation';
 import Button from '../Button/Button';
-import { useTheme } from '../../context/ThemeContext';
-import { findImageById } from '../../helpers/utils';
+import HeroAttribute from '../HeroAttribute/HeroAttribute';
 import Image from 'next/image';
-import { CharacterResponse } from '@/pages/search/[page]/details/types';
+import styles from './DetailsComponent.module.css';
+import { CharacterResponse } from '@/app/search/[page]/details/[name]/types';
 
 const DetailsComponent = ({ characterData }: CharacterResponse) => {
   const router = useRouter();
   const { theme } = useTheme();
+  const pathname = usePathname();
 
   const handleCloseClick = () => {
-    const currentUrl = router.asPath;
+    const currentUrl = pathname;
 
     const newUrl = currentUrl.replace(/\/details\/[^/?]*/, '').replace(/(\?.*)/, '$1');
 
@@ -30,7 +32,7 @@ const DetailsComponent = ({ characterData }: CharacterResponse) => {
     { label: 'Gender', value: characterData.gender },
   ];
 
-  const image = findImageById(lodash.camelCase(characterData.name));
+  const image = findImageById(characterData.name.toLowerCase().replace(/ /g, '-'));
 
   return (
     <div className={`${styles['details-component']} ${styles[theme]}`}>

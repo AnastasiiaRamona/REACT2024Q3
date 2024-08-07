@@ -1,17 +1,17 @@
 'use client';
 
 import styles from './ModalWindow.module.css';
-import { useTheme } from '../../context/ThemeContext';
 import yodaSrc from '../../assets/mandalorian-baby-yoda.webp';
 import sithSrc from '../../assets/cute-chibi-sith.webp';
 import Button from '../Button/Button';
-import { useModal } from '../../context/ModalContext';
 import saveAs from 'file-saver';
-import { convertToCSV } from '../../helpers/utils';
-import { clearCharacters } from '../../store/reducers/checkedItemsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import Image from 'next/image';
+import { useModal } from '@/context/ModalContext';
+import { useTheme } from '@/context/ThemeContext';
+import { convertToCSV } from '@/helpers/utils';
+import { clearCharacters } from '@/store/reducers/checkedItemsSlice';
 
 const ModalWindow = () => {
   const { isModalOpen, selectedItemsCount, closeModal } = useModal();

@@ -3,16 +3,16 @@
 import { HeroCardProps } from './types';
 import styles from './HeroCard.module.css';
 import Checkbox from '../Checkbox/Checkbox';
-import { useTheme } from '../../context/ThemeContext';
 import { useEffect, useState } from 'react';
-import { addCharacter, removeCharacter, setCheckedStatus } from '../../store/reducers/checkedItemsSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { useGetCharacterDetailsQuery } from '../../store/reducers/apiReducer';
 import { RootState } from '../../store/store';
-import { findImageById } from '../../helpers/utils';
-import { showLoader, hideLoader } from '../../store/reducers/loaderSlice';
-import { useModal } from '../../context/ModalContext';
 import Image from 'next/image';
+import { useModal } from '@/context/ModalContext';
+import { useTheme } from '@/context/ThemeContext';
+import { findImageById } from '@/helpers/utils';
+import { useGetCharacterDetailsQuery } from '@/store/reducers/apiReducer';
+import { addCharacter, setCheckedStatus, removeCharacter } from '@/store/reducers/checkedItemsSlice';
+import { hideLoader, showLoader } from '@/store/reducers/loaderSlice';
 
 const HeroCard = ({ id, name, onClick }: HeroCardProps) => {
   const { theme } = useTheme();

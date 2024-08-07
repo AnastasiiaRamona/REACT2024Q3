@@ -5,7 +5,7 @@ import { SearchResultsProps } from './types';
 import HeroCard from '../HeroCard/HeroCard';
 import styles from './SearchResults.module.css';
 import lodash from 'lodash';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 
 const SearchResults = ({ results, outlet }: SearchResultsProps) => {
@@ -13,7 +13,9 @@ const SearchResults = ({ results, outlet }: SearchResultsProps) => {
   const [filteredResults, setFilteredResults] = useState(results);
 
   const router = useRouter();
-  const pageNumber = Array.isArray(router.query.page) ? router.query.page[0] : router.query.page;
+  const params = useSearchParams();
+  const pathname = usePathname();
+  const pageNumber = params.get('page');
 
   const page = pageNumber ? pageNumber : null;
   const currentPage = parseInt((page as string) || '1', 10);
@@ -25,7 +27,7 @@ const SearchResults = ({ results, outlet }: SearchResultsProps) => {
   const handleCardClick = (event: React.MouseEvent, name: string) => {
     event.stopPropagation();
 
-    const currentUrl = router.asPath;
+    const currentUrl = pathname;
 
     const detailsNameRegExp = /\/details\/[^?]*/;
 
@@ -49,7 +51,7 @@ const SearchResults = ({ results, outlet }: SearchResultsProps) => {
   };
 
   const handleSearchResultsClick = () => {
-    const currentUrl = router.asPath;
+    const currentUrl = pathname;
 
     const newUrl = currentUrl.replace(/\/details\/[^/?]*/, '').replace(/(\?.*)/, '$1');
 

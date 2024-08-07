@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect } from 'react';
 import { FormEvent } from 'react';
 import SearchResults from '../SearchResults/SearchResults';
@@ -6,24 +8,23 @@ import styles from './SearchComponent.module.css';
 import Pagination from '../Pagination/Pagination';
 import NotFoundResults from '../NotFoundResults/NotFoundResults';
 import Button from '../Button/Button';
-import { useTheme } from '../../context/ThemeContext';
-import { useRouter } from 'next/router';
+import { useTheme } from '@/context/ThemeContext';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { SearchComponentProps } from './types';
 
 const SearchComponent = ({ outlet, data, page, totalPages, searchTerm }: SearchComponentProps) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const { theme } = useTheme();
 
   useEffect(() => {
-    const currentUrl = router.asPath;
-
-    const hasSearchTerm = new URLSearchParams(currentUrl.split('?')[1]).has('searchTerm');
+    const hasSearchTerm = searchParams.has('searchTerm');
 
     if (!hasSearchTerm && (isNaN(page) || page < 1 || page > totalPages)) {
       router.push('/search/1');
     }
-  }, [page, totalPages, router]);
+  }, [page, totalPages, router, searchParams]);
 
   const handleSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
