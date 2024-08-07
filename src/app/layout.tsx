@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import Head from 'next/head';
 import Container from './container';
 import './globals.css';
+import Main from './main';
 
 export const metadata: Metadata = {
   title: 'Star Wars Heroes',
@@ -22,7 +23,9 @@ export default function RootLayout({
         ))}
       </Head>
       <body>
-        <Container>{children}</Container>
+        <Main>
+          <Container>{children}</Container>
+        </Main>
       </body>
     </html>
   );

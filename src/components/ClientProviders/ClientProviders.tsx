@@ -1,3 +1,5 @@
+'use client';
+
 import { ModalProvider } from '@/context/ModalContext';
 import { ThemeProvider } from '@/context/ThemeContext';
 import store from '@/store/store';
