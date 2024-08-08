@@ -1,4 +1,4 @@
-import { Character } from '../components/DetailsComponent/types';
+import { Character } from '@/components/DetailsComponent/types';
 import peopleImagesSrc from '../data/images';
 
 const findImageById = (id: string) => {

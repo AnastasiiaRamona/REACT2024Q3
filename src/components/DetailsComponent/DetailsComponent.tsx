@@ -8,6 +8,7 @@ import HeroAttribute from '../HeroAttribute/HeroAttribute';
 import Image from 'next/image';
 import styles from './DetailsComponent.module.css';
 import { CharacterResponse } from '@/app/search/[page]/details/[name]/types';
+import lodash from 'lodash';
 
 const DetailsComponent = ({ characterData }: CharacterResponse) => {
   const router = useRouter();
@@ -16,10 +17,13 @@ const DetailsComponent = ({ characterData }: CharacterResponse) => {
 
   const handleCloseClick = () => {
     const currentUrl = pathname;
+    const params = new URLSearchParams(window.location.search);
 
-    const newUrl = currentUrl.replace(/\/details\/[^/?]*/, '').replace(/(\?.*)/, '$1');
+    const newUrl = currentUrl.replace(/\/details\/[^/?]*/, '');
 
-    router.push(newUrl);
+    const searchParams = params.toString() ? `?${params.toString()}` : '';
+
+    router.push(`${newUrl}${searchParams}`);
   };
 
   const attributes = [
@@ -32,7 +36,7 @@ const DetailsComponent = ({ characterData }: CharacterResponse) => {
     { label: 'Gender', value: characterData.gender },
   ];
 
-  const image = findImageById(characterData.name.toLowerCase().replace(/ /g, '-'));
+  const image = findImageById(lodash.camelCase(characterData.name));
 
   return (
     <div className={`${styles['details-component']} ${styles[theme]}`}>

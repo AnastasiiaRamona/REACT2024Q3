@@ -19,6 +19,7 @@ const SearchResults = ({ results, outlet }: SearchResultsProps) => {
 
   const page = pageNumber ? pageNumber : null;
   const currentPage = parseInt((page as string) || '1', 10);
+  const searchTerm = params.get('searchTerm');
 
   useEffect(() => {
     setFilteredResults(results);
@@ -28,23 +29,15 @@ const SearchResults = ({ results, outlet }: SearchResultsProps) => {
     event.stopPropagation();
 
     const currentUrl = pathname;
-
-    const detailsNameRegExp = /\/details\/[^?]*/;
-
-    const hasSearchTerm = currentUrl.includes('searchTerm=');
-
     const newDetailsPath = `/details/${encodeURIComponent(name)}`;
 
-    let newUrl;
+    const cleanedUrl = currentUrl.replace(/\/details\/[^/?]*/, '');
 
-    if (detailsNameRegExp.test(currentUrl)) {
-      newUrl = currentUrl.replace(detailsNameRegExp, newDetailsPath);
+    let newUrl;
+    if (searchTerm) {
+      newUrl = `${cleanedUrl}${newDetailsPath}?searchTerm=${encodeURIComponent(searchTerm)}`;
     } else {
-      if (hasSearchTerm) {
-        newUrl = currentUrl.replace(/(\?.*)/, `${newDetailsPath}$1`);
-      } else {
-        newUrl = `${currentUrl}${newDetailsPath}`;
-      }
+      newUrl = `${cleanedUrl}${newDetailsPath}`;
     }
 
     router.push(newUrl);
@@ -52,10 +45,13 @@ const SearchResults = ({ results, outlet }: SearchResultsProps) => {
 
   const handleSearchResultsClick = () => {
     const currentUrl = pathname;
+    const params = new URLSearchParams(window.location.search);
 
-    const newUrl = currentUrl.replace(/\/details\/[^/?]*/, '').replace(/(\?.*)/, '$1');
+    const newUrl = currentUrl.replace(/\/details\/[^/?]*/, '');
 
-    router.push(newUrl);
+    const searchParams = params.toString() ? `?${params.toString()}` : '';
+
+    router.push(`${newUrl}${searchParams}`);
   };
 
   return (

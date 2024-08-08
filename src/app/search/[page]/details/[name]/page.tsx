@@ -13,11 +13,11 @@ const DetailsPage = async ({
 }) => {
   const pageNumber = params.page;
   const searchTerm = searchParams.searchTerm || '';
-  const name = params.name;
+  const name = decodeURI(params.name);
 
   const currentPage = parseInt(pageNumber || '1');
 
-  const res = await fetch(`${apiAddress}?search=${searchTerm}&page=${currentPage}`);
+  const res = await fetch(`${apiAddress}?search=${searchTerm || ''}&page=${currentPage}`);
   const data = await res.json();
 
   const totalResults = data.count;

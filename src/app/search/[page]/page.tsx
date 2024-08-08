@@ -14,7 +14,7 @@ const SearchPage = async ({
 
   const currentPage = parseInt(pageNumber || '1');
 
-  const res = await fetch(`${apiAddress}?search=${searchTerm}&page=${currentPage}`);
+  const res = await fetch(`${apiAddress}?search=${searchTerm || ''}&page=${currentPage}`);
   const data = await res.json();
 
   const totalResults = data.count;
