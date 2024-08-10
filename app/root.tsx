@@ -1,7 +1,7 @@
 import { Meta, Links, Outlet, Scripts } from '@remix-run/react';
 import App from './app';
 import './globals.css';
-import { LinksFunction } from '@remix-run/node';
+import { LinksFunction, MetaFunction } from '@remix-run/node';
 import Layout from './layout';
 
 export const links: LinksFunction = () => {
@@ -11,6 +11,10 @@ export const links: LinksFunction = () => {
     { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
     { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap' },
   ];
+};
+
+export const meta: MetaFunction = () => {
+  return [{ charset: 'utf-8' }, { name: 'viewport', content: 'width=device-width, initial-scale=1.0' }];
 };
 
 export function Head() {

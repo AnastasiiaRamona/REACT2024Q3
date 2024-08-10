@@ -7,7 +7,6 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Outlet, useSearchParams } from '@remix-run/react';
 
 import { useDispatch } from 'react-redux';
-import { setResults } from '../../store/reducers/searchSlice';
 
 const SearchResults = ({ results }: SearchResultsProps) => {
   const dispatch = useDispatch();
@@ -21,7 +20,6 @@ const SearchResults = ({ results }: SearchResultsProps) => {
 
   useEffect(() => {
     setFilteredResults(results);
-    dispatch(setResults({ results, page: currentPage }));
   }, [results, currentPage, dispatch]);
 
   const handleCardClick = (event: React.MouseEvent, name: string) => {
@@ -34,7 +32,7 @@ const SearchResults = ({ results }: SearchResultsProps) => {
 
     let newUrl;
     if (searchTerm) {
-      newUrl = `${cleanedUrl}${newDetailsPath}?searchTerm=${encodeURIComponent(searchTerm)}`;
+      newUrl = `${cleanedUrl}${newDetailsPath}?searchTerm=${encodeURI(searchTerm)}`;
     } else {
       newUrl = `${cleanedUrl}${newDetailsPath}`;
     }

@@ -1,4 +1,4 @@
-import { FormEvent, useEffect } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import SearchResults from '../SearchResults/SearchResults';
 import bb8Src from '../../assets/bb-8.webp';
 import styles from './SearchComponent.module.css';
@@ -7,12 +7,22 @@ import NotFoundResults from '../NotFoundResults/NotFoundResults';
 import Button from '../Button/Button';
 import { useTheme } from '../../context/ThemeContext';
 import { SearchComponentProps } from './types';
-import { useLocation, useNavigate } from '@remix-run/react';
+import { useLocation, useNavigate, useNavigation } from '@remix-run/react';
+import { FoundResult } from '../SearchResults/types';
 
 const SearchComponent = ({ data, page, totalPages, searchTerm }: SearchComponentProps) => {
   const { theme } = useTheme();
   const navigate = useNavigate();
+  const navigation = useNavigation();
   const location = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const storedSearchTerm = localStorage.getItem('searchTermOfStarWarsHeroes');
+    if (storedSearchTerm && storedSearchTerm !== searchTerm) {
+      navigate(`/search/1?searchTerm=${encodeURI(storedSearchTerm)}`);
+    }
+  }, [searchTerm, navigate]);
 
   useEffect(() => {
     const searchTerm = location.search;
@@ -22,12 +32,29 @@ const SearchComponent = ({ data, page, totalPages, searchTerm }: SearchComponent
     }
   }, [page, totalPages]);
 
+  useEffect(() => {
+    const checkLoadingState = () => {
+      if (navigation.state === 'loading') {
+        setIsLoading(true);
+      } else {
+        setIsLoading(false);
+      }
+    };
+
+    checkLoadingState();
+
+    return () => {
+      setIsLoading(false);
+    };
+  }, [navigation.state]);
+
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     const searchInput = (event.target as HTMLFormElement).elements.namedItem('searchTerm') as HTMLInputElement;
     const searchTerm = searchInput.value.trim();
 
     const newUrl = searchTerm === '' ? '/search/1' : `/search/1?searchTerm=${encodeURI(searchTerm)}`;
+    localStorage.setItem(encodeURI('searchTermOfStarWarsHeroes'), searchTerm);
     navigate(newUrl);
   };
 
@@ -50,7 +77,10 @@ const SearchComponent = ({ data, page, totalPages, searchTerm }: SearchComponent
           alt={'search'}
         ></Button>
       </form>
-      {data?.results && data.results.length > 0 && <SearchResults results={data.results} error={null} />}
+      {isLoading && <div className={`${styles.loader} ${styles[theme]}`}></div>}
+      {data?.results && data.results.length > 0 && (
+        <SearchResults results={data.results as unknown as FoundResult[]} error={null} />
+      )}
       {data?.results && data.results.length === 0 && <NotFoundResults />}
       {data?.results && page && totalPages && totalPages > 1 && (
         <Pagination currentPage={page} totalPages={totalPages} searchTerm={searchTerm} />
