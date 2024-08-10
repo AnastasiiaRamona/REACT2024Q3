@@ -3,7 +3,9 @@ import { SearchResultsProps } from './types';
 import HeroCard from '../HeroCard/HeroCard';
 import styles from './SearchResults.module.css';
 import lodash from 'lodash';
-import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Outlet, useSearchParams } from '@remix-run/react';
+
 import { useDispatch } from 'react-redux';
 import { setResults } from '../../store/reducers/searchSlice';
 
@@ -13,6 +15,8 @@ const SearchResults = ({ results }: SearchResultsProps) => {
   const { page } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const searchTerm = searchParams.get('searchTerm') || '';
   const currentPage = parseInt(page || '1', 10);
 
   useEffect(() => {
@@ -22,13 +26,31 @@ const SearchResults = ({ results }: SearchResultsProps) => {
 
   const handleCardClick = (event: React.MouseEvent, name: string) => {
     event.stopPropagation();
-    navigate(`/search/${currentPage}/details/${name}`);
+
+    const currentUrl = location.pathname;
+    const newDetailsPath = `/details/${encodeURI(name)}`;
+
+    const cleanedUrl = currentUrl.replace(/\/details\/[^/?]*/, '');
+
+    let newUrl;
+    if (searchTerm) {
+      newUrl = `${cleanedUrl}${newDetailsPath}?searchTerm=${encodeURIComponent(searchTerm)}`;
+    } else {
+      newUrl = `${cleanedUrl}${newDetailsPath}`;
+    }
+
+    navigate(newUrl);
   };
 
   const handleSearchResultsClick = () => {
-    if (location.pathname.includes(`/details/`)) {
-      navigate(`/search/${currentPage}`);
-    }
+    const currentUrl = location.pathname;
+    const params = new URLSearchParams(window.location.search);
+
+    const newUrl = currentUrl.replace(/\/details\/[^/?]*/, '');
+
+    const searchParams = params.toString() ? `?${params.toString()}` : '';
+
+    navigate(`${newUrl}${searchParams}`);
   };
 
   return (
