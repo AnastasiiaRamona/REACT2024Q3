@@ -3,7 +3,7 @@ import Header from '@/components/Header/Header';
 import ModalWindow from '@/components/ModalWindow/ModalWindow';
 import ThemeChanging from '@/components/ThemeChanging/ThemeChanging';
 import { useTheme } from '@/context/ThemeContext';
-import { AppPropsWithLayout } from './types';
+import { AppPropsWithLayout } from '../types';
 
 const Container = ({ Component, pageProps }: AppPropsWithLayout) => {
   const { theme } = useTheme();

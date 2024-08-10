@@ -1,10 +1,9 @@
 import DetailsComponent from '@/components/DetailsComponent/DetailsComponent';
 import SearchComponent from '@/components/SearchComponent/SearchComponent';
 import apiAddress from '@/data/data';
+import { CharacterResponse, SearchPageProps, Character } from '@/types';
 import { GetServerSidePropsContext } from 'next';
 import { ReactElement } from 'react';
-import { Character, CharacterResponse } from './types';
-import { SearchPageProps } from '../types';
 
 const DetailsPage = ({ characterData }: CharacterResponse) => {
   return <DetailsComponent characterData={characterData} />;

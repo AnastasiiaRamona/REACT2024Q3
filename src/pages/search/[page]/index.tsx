@@ -1,7 +1,7 @@
 import SearchComponent from '@/components/SearchComponent/SearchComponent';
 import apiAddress from '@/data/data';
+import { SearchPageProps } from '@/types';
 import { GetServerSidePropsContext } from 'next';
-import { SearchPageProps } from './types';
 
 const SearchPage = ({ data, page, totalPages, searchTerm }: SearchPageProps) => {
   return <SearchComponent data={data} page={page} totalPages={totalPages} searchTerm={searchTerm} />;

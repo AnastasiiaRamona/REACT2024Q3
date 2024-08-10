@@ -16,12 +16,10 @@ const SearchComponent = ({ outlet, data, page, totalPages, searchTerm }: SearchC
   const { theme } = useTheme();
 
   useEffect(() => {
-    const currentUrl = router.asPath;
+    const searchTerm = location.search;
 
-    const hasSearchTerm = new URLSearchParams(currentUrl.split('?')[1]).has('searchTerm');
-
-    if (!hasSearchTerm && (isNaN(page) || page < 1 || page > totalPages)) {
-      router.push('/search/1');
+    if (isNaN(page) || page < 1 || page > totalPages) {
+      router.push(`/search/1${searchTerm}`);
     }
   }, [page, totalPages, router]);
 
