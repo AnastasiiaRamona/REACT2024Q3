@@ -1,6 +1,6 @@
 import apiAddress from '@/data/data';
-import { SearchPageProps } from './types';
 import SearchComponent from '@/components/SearchComponent/SearchComponent';
+import { SearchPageProps } from '@/types';
 
 const SearchPage = async ({
   searchParams,

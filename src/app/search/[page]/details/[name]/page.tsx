@@ -1,8 +1,7 @@
 import apiAddress from '@/data/data';
-import { Character, CharacterResponse } from './types';
 import DetailsComponent from '@/components/DetailsComponent/DetailsComponent';
 import SearchComponent from '@/components/SearchComponent/SearchComponent';
-import { SearchPageProps } from '../../types';
+import { Character, SearchPageProps, CharacterResponse } from '@/types';
 
 const DetailsPage = async ({
   searchParams,
