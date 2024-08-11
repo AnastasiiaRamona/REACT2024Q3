@@ -54,9 +54,9 @@ const SearchResults = ({ results }: SearchResultsProps) => {
   return (
     <div className={styles['container']} onClick={handleSearchResultsClick}>
       <section className={styles['search-results']}>
-        {filteredResults.map((result) => (
+        {filteredResults.map((result, index) => (
           <HeroCard
-            key={result.name}
+            key={`${result.name}_${index}`}
             id={lodash.camelCase(result.name)}
             name={result.name}
             onClick={(event) => handleCardClick(event, result.name)}

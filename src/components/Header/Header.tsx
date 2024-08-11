@@ -5,7 +5,7 @@ const Header = () => {
   const { theme } = useTheme();
 
   return (
-    <header>
+    <header data-testid="header-component">
       <h1>
         <span className={`${styles.title} ${styles[theme]}`}>Star Wars</span> Heroes
       </h1>

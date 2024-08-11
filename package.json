@@ -11,9 +11,9 @@
     "typecheck": "tsc",
     "format:fix": "prettier --write .",
     "prepare": "husky",
-    "test": "vitest",
-    "test:husky": "vitest run",
-    "coverage": "vitest run --coverage"
+    "test": "vitest -c ./vite.config.test.ts",
+    "test:husky": "vitest run -c ./vite.config.test.ts",
+    "coverage": "vitest run --coverage -c ./vite.config.test.ts"
   },
   "dependencies": {
     "@remix-run/node": "^2.11.1",

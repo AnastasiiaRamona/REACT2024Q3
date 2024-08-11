@@ -1,101 +1,26 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, beforeEach, vi, Mock } from 'vitest';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useLocation } from '@remix-run/react';
 import DetailsComponent from '../components/DetailsComponent/DetailsComponent';
-import { useGetCharacterDetailsQuery } from '../store/reducers/apiReducer';
 import TestWrapper from './TestWrapper';
+import { Character } from 'src/types';
 
-vi.mock('react-router-dom', () => ({
+vi.mock('@remix-run/react', () => ({
   useNavigate: vi.fn(),
-  useParams: vi.fn(),
+  useLocation: vi.fn(),
 }));
 
-vi.mock('../store/reducers/apiReducer', async (importOriginal) => {
-  const actual = (await importOriginal()) as { useGetCharacterDetailsQuery: Mock };
-  return {
-    ...actual,
-    useGetCharacterDetailsQuery: vi.fn(),
-  };
-});
-
-const mockUseParams = useParams as Mock;
 const mockUseNavigate = useNavigate as Mock;
-const mockUseGetCharacterDetailsQuery = useGetCharacterDetailsQuery as Mock;
+const mockUseLocation = useLocation as Mock;
 
 describe('DetailsComponent', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('should call the additional API to fetch detailed information', async () => {
-    const mockName = 'Luke Skywalker';
-
-    mockUseParams.mockReturnValue({ name: mockName });
-    mockUseGetCharacterDetailsQuery.mockReturnValue({
-      data: {
-        results: [
-          {
-            name: mockName,
-            height: '1.72',
-            mass: '77',
-            hair_color: 'blond',
-            skin_color: 'fair',
-            eye_color: 'blue',
-            birth_year: '19BBY',
-            gender: 'male',
-          },
-        ],
-      },
-    });
-
-    render(
-      <TestWrapper>
-        <DetailsComponent />
-      </TestWrapper>
-    );
-
-    await waitFor(() => {
-      expect(mockUseGetCharacterDetailsQuery).toHaveBeenCalledWith(`${mockName}`);
-    });
-  });
-
-  it('should display error message when API call fails', async () => {
-    mockUseParams.mockReturnValue({ name: 'Luke Skywalker' });
-    mockUseGetCharacterDetailsQuery.mockRejectedValue(new Error('API call failed'));
-
-    render(
-      <TestWrapper>
-        <DetailsComponent />
-      </TestWrapper>
-    );
-
-    await waitFor(() => {
-      expect(screen.getByText('No such hero was found')).toBeInTheDocument();
-    });
-  });
-
-  it('should display loading indicator while fetching data', async () => {
-    const mockName = 'Luke Skywalker';
-
-    mockUseParams.mockReturnValue({ name: mockName });
-    mockUseGetCharacterDetailsQuery.mockImplementation(() => ({
-      isFetching: true,
-      data: undefined,
-      isError: false,
-    }));
-
-    render(
-      <TestWrapper>
-        <DetailsComponent />
-      </TestWrapper>
-    );
-
-    expect(screen.getByTestId('details-loader')).toBeInTheDocument();
-  });
-
   it('should correctly display detailed card data', async () => {
     const mockName = 'Luke Skywalker';
-    const mockDetails = {
+    const mockDetails: Character = {
       name: mockName,
       height: '1.72',
       mass: '77',
@@ -104,24 +29,27 @@ describe('DetailsComponent', () => {
       eye_color: 'blue',
       birth_year: '19BBY',
       gender: 'male',
+      homeworld: 'test',
+      films: ['test'],
+      species: ['test'],
+      vehicles: ['test'],
+      starships: ['test'],
+      created: 'test',
+      edited: 'test',
+      url: 'test',
     };
 
-    mockUseParams.mockReturnValue({ name: mockName });
-    mockUseGetCharacterDetailsQuery.mockReturnValue({
-      data: {
-        results: [mockDetails],
-      },
-    });
+    const mockNavigate = vi.fn();
+
+    mockUseNavigate.mockReturnValue(mockNavigate);
+
+    mockUseLocation.mockReturnValue({ pathname: `` });
 
     render(
       <TestWrapper>
-        <DetailsComponent />
+        <DetailsComponent characterData={mockDetails} />
       </TestWrapper>
     );
-
-    await waitFor(() => {
-      expect(mockUseGetCharacterDetailsQuery).toHaveBeenCalledWith(`${mockName}`);
-    });
 
     expect(screen.getByText('1.72')).toBeInTheDocument();
     expect(screen.getByText('77')).toBeInTheDocument();
@@ -134,7 +62,7 @@ describe('DetailsComponent', () => {
 
   it('should navigate to a different route when the close button is clicked', async () => {
     const mockName = 'Luke Skywalker';
-    const mockDetails = {
+    const mockDetails: Character = {
       name: mockName,
       height: '1.72',
       mass: '77',
@@ -143,26 +71,26 @@ describe('DetailsComponent', () => {
       eye_color: 'blue',
       birth_year: '19BBY',
       gender: 'male',
+      homeworld: 'test',
+      films: ['test'],
+      species: ['test'],
+      vehicles: ['test'],
+      starships: ['test'],
+      created: 'test',
+      edited: 'test',
+      url: 'test',
     };
     const mockNavigate = vi.fn();
 
-    mockUseParams.mockReturnValue({ name: mockName });
-    mockUseGetCharacterDetailsQuery.mockReturnValue({
-      data: {
-        results: [mockDetails],
-      },
-    });
     mockUseNavigate.mockReturnValue(mockNavigate);
+
+    mockUseLocation.mockReturnValue({ pathname: `/search/1/details/${mockName}` });
 
     render(
       <TestWrapper>
-        <DetailsComponent />
+        <DetailsComponent characterData={mockDetails} />
       </TestWrapper>
     );
-
-    await waitFor(() => {
-      expect(mockUseGetCharacterDetailsQuery).toHaveBeenCalledWith(`${mockName}`);
-    });
 
     fireEvent.click(screen.getByRole('button', { name: /close/i }));
 

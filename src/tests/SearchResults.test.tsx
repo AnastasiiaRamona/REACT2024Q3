@@ -16,8 +16,8 @@ const mockNavigate = vi.fn();
 
 describe('SearchResults', () => {
   const mockResults = [
-    { name: 'Card 1', key: 'card1', id: '1', onClick: vi.fn() },
-    { name: 'Card 2', key: 'card2', id: '2', onClick: vi.fn() },
+    { name: 'Card1', key: 'card1', id: '1', onClick: vi.fn() },
+    { name: 'Card2', key: 'card2', id: '2', onClick: vi.fn() },
   ];
 
   it('should render the specified number of cards', () => {
@@ -52,7 +52,7 @@ describe('SearchResults', () => {
     fireEvent.click(cards[0]);
 
     await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith('/search/1/details/Card 1');
+      expect(mockNavigate).toHaveBeenCalledWith(`/search/1/details/${mockResults[0].name}`);
       expect(mockNavigate).toHaveBeenCalledTimes(1);
     });
   });
