@@ -9,7 +9,7 @@ const ThemeChanging = () => {
   };
 
   return (
-    <div className={styles.checkboxWrapper}>
+    <div data-testid="theme-changing" className={styles.checkboxWrapper}>
       <label className={styles.switch}>
         <input type="checkbox" className={styles.checkbox} checked={isChecked} onChange={handleCheckboxChange} />
         <span className={styles.slider}></span>

@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useGetCharacterDetailsQuery } from '../../store/reducers/apiReducer';
 import { RootState } from '../../store/store';
 import { findImageById } from '../../helpers/utils';
-import { showLoader, hideLoader } from '../../store/reducers/loaderSlice';
 import { useModal } from '../../context/ModalContext';
 
 const HeroCard = ({ id, name, onClick }: HeroCardProps) => {
@@ -24,20 +23,6 @@ const HeroCard = ({ id, name, onClick }: HeroCardProps) => {
   const isChecked = useSelector((state: RootState) => state.checkedItems.checkedStatus[name] || false);
   const selectedItems = useSelector((state: RootState) => state.checkedItems.items);
   const quantityOfSelectedItems = selectedItems.length;
-
-  useEffect(() => {
-    if (loadData && !isFetching) {
-      if (isSuccess) {
-        dispatch(hideLoader());
-      } else if (!data) {
-        dispatch(hideLoader());
-      }
-    } else if (loadData && isFetching) {
-      dispatch(showLoader());
-    } else {
-      dispatch(hideLoader());
-    }
-  }, [loadData, isFetching, isSuccess, data, dispatch]);
 
   useEffect(() => {
     if (isChecked && data && !isFetching && isSuccess) {

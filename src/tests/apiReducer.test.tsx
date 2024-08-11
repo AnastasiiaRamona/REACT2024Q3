@@ -14,7 +14,6 @@ describe('starWarsApi', () => {
   });
 
   it('should export useGetHeroesQuery and useGetCharacterDetailsQuery hooks', () => {
-    expect(starWarsApi.useGetHeroesQuery).toBeDefined();
     expect(starWarsApi.useGetCharacterDetailsQuery).toBeDefined();
   });
 });

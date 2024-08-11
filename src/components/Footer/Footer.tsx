@@ -6,7 +6,7 @@ const Footer = () => {
   const { theme } = useTheme();
 
   return (
-    <footer className={`${styles.footer} ${styles[theme]}`}>
+    <footer data-testid="footer" className={`${styles.footer} ${styles[theme]}`}>
       <img src={theme === 'light' ? jediSrc : darthVaderSrc} alt="star wars picture" />
       <a
         href="https://github.com/AnastasiiaRamona"
