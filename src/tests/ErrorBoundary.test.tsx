@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { ErrorBoundary } from '../components/ErrorBoundary/ErrorBoundary';
+import { ProblematicComponent } from './ProblematicComponent';
+import stormtrooperSrc from '../assets/501st-star-wars.gif';
 
 vi.mock('next/image', () => ({
   default: (props: { src: string; alt: string; width?: number; height?: number }) => <img {...props} />,
@@ -17,9 +19,7 @@ describe('ErrorBoundary Component', () => {
   });
 
   it('renders error message and image when an error occurs', () => {
-    const ProblematicComponent = () => {
-      throw new Error('Test error');
-    };
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     render(
       <ErrorBoundary>
@@ -29,14 +29,15 @@ describe('ErrorBoundary Component', () => {
 
     expect(screen.getByText('Something went wrong!')).toBeInTheDocument();
     expect(screen.getByAltText('stormtrooper')).toBeInTheDocument();
+    expect(screen.getByAltText('stormtrooper')).toHaveAttribute('src', stormtrooperSrc);
+
+    expect(consoleError).toHaveBeenCalled();
+
+    consoleError.mockRestore();
   });
 
   it('logs error to console when an error occurs', () => {
     const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
-
-    const ProblematicComponent = () => {
-      throw new Error('Test error');
-    };
 
     render(
       <ErrorBoundary>
@@ -45,6 +46,7 @@ describe('ErrorBoundary Component', () => {
     );
 
     expect(consoleError).toHaveBeenCalled();
+
     consoleError.mockRestore();
   });
 });
