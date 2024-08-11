@@ -16,7 +16,7 @@ const MissingPage = () => {
   return (
     <section className={styles['missing-page-section']}>
       <h2>404 - Page Not Found</h2>
-      <Image src={c3poSrc} alt="c3po" unoptimized={true} />
+      <Image src={c3poSrc} alt="c3po" />
       <div className={styles['text-and-button']}>
         <p>This is not the page you are looking for</p>
         <Button onClick={handleBackClick} text={'Back'}></Button>
