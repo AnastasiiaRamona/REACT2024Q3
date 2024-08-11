@@ -8,10 +8,10 @@ import saveAs from 'file-saver';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import Image from 'next/image';
-import { useModal } from '@/context/ModalContext';
-import { useTheme } from '@/context/ThemeContext';
-import { convertToCSV } from '@/helpers/utils';
-import { clearCharacters } from '@/store/reducers/checkedItemsSlice';
+import { useModal } from '../../context/ModalContext';
+import { useTheme } from '../../context/ThemeContext';
+import { convertToCSV } from '../../helpers/utils';
+import { clearCharacters } from '../../store/reducers/checkedItemsSlice';
 
 const ModalWindow = () => {
   const { isModalOpen, selectedItemsCount, closeModal } = useModal();

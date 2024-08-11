@@ -8,7 +8,7 @@ import styles from './SearchComponent.module.css';
 import Pagination from '../Pagination/Pagination';
 import NotFoundResults from '../NotFoundResults/NotFoundResults';
 import Button from '../Button/Button';
-import { useTheme } from '@/context/ThemeContext';
+import { useTheme } from '../../context/ThemeContext';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { SearchComponentProps } from './types';
 

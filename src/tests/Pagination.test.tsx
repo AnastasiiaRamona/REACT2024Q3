@@ -1,76 +1,61 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import { MemoryRouter } from 'react-router-dom';
 import Pagination from '../components/Pagination/Pagination';
-
-import * as ReactRouterDom from 'react-router-dom';
 import TestWrapper from './TestWrapper';
 
-vi.mock('react-router-dom', async (importOriginal) => {
-  const actual = (await importOriginal()) as object;
+const mockPush = vi.fn();
 
-  return {
-    ...actual,
-    useNavigate: vi.fn(),
-  };
-});
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: mockPush,
+  }),
+}));
 
 describe('Pagination', () => {
-  const mockNavigate = vi.fn();
-
   beforeEach(() => {
-    vi.mocked(ReactRouterDom.useNavigate).mockReturnValue(mockNavigate);
     vi.clearAllMocks();
   });
 
   it('renders correctly with currentPage and totalPages', () => {
     render(
       <TestWrapper>
-        <MemoryRouter>
-          <Pagination currentPage={2} totalPages={5} />
-        </MemoryRouter>
+        <Pagination currentPage={2} totalPages={5} searchTerm="" />
       </TestWrapper>
     );
 
     expect(screen.getByText('Page 2 of 5')).toBeInTheDocument();
   });
 
-  it('calls navigate with correct URL when clicking "Previous" button', () => {
+  it('calls push with correct URL when clicking "Previous" button', () => {
     render(
       <TestWrapper>
-        <MemoryRouter>
-          <Pagination currentPage={2} totalPages={5} />
-        </MemoryRouter>
+        <Pagination currentPage={2} totalPages={5} searchTerm="" />
       </TestWrapper>
     );
 
     const previousButton = screen.getByText('Previous');
     fireEvent.click(previousButton);
 
-    expect(mockNavigate).toHaveBeenCalledWith('/search/1');
+    expect(mockPush).toHaveBeenCalledWith('/search/1');
   });
 
-  it('calls navigate with correct URL when clicking "Next" button', () => {
+  it('calls push with correct URL when clicking "Next" button', () => {
     render(
       <TestWrapper>
-        <MemoryRouter>
-          <Pagination currentPage={2} totalPages={5} />
-        </MemoryRouter>
+        <Pagination currentPage={2} totalPages={5} searchTerm="" />
       </TestWrapper>
     );
 
     const nextButton = screen.getByText('Next');
     fireEvent.click(nextButton);
 
-    expect(mockNavigate).toHaveBeenCalledWith('/search/3');
+    expect(mockPush).toHaveBeenCalledWith('/search/3');
   });
 
   it('disables "Previous" button when on the first page', () => {
     render(
       <TestWrapper>
-        <MemoryRouter>
-          <Pagination currentPage={1} totalPages={5} />
-        </MemoryRouter>
+        <Pagination currentPage={1} totalPages={5} searchTerm="" />
       </TestWrapper>
     );
 
@@ -81,9 +66,7 @@ describe('Pagination', () => {
   it('disables "Next" button when on the last page', () => {
     render(
       <TestWrapper>
-        <MemoryRouter>
-          <Pagination currentPage={5} totalPages={5} />
-        </MemoryRouter>
+        <Pagination currentPage={5} totalPages={5} searchTerm="" />
       </TestWrapper>
     );
 

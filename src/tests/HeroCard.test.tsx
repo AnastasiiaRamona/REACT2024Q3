@@ -5,6 +5,10 @@ import { HeroCardProps } from '../components/HeroCard/types';
 import peopleImagesSrc from '../data/images';
 import TestWrapper from './TestWrapper';
 
+vi.mock('next/image', () => ({
+  default: (props: { src: string; alt: string; width?: number; height?: number }) => <img {...props} />,
+}));
+
 vi.mock('../helpers/utils', () => {
   const actual = vi.importActual('../helpers/utils');
   return {

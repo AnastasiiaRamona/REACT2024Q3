@@ -1,6 +1,6 @@
 'use client';
 
-import Button from '@/components/Button/Button';
+import Button from '../components/Button/Button';
 import c3poSrc from '../assets/c3po.gif';
 import styles from './not-found.module.css';
 import Image from 'next/image';

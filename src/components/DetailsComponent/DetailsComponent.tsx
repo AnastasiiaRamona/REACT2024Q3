@@ -1,14 +1,14 @@
 'use client';
 
-import { useTheme } from '@/context/ThemeContext';
-import { findImageById } from '@/helpers/utils';
+import { useTheme } from '../../context/ThemeContext';
+import { findImageById } from '../../helpers/utils';
 import { useRouter, usePathname } from 'next/navigation';
 import Button from '../Button/Button';
 import HeroAttribute from '../HeroAttribute/HeroAttribute';
 import Image from 'next/image';
 import styles from './DetailsComponent.module.css';
-import { CharacterResponse } from '@/app/search/[page]/details/[name]/types';
 import lodash from 'lodash';
+import { CharacterResponse } from '@/types';
 
 const DetailsComponent = ({ characterData }: CharacterResponse) => {
   const router = useRouter();

@@ -7,12 +7,12 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import Image from 'next/image';
-import { useModal } from '@/context/ModalContext';
-import { useTheme } from '@/context/ThemeContext';
-import { findImageById } from '@/helpers/utils';
-import { useGetCharacterDetailsQuery } from '@/store/reducers/apiReducer';
-import { addCharacter, setCheckedStatus, removeCharacter } from '@/store/reducers/checkedItemsSlice';
-import { hideLoader, showLoader } from '@/store/reducers/loaderSlice';
+import { useModal } from '../../context/ModalContext';
+import { useTheme } from '../../context/ThemeContext';
+import { findImageById } from '../../helpers/utils';
+import { useGetCharacterDetailsQuery } from '../../store/reducers/apiReducer';
+import { addCharacter, setCheckedStatus, removeCharacter } from '../../store/reducers/checkedItemsSlice';
+import { hideLoader, showLoader } from '../../store/reducers/loaderSlice';
 
 const HeroCard = ({ id, name, onClick }: HeroCardProps) => {
   const { theme } = useTheme();

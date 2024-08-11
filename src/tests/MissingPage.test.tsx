@@ -1,25 +1,26 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { MemoryRouter, useNavigate } from 'react-router-dom';
 import { expect, it, describe, vi } from 'vitest';
-import MissingPage from '../pages/404';
+import MissingPage from '../app/not-found';
 import TestWrapper from './TestWrapper';
 
-vi.mock('react-router-dom', async (importOriginal) => {
-  const actual = (await importOriginal()) as object;
+const mockBack = vi.fn();
 
-  return {
-    ...actual,
-    useNavigate: vi.fn(),
-  };
-});
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    back: mockBack,
+  }),
+}));
+
+// Mock Next.js Image component
+vi.mock('next/image', () => ({
+  default: (props: { src: string; alt: string; width?: number; height?: number }) => <img {...props} />,
+}));
 
 describe('MissingPage', () => {
   it('should render 404 message and image', () => {
     render(
       <TestWrapper>
-        <MemoryRouter>
-          <MissingPage />
-        </MemoryRouter>
+        <MissingPage />
       </TestWrapper>
     );
 
@@ -28,20 +29,15 @@ describe('MissingPage', () => {
     expect(screen.getByText('This is not the page you are looking for')).toBeInTheDocument();
   });
 
-  it('should call navigate with -1 when "Back" button is clicked', () => {
-    const mockNavigate = vi.fn();
-    vi.mocked(useNavigate).mockReturnValue(mockNavigate);
-
+  it('should call router.back when "Back" button is clicked', () => {
     render(
       <TestWrapper>
-        <MemoryRouter>
-          <MissingPage />
-        </MemoryRouter>
+        <MissingPage />
       </TestWrapper>
     );
 
     fireEvent.click(screen.getByText('Back'));
 
-    expect(mockNavigate).toHaveBeenCalledWith(-1);
+    expect(mockBack).toHaveBeenCalled();
   });
 });
