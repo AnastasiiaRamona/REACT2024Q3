@@ -6,7 +6,7 @@ import Button from '../Button/Button';
 import { useTheme } from '../../context/ThemeContext';
 import { findImageById } from '../../helpers/utils';
 import Image from 'next/image';
-import { CharacterResponse } from '@/pages/search/[page]/details/types';
+import { CharacterResponse } from '@/types';
 
 const DetailsComponent = ({ characterData }: CharacterResponse) => {
   const router = useRouter();

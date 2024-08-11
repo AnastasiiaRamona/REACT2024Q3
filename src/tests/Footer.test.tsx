@@ -8,6 +8,10 @@ import darthVaderSrc from '../assets/darth-vader.webp';
 import jediSrc from '../assets/jedi.webp';
 import { useTheme } from '../context/ThemeContext';
 
+vi.mock('next/image', () => ({
+  default: (props: { src: string; alt: string; width?: number; height?: number }) => <img {...props} />,
+}));
+
 vi.mock('../context/ThemeContext', async (importOriginal) => {
   const actual = await importOriginal();
   if (typeof actual === 'object' && actual !== null) {

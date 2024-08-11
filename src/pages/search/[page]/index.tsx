@@ -1,5 +1,5 @@
-import SearchComponent from '@/components/SearchComponent/SearchComponent';
-import apiAddress from '@/data/data';
+import SearchComponent from '../../../components/SearchComponent/SearchComponent';
+import apiAddress from '../../../data/data';
 import { SearchPageProps } from '@/types';
 import { GetServerSidePropsContext } from 'next';
 

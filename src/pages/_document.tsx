@@ -1,4 +1,4 @@
-import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary';
+import { ErrorBoundary } from '../components/ErrorBoundary/ErrorBoundary';
 import { Html, Head, Main, NextScript } from 'next/document';
 
 export default function Document() {

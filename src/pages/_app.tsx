@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app';
 import '../globals.css';
-import ClientProviders from '@/components/ClientProviders/ClientProviders';
+import ClientProviders from '../components/ClientProviders/ClientProviders';
 import Container from './_container';
 
 export default function MyApp(appProps: AppProps) {

@@ -1,5 +1,5 @@
 import c3poSrc from '../assets/c3po.gif';
-import Button from '@/components/Button/Button';
+import Button from '../components/Button/Button';
 import styles from './404.module.css';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
