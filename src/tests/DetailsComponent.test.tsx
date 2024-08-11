@@ -38,7 +38,7 @@ const mockUseRouter = useRouter as Mock;
 const mockUsePathname = usePathname as Mock;
 
 vi.mock('../../helpers/utils', () => ({
-  findImageById: vi.fn().mockReturnValue('/path/to/image.jpg'), // Mock image path
+  findImageById: vi.fn().mockReturnValue('/path/to/image.jpg'),
 }));
 
 describe('DetailsComponent', () => {
@@ -66,7 +66,7 @@ describe('DetailsComponent', () => {
     expect(screen.getByText('blue')).toBeInTheDocument();
     expect(screen.getByText('19BBY')).toBeInTheDocument();
     expect(screen.getByText('male')).toBeInTheDocument();
-    expect(screen.getByAltText(mockName)).toBeInTheDocument(); // Check for the image
+    expect(screen.getByAltText(mockName)).toBeInTheDocument();
   });
 
   it('should call router push with correct URL when close button is clicked', async () => {

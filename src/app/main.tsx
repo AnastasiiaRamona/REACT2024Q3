@@ -1,7 +1,7 @@
 'use client';
 
-import ClientProviders from '@/components/ClientProviders/ClientProviders';
-import { ErrorBoundary } from '@/components/ErrorBoundary/ErrorBoundary';
+import ClientProviders from '../components/ClientProviders/ClientProviders';
+import { ErrorBoundary } from '../components/ErrorBoundary/ErrorBoundary';
 
 const Main = ({
   children,

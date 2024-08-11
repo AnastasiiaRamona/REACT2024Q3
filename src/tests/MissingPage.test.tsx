@@ -11,7 +11,6 @@ vi.mock('next/navigation', () => ({
   }),
 }));
 
-// Mock Next.js Image component
 vi.mock('next/image', () => ({
   default: (props: { src: string; alt: string; width?: number; height?: number }) => <img {...props} />,
 }));
