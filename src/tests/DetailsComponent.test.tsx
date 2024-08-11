@@ -1,128 +1,57 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, beforeEach, vi, Mock } from 'vitest';
-import { useNavigate, useParams } from 'react-router-dom';
 import DetailsComponent from '../components/DetailsComponent/DetailsComponent';
-import { useGetCharacterDetailsQuery } from '../store/reducers/apiReducer';
 import TestWrapper from './TestWrapper';
+import { useRouter } from 'next/router';
 
-vi.mock('react-router-dom', () => ({
-  useNavigate: vi.fn(),
-  useParams: vi.fn(),
+const mockName = 'Luke Skywalker';
+
+const mockCharacterData = {
+  name: mockName,
+  height: '1.72',
+  mass: '77',
+  hair_color: 'blond',
+  skin_color: 'fair',
+  eye_color: 'blue',
+  birth_year: '19BBY',
+  gender: 'male',
+  homeworld: 'Tatooine',
+  films: [],
+  species: [],
+  vehicles: [],
+  starships: [],
+  created: '2014-12-09T13:50:51.644000Z',
+  edited: '2014-12-20T21:17:56.891000Z',
+  url: 'https://swapi.dev/api/people/1/',
+};
+
+vi.mock('next/image', () => ({
+  default: (props: { src: string; alt: string; width?: number; height?: number }) => <img {...props} />,
 }));
 
-vi.mock('../store/reducers/apiReducer', async (importOriginal) => {
-  const actual = (await importOriginal()) as { useGetCharacterDetailsQuery: Mock };
-  return {
-    ...actual,
-    useGetCharacterDetailsQuery: vi.fn(),
-  };
-});
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
+}));
 
-const mockUseParams = useParams as Mock;
-const mockUseNavigate = useNavigate as Mock;
-const mockUseGetCharacterDetailsQuery = useGetCharacterDetailsQuery as Mock;
+const mockUseRouter = useRouter as Mock;
 
 describe('DetailsComponent', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('should call the additional API to fetch detailed information', async () => {
-    const mockName = 'Luke Skywalker';
-
-    mockUseParams.mockReturnValue({ name: mockName });
-    mockUseGetCharacterDetailsQuery.mockReturnValue({
-      data: {
-        results: [
-          {
-            name: mockName,
-            height: '1.72',
-            mass: '77',
-            hair_color: 'blond',
-            skin_color: 'fair',
-            eye_color: 'blue',
-            birth_year: '19BBY',
-            gender: 'male',
-          },
-        ],
-      },
+  it('should render character details correctly', async () => {
+    mockUseRouter.mockReturnValue({
+      asPath: `/details/${mockName}`,
     });
 
     render(
       <TestWrapper>
-        <DetailsComponent />
+        <DetailsComponent characterData={mockCharacterData} />
       </TestWrapper>
     );
 
-    await waitFor(() => {
-      expect(mockUseGetCharacterDetailsQuery).toHaveBeenCalledWith(`${mockName}`);
-    });
-  });
-
-  it('should display error message when API call fails', async () => {
-    mockUseParams.mockReturnValue({ name: 'Luke Skywalker' });
-    mockUseGetCharacterDetailsQuery.mockRejectedValue(new Error('API call failed'));
-
-    render(
-      <TestWrapper>
-        <DetailsComponent />
-      </TestWrapper>
-    );
-
-    await waitFor(() => {
-      expect(screen.getByText('No such hero was found')).toBeInTheDocument();
-    });
-  });
-
-  it('should display loading indicator while fetching data', async () => {
-    const mockName = 'Luke Skywalker';
-
-    mockUseParams.mockReturnValue({ name: mockName });
-    mockUseGetCharacterDetailsQuery.mockImplementation(() => ({
-      isFetching: true,
-      data: undefined,
-      isError: false,
-    }));
-
-    render(
-      <TestWrapper>
-        <DetailsComponent />
-      </TestWrapper>
-    );
-
-    expect(screen.getByTestId('details-loader')).toBeInTheDocument();
-  });
-
-  it('should correctly display detailed card data', async () => {
-    const mockName = 'Luke Skywalker';
-    const mockDetails = {
-      name: mockName,
-      height: '1.72',
-      mass: '77',
-      hair_color: 'blond',
-      skin_color: 'fair',
-      eye_color: 'blue',
-      birth_year: '19BBY',
-      gender: 'male',
-    };
-
-    mockUseParams.mockReturnValue({ name: mockName });
-    mockUseGetCharacterDetailsQuery.mockReturnValue({
-      data: {
-        results: [mockDetails],
-      },
-    });
-
-    render(
-      <TestWrapper>
-        <DetailsComponent />
-      </TestWrapper>
-    );
-
-    await waitFor(() => {
-      expect(mockUseGetCharacterDetailsQuery).toHaveBeenCalledWith(`${mockName}`);
-    });
-
+    expect(screen.getByText(mockName)).toBeInTheDocument();
     expect(screen.getByText('1.72')).toBeInTheDocument();
     expect(screen.getByText('77')).toBeInTheDocument();
     expect(screen.getByText('blond')).toBeInTheDocument();
@@ -132,42 +61,24 @@ describe('DetailsComponent', () => {
     expect(screen.getByText('male')).toBeInTheDocument();
   });
 
-  it('should navigate to a different route when the close button is clicked', async () => {
-    const mockName = 'Luke Skywalker';
-    const mockDetails = {
-      name: mockName,
-      height: '1.72',
-      mass: '77',
-      hair_color: 'blond',
-      skin_color: 'fair',
-      eye_color: 'blue',
-      birth_year: '19BBY',
-      gender: 'male',
+  it('should call router push with correct URL when close button is clicked', async () => {
+    const mockRouter = {
+      asPath: `/details/Luke%20Skywalker`,
+      push: vi.fn(),
     };
-    const mockNavigate = vi.fn();
 
-    mockUseParams.mockReturnValue({ name: mockName });
-    mockUseGetCharacterDetailsQuery.mockReturnValue({
-      data: {
-        results: [mockDetails],
-      },
-    });
-    mockUseNavigate.mockReturnValue(mockNavigate);
+    mockUseRouter.mockReturnValue(mockRouter);
 
     render(
       <TestWrapper>
-        <DetailsComponent />
+        <DetailsComponent characterData={mockCharacterData} />
       </TestWrapper>
     );
-
-    await waitFor(() => {
-      expect(mockUseGetCharacterDetailsQuery).toHaveBeenCalledWith(`${mockName}`);
-    });
 
     fireEvent.click(screen.getByRole('button', { name: /close/i }));
 
     await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith('/search/1');
+      expect(mockRouter.push).toHaveBeenCalledWith('');
     });
   });
 });

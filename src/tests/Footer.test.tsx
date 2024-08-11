@@ -1,3 +1,5 @@
+'use client';
+
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, Mock } from 'vitest';
 import Footer from '../components/Footer/Footer';
@@ -5,6 +7,10 @@ import TestWrapper from './TestWrapper';
 import darthVaderSrc from '../assets/darth-vader.webp';
 import jediSrc from '../assets/jedi.webp';
 import { useTheme } from '../context/ThemeContext';
+
+vi.mock('next/image', () => ({
+  default: (props: { src: string; alt: string; width?: number; height?: number }) => <img {...props} />,
+}));
 
 vi.mock('../context/ThemeContext', async (importOriginal) => {
   const actual = await importOriginal();

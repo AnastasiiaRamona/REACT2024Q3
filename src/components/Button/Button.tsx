@@ -1,6 +1,9 @@
+'use client';
+
 import { useTheme } from '../../context/ThemeContext';
 import styles from './Button.module.css';
 import ButtonProps from './types';
+import Image from 'next/image';
 
 const Button = ({ onClick, text, className, disabled, img, alt }: ButtonProps) => {
   const { theme } = useTheme();
@@ -12,7 +15,7 @@ const Button = ({ onClick, text, className, disabled, img, alt }: ButtonProps) =
       disabled={disabled}
     >
       {text}
-      {img && <img src={img} alt={alt} />}
+      {img && alt && <Image src={img} alt={alt} />}
     </button>
   );
 };

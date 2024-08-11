@@ -1,3 +1,5 @@
+'use client';
+
 import { render } from '@testing-library/react';
 import { describe, it, expect, vi, Mock } from 'vitest';
 import Header from '../components/Header/Header';

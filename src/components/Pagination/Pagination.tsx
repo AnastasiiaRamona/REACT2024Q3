@@ -1,20 +1,28 @@
-import PaginationProps from './types';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import styles from './Pagination.module.css';
 import Button from '../Button/Button';
+import PaginationProps from './types';
 
-const Pagination = ({ currentPage, totalPages }: PaginationProps) => {
-  const navigate = useNavigate();
+const Pagination = ({ currentPage, totalPages, searchTerm }: PaginationProps) => {
+  const router = useRouter();
 
   const handlePrevious = () => {
     if (currentPage > 1) {
-      navigate(`/search/${currentPage - 1}`);
+      if (searchTerm === '') {
+        router.push(`/search/${currentPage - 1}`);
+      } else {
+        router.push(`/search/${currentPage - 1}?searchTerm=${searchTerm}`);
+      }
     }
   };
 
   const handleNext = () => {
     if (currentPage < totalPages) {
-      navigate(`/search/${currentPage + 1}`);
+      if (searchTerm === '') {
+        router.push(`/search/${currentPage + 1}`);
+      } else {
+        router.push(`/search/${currentPage + 1}?searchTerm=${searchTerm}`);
+      }
     }
   };
 

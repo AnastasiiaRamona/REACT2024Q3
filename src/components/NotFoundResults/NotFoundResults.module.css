@@ -8,6 +8,7 @@
 
 .not-found-results-section img {
   width: 30vw;
+  height: auto;
   min-width: 212px;
   margin-top: 20px;
 }

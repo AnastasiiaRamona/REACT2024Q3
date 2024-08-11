@@ -1,19 +1,20 @@
-import c3poSrc from '../../assets/c3po.gif';
-import Button from '../../components/Button/Button';
-import styles from './MissingPage.module.css';
-import { useNavigate } from 'react-router-dom';
+import c3poSrc from '../assets/c3po.gif';
+import Button from '../components/Button/Button';
+import styles from './404.module.css';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 const MissingPage = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleBackClick = () => {
-    navigate(-1);
+    router.back();
   };
 
   return (
     <section className={styles['missing-page-section']}>
       <h2>404 - Page Not Found</h2>
-      <img src={c3poSrc} alt="c3po" />
+      <Image src={c3poSrc} alt="c3po" />
       <div className={styles['text-and-button']}>
         <p>This is not the page you are looking for</p>
         <Button onClick={handleBackClick} text={'Back'}></Button>

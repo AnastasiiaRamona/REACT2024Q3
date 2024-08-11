@@ -1,3 +1,5 @@
+'use client';
+
 import { HeroCardProps } from './types';
 import styles from './HeroCard.module.css';
 import Checkbox from '../Checkbox/Checkbox';
@@ -10,6 +12,7 @@ import { RootState } from '../../store/store';
 import { findImageById } from '../../helpers/utils';
 import { showLoader, hideLoader } from '../../store/reducers/loaderSlice';
 import { useModal } from '../../context/ModalContext';
+import Image from 'next/image';
 
 const HeroCard = ({ id, name, onClick }: HeroCardProps) => {
   const { theme } = useTheme();
@@ -72,13 +75,15 @@ const HeroCard = ({ id, name, onClick }: HeroCardProps) => {
     }
   }, [loadData, refetch, isFetching, isSuccess]);
 
+  const image = findImageById(id);
+
   return (
     <section className={`${styles['hero-card-container']} ${styles[theme]}`} onClick={onClick} data-testid="hero-card">
       <Checkbox id={name} isChecked={isChecked} onClick={handleCheckboxClick} />
       <div className={styles['hero-card']}>
         <h2>{name}</h2>
         <div className={styles['image-container']}>
-          <img src={findImageById(id)} alt={name} />
+          {image && <Image className={styles['image-container-image']} src={image} alt={name} />}
         </div>
       </div>
     </section>

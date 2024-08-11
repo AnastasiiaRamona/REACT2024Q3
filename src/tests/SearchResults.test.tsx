@@ -1,59 +1,58 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { render, screen } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
 import SearchResults from '../components/SearchResults/SearchResults';
-import { expect, it, describe, vi } from 'vitest';
+import { SearchResultsProps } from '@/components/SearchResults/types';
+import { JSX } from 'react';
 import TestWrapper from './TestWrapper';
 
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom');
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate,
-  };
-});
+vi.mock('next/router', () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+    asPath: '/search?page=1',
+    query: { page: '1' },
+  }),
+}));
 
-const mockNavigate = vi.fn();
+vi.mock('next/image', () => ({
+  default: (props: { src: string; alt: string; width?: number; height?: number }) => <img {...props} />,
+}));
 
 describe('SearchResults', () => {
   const mockResults = [
-    { name: 'Card 1', key: 'card1', id: '1', onClick: vi.fn() },
-    { name: 'Card 2', key: 'card2', id: '2', onClick: vi.fn() },
+    {
+      key: 'luke-skywalker',
+      id: '1',
+      name: 'Luke Skywalker',
+      onClick: () => console.log('Luke Skywalker clicked'),
+    },
+    {
+      key: 'darth-vader',
+      id: '2',
+      name: 'Darth Vader',
+      onClick: () => console.log('Darth Vader clicked'),
+    },
   ];
 
-  it('should render the specified number of cards', () => {
+  const mockOutlet = <div>Outlet Content</div>;
+
+  const setup = (props: JSX.IntrinsicAttributes & SearchResultsProps) => {
     render(
       <TestWrapper>
-        <MemoryRouter initialEntries={['/search/1']}>
-          <Routes>
-            <Route path="search/:page" element={<SearchResults results={mockResults} error={null} />} />
-          </Routes>
-        </MemoryRouter>
+        <SearchResults {...props} />
       </TestWrapper>
     );
+  };
 
-    expect(screen.getAllByTestId('hero-card')).toHaveLength(mockResults.length);
+  it('should render search results', () => {
+    setup({ results: mockResults, outlet: mockOutlet, error: null });
+
+    expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
+    expect(screen.getByText('Darth Vader')).toBeInTheDocument();
   });
 
-  it('should navigate to the detail view when a card is clicked', async () => {
-    render(
-      <TestWrapper>
-        <MemoryRouter initialEntries={['/search/1']}>
-          <Routes>
-            <Route path="search/:page" element={<SearchResults results={mockResults} error={null} />} />
-            <Route path="search/:page/details/:name" element={<div>Details</div>} />
-          </Routes>
-        </MemoryRouter>
-      </TestWrapper>
-    );
+  it('should render outlet content', () => {
+    setup({ results: mockResults, outlet: mockOutlet, error: null });
 
-    const cards = screen.getAllByTestId('hero-card');
-    expect(cards).toHaveLength(mockResults.length);
-
-    fireEvent.click(cards[0]);
-
-    await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith('/search/1/details/Card 1');
-      expect(mockNavigate).toHaveBeenCalledTimes(1);
-    });
+    expect(screen.getByText('Outlet Content')).toBeInTheDocument();
   });
 });

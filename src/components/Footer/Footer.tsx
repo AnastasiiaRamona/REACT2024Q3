@@ -1,13 +1,16 @@
+'use client';
+
 import jediSrc from '../../assets/jedi.webp';
 import darthVaderSrc from '../../assets/darth-vader.webp';
 import { useTheme } from '../../context/ThemeContext';
 import styles from './Footer.module.css';
+import Image from 'next/image';
 const Footer = () => {
   const { theme } = useTheme();
 
   return (
     <footer className={`${styles.footer} ${styles[theme]}`}>
-      <img src={theme === 'light' ? jediSrc : darthVaderSrc} alt="star wars picture" />
+      <Image src={theme === 'light' ? jediSrc : darthVaderSrc} alt="star wars picture" />
       <a
         href="https://github.com/AnastasiiaRamona"
         target="_blank"

@@ -1,5 +1,12 @@
 {
-  "plugins": ["prettier", "@typescript-eslint", "jest", "react-compiler", "eslint-plugin-react"],
+  "plugins": [
+    "prettier",
+    "@typescript-eslint",
+    "react",
+    "react-compiler",
+    "eslint-plugin-react",
+    "@next/eslint-plugin-next"
+  ],
   "extends": [
     "plugin:prettier/recommended",
     "plugin:jest/recommended",

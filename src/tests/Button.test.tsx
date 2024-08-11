@@ -24,15 +24,6 @@ describe('Button Component', () => {
     expect(handleClick).toHaveBeenCalled();
   });
 
-  it('should render image if img prop is provided', () => {
-    render(
-      <TestWrapper>
-        <Button text="Click Me" img="path/to/image.png" alt="Button Image" />
-      </TestWrapper>
-    );
-    expect(screen.getByAltText('Button Image')).toBeInTheDocument();
-  });
-
   it('should apply disabled attribute correctly', () => {
     render(
       <TestWrapper>

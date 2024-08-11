@@ -1,3 +1,5 @@
+'use client';
+
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Mock, vi } from 'vitest';
 import ModalWindow from '../components/ModalWindow/ModalWindow';
@@ -5,6 +7,10 @@ import TestWrapper from './TestWrapper';
 import { clearCharacters } from '../store/reducers/checkedItemsSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTheme } from '../context/ThemeContext';
+
+vi.mock('next/image', () => ({
+  default: (props: { src: string; alt: string; width?: number; height?: number }) => <img {...props} />,
+}));
 
 vi.mock('react-redux', async () => {
   const actual = await vi.importActual('react-redux');
