@@ -1,17 +1,16 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.css';
-import Main from './pages/Main/Main';
+import Home from './pages/Home/Home';
 import NotFound from './pages/NotFound/NotFound';
+import UncontrolledForm from './pages/UncontrolledForm/UncontrolledForm';
 import ReactHookForm from './pages/ReactHookForm/ReactHookForm';
-import UncontrolledComponentsForm from './pages/UncontrolledComponentsForm/UncontrolledComponentsForm';
 
-function App() {
+function AppRoutes() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/main" element={<Main />} />
-        <Route path="/uncontrolled-form" element={<UncontrolledComponentsForm />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/uncontrolled-form" element={<UncontrolledForm />} />
         <Route path="/react-hook-form" element={<ReactHookForm />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
@@ -19,4 +18,4 @@ function App() {
   );
 }
 
-export default App;
+export default AppRoutes;

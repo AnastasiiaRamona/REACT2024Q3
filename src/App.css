@@ -1,9 +1,0 @@
-:root {
-  background-color: rgb(40, 20, 56);
-  color-scheme: light dark;
-}
-
-body {
-  background: url('./assets/background.webp') top no-repeat fixed;
-  background-size: cover;
-}

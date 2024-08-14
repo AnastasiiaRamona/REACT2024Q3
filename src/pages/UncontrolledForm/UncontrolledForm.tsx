@@ -1,6 +1,6 @@
 import Navigation from '../../components/Navigation/Navigation';
 
-const ReactHookForm = () => {
+const UncontrolledForm = () => {
   return (
     <main>
       <Navigation />
@@ -8,4 +8,4 @@ const ReactHookForm = () => {
   );
 };
 
-export default ReactHookForm;
+export default UncontrolledForm;

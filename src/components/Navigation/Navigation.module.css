@@ -1,0 +1,12 @@
+.navigation {
+  display: flex;
+  flex-direction: column;
+  width: 15vw;
+  gap: 13vh;
+  position: absolute;
+  top: 25%;
+  padding: 20px 12vh 20px 12vh;
+  background: var(--background-color);
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+}
