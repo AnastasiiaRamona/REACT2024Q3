@@ -9,10 +9,14 @@ import '../Form.css';
 import Button from '../../components/Button/Button';
 import { genderOptions } from '../../data/data';
 import validationSchema from '../../helpers/yapValidation';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import convertToBase64 from '../../helpers/converterToBase64';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCountries } from '../../store/reducers/countriesSlice';
+import { RootState } from '../../store/store';
+import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 
 const UncontrolledForm = () => {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -23,12 +27,19 @@ const UncontrolledForm = () => {
   const genderRef = useRef<HTMLSelectElement>(null);
   const termsRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
-  const countryRef = useRef<HTMLSelectElement>(null);
+  const countryRef = useRef<HTMLInputElement>(null);
   const [isFormTouched, setIsFormTouched] = useState(false);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const navigate = useNavigate();
+  const dispatch: ThunkDispatch<RootState, unknown, AnyAction> = useDispatch();
+
+  const countries = useSelector((state: RootState) => state.countries.countries);
+
+  useEffect(() => {
+    dispatch(fetchCountries());
+  }, [dispatch]);
 
   const validateForm = async () => {
     const formValues = {
@@ -37,12 +48,13 @@ const UncontrolledForm = () => {
       email: emailRef.current?.value || '',
       password: passwordRef.current?.value || '',
       confirmPassword: confirmPasswordRef.current?.value || '',
+      country: countryRef.current?.value || '',
       file: fileRef.current?.files ? fileRef.current.files[0] : null,
       terms: termsRef.current?.checked || false,
     };
 
     try {
-      await validationSchema.validate(formValues, { abortEarly: false });
+      await validationSchema(countries).validate(formValues, { abortEarly: false });
       setErrors({});
       return true;
     } catch (err) {
@@ -111,7 +123,8 @@ const UncontrolledForm = () => {
         <TextContent label='Email' name='email' type='email' inputRef={emailRef} onChange={handleInputChange} />
         {errors.email && <div className='error'>{errors.email}</div>}
 
-        <CountryInput label='Country' name='country' selectRef={countryRef} onChange={handleInputChange} />
+        <CountryInput label='Country' name='country' inputRef={countryRef} onChange={handleInputChange} />
+        {errors.country && <div className='error'>{errors.country}</div>}
 
         <PasswordInput label='Password' name='password' inputRef={passwordRef} onChange={handleInputChange} />
         {errors.password && <div className='error'>{errors.password}</div>}

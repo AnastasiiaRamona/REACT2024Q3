@@ -10,7 +10,6 @@ export interface InputProps {
   options?: Option[];
   suggestions?: string[];
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-  strength?: number;
   onChange?: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => void;
   className?: string;
 }

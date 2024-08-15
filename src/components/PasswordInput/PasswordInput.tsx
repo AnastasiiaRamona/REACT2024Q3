@@ -1,12 +1,22 @@
 import { InputProps } from '../types';
 import eyesSrc from '../../assets/eyes.webp';
 import { useState } from 'react';
+import PasswordStrengthChecker from '../PasswordStrengthChecker/PasswordStrengthChecker';
 
-const PasswordInput = ({ label, name, inputRef, onBlur, strength, onChange }: InputProps) => {
+const PasswordInput = ({ label, name, inputRef, onBlur, onChange }: InputProps) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [password, setPassword] = useState('');
 
   const handleToggleVisibility = () => {
     setIsVisible((prevState) => !prevState);
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newPassword = event.target.value;
+    setPassword(newPassword);
+    if (onChange) {
+      onChange(event);
+    }
   };
 
   return (
@@ -19,11 +29,11 @@ const PasswordInput = ({ label, name, inputRef, onBlur, strength, onChange }: In
           name={name}
           ref={inputRef}
           onBlur={onBlur}
-          onChange={onChange}
+          onChange={handleChange}
           type={isVisible ? 'text' : 'password'}
         />
       </div>
-      {strength && <p>Password strength: {strength}</p>}
+      <PasswordStrengthChecker password={password} />
     </div>
   );
 };
