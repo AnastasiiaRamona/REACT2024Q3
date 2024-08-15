@@ -14,6 +14,7 @@
 
   --primary-color: #e0f0f9;
   --secondary-color: #360f41;
+  --third-color: #c6aac6e5;
   --background-color: linear-gradient(to right, rgba(39, 13, 60, 0.658), #77434db9);
   --secondary-font-family: 'Yuji Boku', serif;
 
@@ -23,13 +24,14 @@
 body {
   background: url('./assets/background.webp') top no-repeat fixed;
   background-size: cover;
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   margin: 0;
   padding: 0;
 }
 
-a {
+a,
+button {
   border-radius: 8px;
   border: 1px solid transparent;
   font-size: x-large;
@@ -45,8 +47,17 @@ a {
   text-align: center;
 }
 
-a:hover {
+a:hover,
+button:not(:disabled):hover {
   scale: 1.05;
   transition: all 0.5s;
   background: var(--secondary-color);
+}
+
+button:disabled {
+  background: gray;
+  color: white;
+  cursor: not-allowed;
+  opacity: 0.6;
+  transition: none;
 }

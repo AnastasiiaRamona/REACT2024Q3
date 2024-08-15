@@ -4,5 +4,8 @@
   "semi": true,
   "singleQuote": true,
   "printWidth": 120,
-  "endOfLine": "auto"
+  "endOfLine": "auto",
+  "arrowParens": "always",
+  "bracketSpacing": true,
+  "jsxSingleQuote": true
 }

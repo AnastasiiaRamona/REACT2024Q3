@@ -8,11 +8,11 @@ function AppRoutes() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/uncontrolled-form" element={<UncontrolledForm />} />
-        <Route path="/react-hook-form" element={<ReactHookForm />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path='/' element={<Home />} />
+        <Route path='/home' element={<Home />} />
+        <Route path='/uncontrolled-form' element={<UncontrolledForm />} />
+        <Route path='/react-hook-form' element={<ReactHookForm />} />
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </Router>
   );

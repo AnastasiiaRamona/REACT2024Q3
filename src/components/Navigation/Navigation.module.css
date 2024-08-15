@@ -3,8 +3,9 @@
   flex-direction: column;
   width: 15vw;
   gap: 13vh;
-  position: absolute;
+  position: fixed;
   top: 25%;
+  left: 0;
   padding: 20px 12vh 20px 12vh;
   background: var(--background-color);
   border-bottom-right-radius: 20px;
