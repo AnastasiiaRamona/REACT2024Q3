@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import Country from './types';
+import { Country } from './types';
 
 export const fetchCountries = createAsyncThunk<string[]>('countries/fetchCountries', async () => {
   const response = await fetch('https://restcountries.com/v3.1/all');

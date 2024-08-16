@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCountries } from '../../store/reducers/countriesSlice';
 import { RootState } from '../../store/store';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
+import { setFormData } from '../../store/reducers/formSlice';
 
 const UncontrolledForm = () => {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -77,10 +78,20 @@ const UncontrolledForm = () => {
     const isValid = await validateForm();
     if (isValid) {
       const file = fileRef.current?.files ? fileRef.current.files[0] : null;
+      let fileBase64: string | ArrayBuffer | null = null;
       if (file) {
-        await convertToBase64(file);
+        fileBase64 = await convertToBase64(file);
       }
+      const formValues = {
+        name: nameRef.current?.value || '',
+        age: parseInt(ageRef.current?.value || '0', 10),
+        email: emailRef.current?.value || '',
+        password: passwordRef.current?.value || '',
+        country: countryRef.current?.value || '',
+        file: fileBase64,
+      };
       navigate('/home');
+      dispatch(setFormData(formValues));
     }
   };
 
