@@ -116,6 +116,14 @@ input[type='file']::file-selector-button:active {
   width: 16vw;
 }
 
+#country-options {
+  max-height: 50vh;
+  overflow-y: auto;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
 /* Styles for error message */
 
 .error {

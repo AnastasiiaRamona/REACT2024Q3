@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCountries } from '../../store/reducers/countriesSlice';
 import { RootState } from '../../store/store';
-import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 
 const UncontrolledForm = () => {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -28,12 +28,12 @@ const UncontrolledForm = () => {
   const termsRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const countryRef = useRef<HTMLInputElement>(null);
-  const [isFormTouched, setIsFormTouched] = useState(false);
+  const [isFormTouched, setIsFormTouched] = useState(true);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const navigate = useNavigate();
-  const dispatch: ThunkDispatch<RootState, unknown, AnyAction> = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch<string[], void, Action>>();
 
   const countries = useSelector((state: RootState) => state.countries.countries);
 
