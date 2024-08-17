@@ -16,6 +16,7 @@
   --secondary-color: #360f41;
   --third-color: #c6aac6e5;
   --background-color: linear-gradient(to right, rgba(39, 13, 60, 0.658), #77434db9);
+  --secondary-background-color: linear-gradient(to right, rgba(13, 19, 60, 0.714), #434d77b9);
   --secondary-font-family: 'Yuji Boku', serif;
 
   overflow-x: hidden;

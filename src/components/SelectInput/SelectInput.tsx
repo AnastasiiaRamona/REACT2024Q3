@@ -1,9 +1,10 @@
+import { forwardRef } from 'react';
 import { InputProps } from '../types';
 
-const SelectInput = ({ label, name, options, selectRef, className, onChange }: InputProps) => (
+const SelectInput = forwardRef<HTMLSelectElement, InputProps>(({ label, name, options, className, onChange }, ref) => (
   <div>
     <label htmlFor={name}>{label}</label>
-    <select id={name} name={name} ref={selectRef} className={className} onChange={onChange}>
+    <select id={name} name={name} ref={ref} className={className} onChange={onChange}>
       {options &&
         options.map((option) => (
           <option key={option.value} value={option.value}>
@@ -12,6 +13,6 @@ const SelectInput = ({ label, name, options, selectRef, className, onChange }: I
         ))}
     </select>
   </div>
-);
+));
 
 export default SelectInput;

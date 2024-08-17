@@ -1,19 +1,13 @@
+import { forwardRef } from 'react';
 import { InputProps } from '../types';
 
-const TextContent = ({ label, name, type = 'text', min, inputRef, onBlur, className, onChange }: InputProps) => (
-  <div>
-    <label htmlFor={name}>{label}</label>
-    <input
-      id={name}
-      name={name}
-      type={type}
-      min={min}
-      ref={inputRef}
-      onBlur={onBlur}
-      className={className}
-      onChange={onChange}
-    />
-  </div>
+const TextContent = forwardRef<HTMLInputElement, InputProps>(
+  ({ label, name, type = 'text', min, className, onChange }, ref) => (
+    <div>
+      <label htmlFor={name}>{label}</label>
+      <input id={name} name={name} type={type} min={min} ref={ref} className={className} onChange={onChange} />
+    </div>
+  )
 );
 
 export default TextContent;

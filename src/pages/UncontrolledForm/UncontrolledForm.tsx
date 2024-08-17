@@ -106,7 +106,7 @@ const UncontrolledForm = () => {
     <main>
       <Navigation />
       <form onSubmit={handleSubmit}>
-        <TextContent label='Name' name='name' inputRef={nameRef} onChange={handleInputChange} />
+        <TextContent label='Name' name='name' ref={nameRef} onChange={handleInputChange} />
         {errors.name && <div className='error'>{errors.name}</div>}
 
         <div className='form-row'>
@@ -115,7 +115,7 @@ const UncontrolledForm = () => {
             name='age'
             type='number'
             min='0'
-            inputRef={ageRef}
+            ref={ageRef}
             className='small-input'
             onChange={handleInputChange}
           />
@@ -123,7 +123,7 @@ const UncontrolledForm = () => {
           <SelectInput
             label='Gender'
             name='gender'
-            selectRef={genderRef}
+            ref={genderRef}
             options={genderOptions}
             className='small-input'
             onChange={handleInputChange}
@@ -131,32 +131,27 @@ const UncontrolledForm = () => {
         </div>
         {errors.age && <div className='error'>{errors.age}</div>}
 
-        <TextContent label='Email' name='email' type='email' inputRef={emailRef} onChange={handleInputChange} />
+        <TextContent label='Email' name='email' type='email' ref={emailRef} onChange={handleInputChange} />
         {errors.email && <div className='error'>{errors.email}</div>}
 
-        <CountryInput label='Country' name='country' inputRef={countryRef} onChange={handleInputChange} />
+        <CountryInput label='Country' name='country' ref={countryRef} onChange={handleInputChange} />
         {errors.country && <div className='error'>{errors.country}</div>}
 
-        <PasswordInput label='Password' name='password' inputRef={passwordRef} onChange={handleInputChange} />
+        <PasswordInput label='Password' name='password' ref={passwordRef} onChange={handleInputChange} />
         {errors.password && <div className='error'>{errors.password}</div>}
 
         <PasswordInput
           label='Confirm Password'
           name='confirmPassword'
-          inputRef={confirmPasswordRef}
+          ref={confirmPasswordRef}
           onChange={handleInputChange}
         />
         {errors.confirmPassword && <div className='error'>{errors.confirmPassword}</div>}
 
-        <FileInput label='Upload Picture' name='file' inputRef={fileRef} onChange={handleInputChange} />
+        <FileInput label='Upload Picture' name='file' ref={fileRef} onChange={handleInputChange} />
         {errors.file && <div className='error'>{errors.file}</div>}
 
-        <Checkbox
-          label='I accept the Terms and Conditions'
-          name='terms'
-          inputRef={termsRef}
-          onChange={handleInputChange}
-        />
+        <Checkbox label='I accept the Terms and Conditions' name='terms' ref={termsRef} onChange={handleInputChange} />
         {errors.terms && <div className='error'>{errors.terms}</div>}
 
         <Button type='submit' text='Sign up' disabled={!isFormTouched || Object.keys(errors).length > 0} />

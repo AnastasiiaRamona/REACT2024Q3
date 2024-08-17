@@ -21,6 +21,10 @@ form {
   position: relative;
 }
 
+.hook-form {
+  background: var(--secondary-background-color);
+}
+
 form label {
   display: block;
   font-weight: bold;

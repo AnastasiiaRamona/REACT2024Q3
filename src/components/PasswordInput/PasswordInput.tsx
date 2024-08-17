@@ -1,9 +1,9 @@
 import { InputProps } from '../types';
 import eyesSrc from '../../assets/eyes.webp';
-import { useState } from 'react';
+import { forwardRef, useState } from 'react';
 import PasswordStrengthChecker from '../PasswordStrengthChecker/PasswordStrengthChecker';
 
-const PasswordInput = ({ label, name, inputRef, onBlur, onChange }: InputProps) => {
+const PasswordInput = forwardRef<HTMLInputElement, InputProps>(({ label, name, onChange }, ref) => {
   const [isVisible, setIsVisible] = useState(false);
   const [password, setPassword] = useState('');
 
@@ -23,19 +23,12 @@ const PasswordInput = ({ label, name, inputRef, onBlur, onChange }: InputProps) 
     <div>
       <label htmlFor={name}>{label}</label>
       <div className='form-row'>
-        <img src={eyesSrc} alt='eyes' onClick={handleToggleVisibility} />
-        <input
-          id={name}
-          name={name}
-          ref={inputRef}
-          onBlur={onBlur}
-          onChange={handleChange}
-          type={isVisible ? 'text' : 'password'}
-        />
+        <img src={eyesSrc} alt='Toggle visibility' onClick={handleToggleVisibility} style={{ cursor: 'pointer' }} />
+        <input id={name} name={name} ref={ref} onChange={handleChange} type={isVisible ? 'text' : 'password'} />
       </div>
       <PasswordStrengthChecker password={password} />
     </div>
   );
-};
+});
 
 export default PasswordInput;

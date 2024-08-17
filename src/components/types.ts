@@ -2,14 +2,13 @@ import { RefObject } from 'react';
 
 export interface InputProps {
   label: string;
-  name: string;
+  name?: string;
   type?: string;
-  min?: string;
+  min?: number | string;
   inputRef?: RefObject<HTMLInputElement>;
   selectRef?: RefObject<HTMLSelectElement>;
   options?: Option[];
   suggestions?: string[];
-  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onChange?: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => void;
   className?: string;
 }

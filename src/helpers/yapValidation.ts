@@ -25,7 +25,7 @@ const validationSchema = (countries: string[]) =>
       .test('is-valid-country', 'Selected country is not valid', (value) => {
         return countries && countries.includes(value);
       }),
-    file: Yup.mixed()
+    file: Yup.mixed<File>()
       .required('You must upload a picture')
       .test('fileSize', 'File size should not exceed 2 MB', (value) => {
         if (!value) return true;
