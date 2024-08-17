@@ -1,6 +1,6 @@
 interface ButtonProps {
   onClick?: () => void;
-  text: string;
+  text?: string;
   className?: string;
   disabled?: boolean;
   type?: string;
