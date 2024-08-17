@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCountries } from '../../store/reducers/countriesSlice';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
-import { setFormData } from '../../store/reducers/formSlice';
+import { addFormData } from '../../store/reducers/formSlice';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { RootState } from '../../store/store';
@@ -37,6 +37,9 @@ const ReactHookForm = () => {
   } = useForm<FormValues>({
     resolver: yupResolver(validationSchema(countries)),
     mode: 'onChange',
+    defaultValues: {
+      gender: genderOptions[0]?.value.toString(),
+    },
   });
 
   const onSubmit: SubmitHandler<FormValues> = async (data: FormValues) => {
@@ -52,7 +55,7 @@ const ReactHookForm = () => {
       ...data,
       file: fileBase64,
     };
-    dispatch(setFormData(formValues));
+    dispatch(addFormData(formValues));
     navigate('/home');
   };
 
@@ -70,7 +73,13 @@ const ReactHookForm = () => {
             render={({ field }) => <TextContent label='Age' type='number' min='0' {...field} className='small-input' />}
           />
 
-          <SelectInput label='Gender' options={genderOptions} className='small-input' />
+          <Controller
+            name='gender'
+            control={control}
+            render={({ field }) => (
+              <SelectInput label='Gender' options={genderOptions} {...field} className='small-input' />
+            )}
+          />
         </div>
         {errors.age && <div className='error'>{errors.age.message}</div>}
 

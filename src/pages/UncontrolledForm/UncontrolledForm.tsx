@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCountries } from '../../store/reducers/countriesSlice';
 import { RootState } from '../../store/store';
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
-import { setFormData } from '../../store/reducers/formSlice';
+import { addFormData } from '../../store/reducers/formSlice';
 
 const UncontrolledForm = () => {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -46,6 +46,7 @@ const UncontrolledForm = () => {
     const formValues = {
       name: nameRef.current?.value || '',
       age: ageRef.current?.value || '',
+      gender: genderRef.current?.value || '',
       email: emailRef.current?.value || '',
       password: passwordRef.current?.value || '',
       confirmPassword: confirmPasswordRef.current?.value || '',
@@ -85,13 +86,14 @@ const UncontrolledForm = () => {
       const formValues = {
         name: nameRef.current?.value || '',
         age: parseInt(ageRef.current?.value || '0', 10),
+        gender: genderRef.current?.value || '',
         email: emailRef.current?.value || '',
         password: passwordRef.current?.value || '',
         country: countryRef.current?.value || '',
         file: fileBase64,
       };
       navigate('/home');
-      dispatch(setFormData(formValues));
+      dispatch(addFormData(formValues));
     }
   };
 

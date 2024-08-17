@@ -4,8 +4,6 @@ interface ButtonProps {
   className?: string;
   disabled?: boolean;
   type?: string;
-  img?: string;
-  alt?: string;
 }
 
 export default ButtonProps;

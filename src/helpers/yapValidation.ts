@@ -10,6 +10,7 @@ const validationSchema = (countries: string[]) =>
       .positive('Age must be more than zero')
       .integer('Age must be an integer')
       .required('Age is required'),
+    gender: Yup.string().required('Gender is required'),
     email: Yup.string().email('Incorrect email format').required('Email is required'),
     password: Yup.string()
       .matches(

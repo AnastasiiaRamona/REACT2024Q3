@@ -23,9 +23,10 @@
 }
 
 body {
-  background: url('./assets/background.webp') top no-repeat fixed;
+  background: url('./assets/background.webp') top no-repeat;
   background-size: cover;
-  min-height: 100vh;
+  background-attachment: fixed;
+  height: 100%;
   width: 100vw;
   margin: 0;
   padding: 0;
