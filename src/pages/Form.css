@@ -31,7 +31,7 @@ form label {
   margin-bottom: 0.5rem;
 }
 
-form input,
+form input:not([type='checkbox']),
 form select {
   width: 34vw;
   padding: 0.5rem;
@@ -41,6 +41,7 @@ form select {
   color: var(--secondary-color);
   font-size: 1rem;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  min-width: 234px;
 }
 
 form input[type='checkbox'] {
@@ -116,8 +117,10 @@ input[type='file']::file-selector-button:active {
   transition: all 0.2s;
 }
 
-.small-input {
+#age.small-input,
+#gender.small-input {
   width: 16vw;
+  min-width: 105px !important;
 }
 
 #country-options {
@@ -157,4 +160,42 @@ input[type='file']::file-selector-button:active {
   content: '⚠';
   margin-right: 8px;
   font-size: 16px;
+}
+
+@media screen and (max-width: 1181px) {
+  .form-row img {
+    left: 5%;
+  }
+}
+
+@media screen and (max-width: 871px) {
+  form {
+    width: 80vw;
+  }
+
+  .form-row img {
+    left: 20%;
+  }
+}
+
+@media screen and (max-width: 666px) {
+  .form-row img {
+    left: 15%;
+  }
+}
+
+@media screen and (max-width: 571px) {
+  .form-row img {
+    right: 10%;
+  }
+
+  form {
+    width: 100vw;
+  }
+}
+
+@media screen and (max-width: 466px) {
+  .form-row img {
+    left: 85%;
+  }
 }

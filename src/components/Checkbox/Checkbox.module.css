@@ -44,3 +44,10 @@
   background-color: #fff;
   border-radius: 100px 100px 30px 100px;
 }
+
+@media screen and (max-width: 970px) {
+  .checkbox-wrapper-41 {
+    flex-direction: column;
+    align-items: center;
+  }
+}

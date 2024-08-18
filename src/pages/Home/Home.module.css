@@ -30,3 +30,13 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.529);
 }
+
+@media screen and (max-width: 453px) {
+  .home-img-container {
+    width: 90vw;
+  }
+
+  .home-img-container {
+    font-size: large;
+  }
+}
