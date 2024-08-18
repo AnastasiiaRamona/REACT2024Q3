@@ -9,7 +9,15 @@ const CountryInput = forwardRef<HTMLInputElement, InputProps>(({ label, name, on
   return (
     <div>
       <label htmlFor={name}>{label}</label>
-      <input id={name} name={name} type='text' ref={ref} onChange={onChange} list='country-options' />
+      <input
+        id={name}
+        name={name}
+        type='text'
+        ref={ref}
+        onChange={onChange}
+        list='country-options'
+        autoComplete={name}
+      />
       <datalist id='country-options'>
         {suggestions && suggestions.map((country) => <option key={country} value={country} />)}
       </datalist>

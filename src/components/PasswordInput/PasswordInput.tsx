@@ -24,7 +24,14 @@ const PasswordInput = forwardRef<HTMLInputElement, InputProps>(({ label, name, o
       <label htmlFor={name}>{label}</label>
       <div className='form-row'>
         <img src={eyesSrc} alt='Toggle visibility' onClick={handleToggleVisibility} style={{ cursor: 'pointer' }} />
-        <input id={name} name={name} ref={ref} onChange={handleChange} type={isVisible ? 'text' : 'password'} />
+        <input
+          id={name}
+          name={name}
+          ref={ref}
+          onChange={handleChange}
+          type={isVisible ? 'text' : 'password'}
+          autoComplete={name}
+        />
       </div>
       <PasswordStrengthChecker password={password} />
     </div>

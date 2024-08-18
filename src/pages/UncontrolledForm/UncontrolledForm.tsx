@@ -30,7 +30,6 @@ const UncontrolledForm = () => {
   const fileRef = useRef<HTMLInputElement>(null);
   const countryRef = useRef<HTMLInputElement>(null);
   const [isFormTouched, setIsFormTouched] = useState(true);
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const navigate = useNavigate();
@@ -75,8 +74,8 @@ const UncontrolledForm = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    setIsFormSubmitted(true);
     const isValid = await validateForm();
+    setIsFormTouched(false);
     if (isValid) {
       const file = fileRef.current?.files ? fileRef.current.files[0] : null;
       let fileBase64: string | ArrayBuffer | null = null;
@@ -99,9 +98,6 @@ const UncontrolledForm = () => {
 
   const handleInputChange = async () => {
     setIsFormTouched(true);
-    if (isFormSubmitted) {
-      await validateForm();
-    }
   };
 
   return (
@@ -156,7 +152,7 @@ const UncontrolledForm = () => {
         <Checkbox label='I accept the Terms and Conditions' name='terms' ref={termsRef} onChange={handleInputChange} />
         {errors.terms && <div className='error'>{errors.terms}</div>}
 
-        <Button type='submit' text='Sign up' disabled={!isFormTouched || Object.keys(errors).length > 0} />
+        <Button type='submit' text='Sign up' disabled={!isFormTouched} />
       </form>
     </main>
   );

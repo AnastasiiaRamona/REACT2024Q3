@@ -5,6 +5,8 @@ const SelectInput = forwardRef<HTMLSelectElement, InputProps>(({ label, name, op
   <div>
     <label htmlFor={name}>{label}</label>
     <select id={name} name={name} ref={ref} className={className} onChange={onChange}>
+      {' '}
+      autoComplete={name}
       {options &&
         options.map((option) => (
           <option key={option.value} value={option.value}>
