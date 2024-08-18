@@ -1,0 +1,65 @@
+:root {
+  font-family: 'Indie Flower', cursive;
+  font-weight: 400;
+  font-style: normal;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: rgb(40, 20, 56);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --primary-color: #e0f0f9;
+  --secondary-color: #360f41;
+  --third-color: #c6aac6e5;
+  --background-color: linear-gradient(to right, rgba(39, 13, 60, 0.658), #77434db9);
+  --secondary-background-color: linear-gradient(to right, rgba(13, 19, 60, 0.714), #434d77b9);
+  --secondary-font-family: 'Yuji Boku', serif;
+
+  overflow-x: hidden;
+}
+
+body {
+  background: url('./assets/background.webp') top no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  height: 100%;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+}
+
+a,
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: x-large;
+  font-family: 'Indie Flower', cursive;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  height: 6vh;
+  background: rgba(93, 72, 95, 0.733);
+  color: var(--primary-color);
+  box-shadow: 2px 2px 2px var(--primary-color);
+  transition: all 0.5s;
+  text-decoration: none;
+  text-align: center;
+}
+
+a:hover,
+button:not(:disabled):hover {
+  scale: 1.05;
+  transition: all 0.5s;
+  background: var(--secondary-color);
+}
+
+button:disabled {
+  background: gray;
+  color: white;
+  cursor: not-allowed;
+  opacity: 0.6;
+  transition: none;
+}

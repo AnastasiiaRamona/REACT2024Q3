@@ -1,0 +1,201 @@
+main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  align-items: flex-end;
+}
+
+form {
+  min-height: 100vh;
+  background: var(--background-color);
+  color: var(--primary-color);
+  font-size: x-large;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 50vw;
+  padding-top: 10vh;
+  padding-bottom: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+.hook-form {
+  background: var(--secondary-background-color);
+}
+
+form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+form input:not([type='checkbox']),
+form select {
+  width: 34vw;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  color: var(--secondary-color);
+  font-size: 1rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  min-width: 234px;
+}
+
+form input[type='checkbox'] {
+  width: auto;
+  margin-right: 0.5rem;
+}
+
+input[type='file'] {
+  position: relative;
+}
+
+input[type='file']::file-selector-button {
+  width: 136px;
+  color: transparent;
+}
+
+input[type='file']::before {
+  position: absolute;
+  pointer-events: none;
+  top: 20px;
+  left: 16px;
+  height: 20px;
+  width: 20px;
+  content: '';
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230964B0'%3E%3Cpath d='M18 15v3H6v-3H4v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3h-2zM7 9l1.41 1.41L11 7.83V16h2V7.83l2.59 2.58L17 9l-5-5-5 5z'/%3E%3C/svg%3E");
+}
+
+input[type='file']::after {
+  position: absolute;
+  pointer-events: none;
+  top: 20px;
+  left: 40px;
+  color: #0964b0;
+  content: 'Upload File';
+}
+
+input[type='file']::file-selector-button {
+  border-radius: 4px;
+  padding: 0 16px;
+  height: 40px;
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+  margin-right: 16px;
+  transition: background-color 200ms;
+}
+
+input[type='file']::file-selector-button:hover {
+  background-color: #f3f4f6;
+}
+
+input[type='file']::file-selector-button:active {
+  background-color: #e5e7eb;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.form-row img {
+  position: absolute;
+  height: 30px;
+  left: 9%;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.form-row img:hover {
+  scale: 1.3;
+  transition: all 0.2s;
+}
+
+#age.small-input,
+#gender.small-input {
+  width: 16vw;
+  min-width: 105px !important;
+}
+
+#country-options {
+  max-height: 50vh;
+  overflow-y: auto;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/* Styles for error message */
+
+.error {
+  color: var(--primary-color);
+  background-color: var(--secondary-color);
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.error::before {
+  content: '⚠';
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+@media screen and (max-width: 1181px) {
+  .form-row img {
+    left: 5%;
+  }
+}
+
+@media screen and (max-width: 871px) {
+  form {
+    width: 80vw;
+  }
+
+  .form-row img {
+    left: 20%;
+  }
+}
+
+@media screen and (max-width: 666px) {
+  .form-row img {
+    left: 15%;
+  }
+}
+
+@media screen and (max-width: 571px) {
+  .form-row img {
+    right: 10%;
+  }
+
+  form {
+    width: 100vw;
+  }
+}
+
+@media screen and (max-width: 466px) {
+  .form-row img {
+    left: 85%;
+  }
+}
