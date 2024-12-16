@@ -1,2 +1,2 @@
-const apiAddress = 'https://swapi.dev/api/people';
+const apiAddress = 'https://swapi.py4e.com/api/people';
 export default apiAddress;
