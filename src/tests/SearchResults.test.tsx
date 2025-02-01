@@ -1,19 +1,8 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import SearchResults from '../SearchResults/SearchResults';
+import SearchResults from '../components/SearchResults/SearchResults';
 import { expect, it, describe, vi } from 'vitest';
-import { HeroCardProps } from '../HeroCard/types';
-
-vi.mock('../HeroCard/HeroCard', () => {
-  return {
-    __esModule: true,
-    default: ({ id, name, onClick }: HeroCardProps) => (
-      <div data-testid="hero-card" id={id} onClick={onClick}>
-        {name}
-      </div>
-    ),
-  };
-});
+import TestWrapper from './TestWrapper';
 
 vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual('react-router-dom');
@@ -33,11 +22,13 @@ describe('SearchResults', () => {
 
   it('should render the specified number of cards', () => {
     render(
-      <MemoryRouter initialEntries={['/search/1']}>
-        <Routes>
-          <Route path="search/:page" element={<SearchResults results={mockResults} error={null} />} />
-        </Routes>
-      </MemoryRouter>
+      <TestWrapper>
+        <MemoryRouter initialEntries={['/search/1']}>
+          <Routes>
+            <Route path="search/:page" element={<SearchResults results={mockResults} error={null} />} />
+          </Routes>
+        </MemoryRouter>
+      </TestWrapper>
     );
 
     expect(screen.getAllByTestId('hero-card')).toHaveLength(mockResults.length);
@@ -45,12 +36,14 @@ describe('SearchResults', () => {
 
   it('should navigate to the detail view when a card is clicked', async () => {
     render(
-      <MemoryRouter initialEntries={['/search/1']}>
-        <Routes>
-          <Route path="search/:page" element={<SearchResults results={mockResults} error={null} />} />
-          <Route path="search/:page/details/:name" element={<div>Details</div>} />
-        </Routes>
-      </MemoryRouter>
+      <TestWrapper>
+        <MemoryRouter initialEntries={['/search/1']}>
+          <Routes>
+            <Route path="search/:page" element={<SearchResults results={mockResults} error={null} />} />
+            <Route path="search/:page/details/:name" element={<div>Details</div>} />
+          </Routes>
+        </MemoryRouter>
+      </TestWrapper>
     );
 
     const cards = screen.getAllByTestId('hero-card');

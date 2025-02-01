@@ -1,14 +1,19 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, act } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { expect, it, describe, vi, Mock } from 'vitest';
-import axios from 'axios';
-import SearchComponent from '../SearchComponent/SearchComponent';
+import SearchComponent from '../components/SearchComponent/SearchComponent';
+import TestWrapper from './TestWrapper';
+import { useGetHeroesQuery } from '../store/reducers/apiReducer';
 
-vi.mock('axios');
-const mockedAxios = axios as unknown as { get: Mock };
-mockedAxios.get = vi.fn().mockResolvedValue({
-  data: { results: [], count: 0 },
+vi.mock('../store/reducers/apiReducer', async (importOriginal) => {
+  const actual = (await importOriginal()) as { useGetCharacterDetailsQuery: Mock };
+  return {
+    ...actual,
+    useGetHeroesQuery: vi.fn(),
+  };
 });
+
+const mockUseGetHeroesQuery = useGetHeroesQuery as unknown as Mock;
 
 const store: Record<string, string> = {};
 const localStorageMock: Storage = {
@@ -37,21 +42,35 @@ global.localStorage = localStorageMock;
 describe('SearchComponent', () => {
   beforeEach(() => {
     localStorageMock.clear();
+    mockUseGetHeroesQuery.mockReset();
   });
 
   it('should display "No results found" message when there are no results', async () => {
-    render(
-      <MemoryRouter initialEntries={['/search/1']}>
-        <Routes>
-          <Route path="search/:page" element={<SearchComponent />} />
-        </Routes>
-      </MemoryRouter>
-    );
+    mockUseGetHeroesQuery.mockReturnValue({
+      data: { results: [], count: 0 },
+      isFetching: false,
+      error: null,
+    });
+
+    await act(async () => {
+      render(
+        <TestWrapper>
+          <MemoryRouter initialEntries={['/search/1']}>
+            <Routes>
+              <Route path="search/:page" element={<SearchComponent />} />
+            </Routes>
+          </MemoryRouter>
+        </TestWrapper>
+      );
+    });
 
     fireEvent.change(screen.getByPlaceholderText('Enter search term'), {
       target: { value: 'test' },
     });
-    fireEvent.click(screen.getByText('Search'));
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('Search'));
+    });
 
     await waitFor(() => {
       expect(screen.getByText('No Results Found. Please try again')).toBeInTheDocument();
@@ -59,34 +78,57 @@ describe('SearchComponent', () => {
   });
 
   it('should save the search term to localStorage when the search button is clicked', async () => {
-    render(
-      <MemoryRouter initialEntries={['/search/1']}>
-        <Routes>
-          <Route path="search/:page" element={<SearchComponent />} />
-        </Routes>
-      </MemoryRouter>
-    );
+    mockUseGetHeroesQuery.mockReturnValue({
+      data: { results: [], count: 0 },
+      isFetching: false,
+      error: null,
+    });
+
+    await act(async () => {
+      render(
+        <TestWrapper>
+          <MemoryRouter initialEntries={['/search/1']}>
+            <Routes>
+              <Route path="search/:page" element={<SearchComponent />} />
+            </Routes>
+          </MemoryRouter>
+        </TestWrapper>
+      );
+    });
 
     fireEvent.change(screen.getByPlaceholderText('Enter search term'), {
       target: { value: 'Luke Skywalker' },
     });
-    fireEvent.click(screen.getByText('Search'));
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('Search'));
+    });
 
     await waitFor(() => {
       expect(localStorage.getItem('searchTermOfStarWarsHeroes')).toBe('"Luke Skywalker"');
     });
   });
 
-  it('should load the search term from localStorage on mount', () => {
+  it('should load the search term from localStorage on mount', async () => {
     localStorage.setItem('searchTermOfStarWarsHeroes', '"Darth Vader"');
 
-    render(
-      <MemoryRouter initialEntries={['/search/1']}>
-        <Routes>
-          <Route path="search/:page" element={<SearchComponent />} />
-        </Routes>
-      </MemoryRouter>
-    );
+    mockUseGetHeroesQuery.mockReturnValue({
+      data: { results: [], count: 0 },
+      isFetching: false,
+      error: null,
+    });
+
+    await act(async () => {
+      render(
+        <TestWrapper>
+          <MemoryRouter initialEntries={['/search/1']}>
+            <Routes>
+              <Route path="search/:page" element={<SearchComponent />} />
+            </Routes>
+          </MemoryRouter>
+        </TestWrapper>
+      );
+    });
 
     expect((screen.getByPlaceholderText('Enter search term') as HTMLInputElement).value).toBe('Darth Vader');
   });

@@ -1,11 +1,12 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { expect, it, describe, vi } from 'vitest';
-import HeroCard from '../HeroCard/HeroCard';
-import { HeroCardProps } from '../HeroCard/types';
+import { expect, it, describe } from 'vitest';
+import HeroCard from '../components/HeroCard/HeroCard';
+import { HeroCardProps } from '../components/HeroCard/types';
 import peopleImagesSrc from '../data/images';
+import TestWrapper from './TestWrapper';
 
-vi.mock('../HeroCard', () => {
-  const actual = vi.importActual('../HeroCard');
+vi.mock('../helpers/utils', () => {
+  const actual = vi.importActual('../helpers/utils');
   return {
     ...actual,
     findImageById: (id: string) => {
@@ -19,14 +20,17 @@ describe('HeroCard', () => {
   const mockOnClick = vi.fn();
 
   it('should display the correct name and image', () => {
-    const props: HeroCardProps = {
+    const props: Omit<HeroCardProps, 'key'> = {
       id: 'lukeSkywalker',
       name: 'Card 1',
       onClick: mockOnClick,
-      key: '',
     };
 
-    render(<HeroCard {...props} />);
+    render(
+      <TestWrapper>
+        <HeroCard key="uniqueKey1" {...props} />
+      </TestWrapper>
+    );
 
     expect(screen.getByText('Card 1')).toBeInTheDocument();
 
@@ -39,14 +43,17 @@ describe('HeroCard', () => {
   });
 
   it('should call onClick when clicked', () => {
-    const props: HeroCardProps = {
+    const props: Omit<HeroCardProps, 'key'> = {
       id: '1',
       name: 'Card 1',
       onClick: mockOnClick,
-      key: '',
     };
 
-    render(<HeroCard {...props} />);
+    render(
+      <TestWrapper>
+        <HeroCard key="uniqueKey2" {...props} />
+      </TestWrapper>
+    );
 
     fireEvent.click(screen.getByText('Card 1'));
 

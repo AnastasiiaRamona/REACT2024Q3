@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import HeroAttribute from '../HeroAttribute/HeroAttribute';
+import HeroAttribute from '../components/HeroAttribute/HeroAttribute';
 
 describe('HeroAttribute', () => {
   it('should render label and value correctly', () => {
